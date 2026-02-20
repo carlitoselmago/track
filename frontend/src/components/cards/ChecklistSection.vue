@@ -1,0 +1,175 @@
+<template>
+  <section class="panel">
+    <header>
+      <h4>Checklist</h4>
+    </header>
+
+    <div class="add-row">
+      <input v-model="newChecklistTitle" class="input" placeholder="New checklist title" />
+      <button type="button" class="btn" @click="addChecklist">Add</button>
+    </div>
+
+    <div v-for="checklist in card.checklists" :key="checklist.id" class="checklist">
+      <div class="checklist-head">
+        <strong>{{ checklist.title }}</strong>
+        <button type="button" class="link danger" @click="removeChecklist(checklist.id)">
+          Delete
+        </button>
+      </div>
+
+      <div
+        v-for="item in checklist.items || []"
+        :key="item.id"
+        class="item-row"
+      >
+        <input
+          type="checkbox"
+          :checked="item.is_done"
+          @change="toggleItem(item.id, $event.target.checked)"
+        />
+        <input
+          class="item-input"
+          :value="item.content"
+          @change="renameItem(item.id, $event.target.value)"
+        />
+        <button type="button" class="link danger" @click="removeItem(item.id)">x</button>
+      </div>
+
+      <div class="add-row small">
+        <input
+          v-model="newItemByChecklist[checklist.id]"
+          class="input"
+          placeholder="Add checklist item"
+        />
+        <button type="button" class="btn" @click="addItem(checklist.id)">Add</button>
+      </div>
+    </div>
+  </section>
+</template>
+
+<script setup>
+import { reactive, ref } from "vue";
+
+const props = defineProps({
+  card: {
+    type: Object,
+    required: true,
+  },
+});
+
+const emit = defineEmits([
+  "add-checklist",
+  "delete-checklist",
+  "add-item",
+  "update-item",
+  "delete-item",
+]);
+
+const newChecklistTitle = ref("");
+const newItemByChecklist = reactive({});
+
+function addChecklist() {
+  const title = newChecklistTitle.value.trim();
+  if (!title) {
+    return;
+  }
+  emit("add-checklist", title);
+  newChecklistTitle.value = "";
+}
+
+function removeChecklist(checklistId) {
+  emit("delete-checklist", checklistId);
+}
+
+function addItem(checklistId) {
+  const content = (newItemByChecklist[checklistId] || "").trim();
+  if (!content) {
+    return;
+  }
+  emit("add-item", { checklistId, content });
+  newItemByChecklist[checklistId] = "";
+}
+
+function toggleItem(itemId, isDone) {
+  emit("update-item", { itemId, patch: { is_done: isDone } });
+}
+
+function renameItem(itemId, content) {
+  emit("update-item", { itemId, patch: { content: content.trim() } });
+}
+
+function removeItem(itemId) {
+  emit("delete-item", itemId);
+}
+</script>
+
+<style scoped>
+.panel {
+  display: grid;
+  gap: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-3);
+}
+
+header h4 {
+  margin: 0;
+}
+
+.checklist {
+  display: grid;
+  gap: var(--space-2);
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: var(--space-2);
+}
+
+.checklist-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.item-input,
+.input {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 8px;
+}
+
+.add-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2);
+}
+
+.add-row.small {
+  margin-top: var(--space-1);
+}
+
+.btn {
+  border: 0;
+  border-radius: 8px;
+  padding: 8px 10px;
+  background: var(--surface-muted);
+  cursor: pointer;
+}
+
+.link {
+  border: 0;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+
+.danger {
+  color: var(--danger);
+}
+</style>
