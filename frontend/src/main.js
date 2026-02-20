@@ -5,8 +5,8 @@ import router from "./router";
 import { setupRouterGuards } from "./router/guards";
 import { useAuthStore } from "./stores/authStore";
 import { useTimerStore } from "./stores/timerStore";
-import "./styles/tokens.css";
-import "./styles/base.css";
+import "./styles/tokens.less";
+import "./styles/base.less";
 
 const app = createApp(App);
 const pinia = createPinia();

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <ErrorBanner />
   <RouterView />
 </template>
@@ -7,3 +7,4 @@
 import { RouterView } from "vue-router";
 import ErrorBanner from "./components/common/ErrorBanner.vue";
 </script>
+

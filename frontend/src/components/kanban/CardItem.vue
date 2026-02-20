@@ -1,5 +1,11 @@
-<template>
+﻿<template>
   <article class="card" @click="$emit('open', card.id)">
+    <img
+      v-if="coverImageId"
+      class="cover-image"
+      :src="imageUrl(coverImageId)"
+      alt=""
+    />
     <h4>{{ card.title }}</h4>
     <div v-if="card.labels?.length" class="labels">
       <span
@@ -19,6 +25,7 @@
 
 <script setup>
 import { computed } from "vue";
+import { imageService } from "@/services/imageService";
 
 const props = defineProps({
   card: {
@@ -34,6 +41,7 @@ const props = defineProps({
 defineEmits(["open"]);
 
 const imageCount = computed(() => props.card.images?.length || 0);
+const coverImageId = computed(() => props.card.cover_image_id ?? null);
 
 const checklistStats = computed(() => {
   const allChecklists = props.card.checklists || [];
@@ -52,9 +60,13 @@ const checklistStats = computed(() => {
 
 const checklistTotal = computed(() => checklistStats.value.total);
 const checklistDone = computed(() => checklistStats.value.done);
+
+function imageUrl(imageId) {
+  return imageService.getImageContentUrl(imageId);
+}
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .card {
   display: grid;
   gap: var(--space-2);
@@ -63,6 +75,14 @@ const checklistDone = computed(() => checklistStats.value.done);
   background: var(--surface);
   padding: var(--space-3);
   cursor: pointer;
+}
+
+.cover-image {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid var(--border);
 }
 
 h4 {
@@ -94,3 +114,4 @@ h4 {
   font-weight: 700;
 }
 </style>
+

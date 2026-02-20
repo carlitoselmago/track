@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <header class="board-header" :style="{ borderColor: board?.color_hex || '#16A34A' }">
     <div class="left">
       <span class="dot" :style="{ background: board?.color_hex || '#16A34A' }" />
@@ -7,29 +7,62 @@
         <p>{{ board?.description || "No description" }}</p>
       </div>
     </div>
+    <div class="nav-links">
+      <RouterLink
+        :to="{ name: 'board', params: { boardId: resolvedBoardId } }"
+        class="link"
+        :class="{ active: route?.name === 'board' }"
+      >
+        Kanban
+      </RouterLink>
+      <RouterLink
+        :to="{ name: 'board-calendar', params: { boardId: resolvedBoardId } }"
+        class="link"
+        :class="{ active: route?.name === 'board-calendar' }"
+      >
+        Calendar
+      </RouterLink>
+    </div>
   </header>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from "vue";
+import { RouterLink, useRoute } from "vue-router";
+
+const route = useRoute();
+
+const props = defineProps({
+  boardId: {
+    type: [String, Number],
+    default: null,
+  },
   board: {
     type: Object,
     required: false,
     default: null,
   },
 });
+
+const resolvedBoardId = computed(() => props.boardId ?? props.board?.id ?? "");
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .board-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-left-width: 5px;
-  border-radius: var(--radius);
-  padding: var(--space-4);
+  background: rgba(0, 0, 0, 0.2);
+  padding: var(--space-1) var(--space-6);
+  a{
+    background-color: white;
+  }
+  h1{
+    font-size: 18px;
+  }
+  p{
+    margin: 0;
+  }
 }
 
 .left {
@@ -54,4 +87,24 @@ p {
   color: var(--text-muted);
   font-size: 13px;
 }
+
+.nav-links {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.link {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.link.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  font-weight: 700;
+}
 </style>
+

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <form class="panel" @submit.prevent="submit">
     <BaseInput v-model="title" placeholder="Add another list" />
     <BaseButton type="submit" :disabled="!title.trim()">Add list</BaseButton>
@@ -23,7 +23,7 @@ async function submit() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .panel {
   width: 300px;
   min-width: 300px;
@@ -35,3 +35,4 @@ async function submit() {
   gap: var(--space-2);
 }
 </style>
+

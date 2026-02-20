@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <teleport to="body">
     <div v-if="modelValue" class="overlay" @click.self="$emit('update:modelValue', false)">
       <section class="modal">
@@ -31,7 +31,7 @@ defineProps({
 defineEmits(["update:modelValue"]);
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .overlay {
   position: fixed;
   inset: 0;
@@ -74,3 +74,4 @@ defineEmits(["update:modelValue"]);
   font-size: 18px;
 }
 </style>
+

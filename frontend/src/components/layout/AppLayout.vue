@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <TopNav />
   <main class="page">
     <RouterView />
@@ -9,3 +9,4 @@
 import { RouterView } from "vue-router";
 import TopNav from "./TopNav.vue";
 </script>
+

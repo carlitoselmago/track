@@ -19,14 +19,15 @@ def create_user(
     payload: UserCreateRequest,
     session: Session = Depends(get_session),
 ):
+    email = payload.email.strip().lower()
     exists = session.exec(
-        select(User).where(and_(User.email == payload.email, User.deleted_at.is_(None))),
+        select(User).where(and_(User.email == email, User.deleted_at.is_(None))),
     ).first()
     if exists:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Email already exists")
 
     user = User(
-        email=payload.email,
+        email=email,
         name=payload.name,
         password_hash=get_password_hash(payload.password),
         is_system_admin=payload.is_system_admin,

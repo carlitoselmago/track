@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     secret_key: str = "change-me-in-production"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 15
-    refresh_token_expire_days: int = 7
+    refresh_token_expire_days: int = 1
     database_url: str = "sqlite:///./data/track.db"
     allowed_origins: str = "http://localhost:5173,http://127.0.0.1:5173"
     upload_dir: Path = BASE_DIR / "data" / "uploads" / "cards"

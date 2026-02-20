@@ -18,4 +18,9 @@ export const boardService = {
   deleteBoard(boardId) {
     return api.delete(`/boards/${boardId}`).then(getData);
   },
+  getBoardCalendar(boardId, month) {
+    return api
+      .get(`/boards/${boardId}/calendar`, { params: { month } })
+      .then(getData);
+  },
 };

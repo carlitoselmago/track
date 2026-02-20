@@ -75,8 +75,9 @@ def login(
     response: Response,
     session: Session = Depends(get_session),
 ):
+    login_email = payload.email.strip().lower()
     user = session.exec(
-        select(User).where(and_(User.email == payload.email, User.deleted_at.is_(None))),
+        select(User).where(and_(User.email == login_email, User.deleted_at.is_(None))),
     ).first()
     if not user or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")

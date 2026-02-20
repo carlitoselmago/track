@@ -1,9 +1,16 @@
-<template>
-  <section class="panel">
+﻿<template>
+  <section
+    class="panel"
+    :class="{ 'drag-active': isDragActive }"
+    @dragover.prevent="onDragOver"
+    @dragleave.prevent="onDragLeave"
+    @drop.prevent="onDrop"
+  >
     <header>
       <h4>Images</h4>
       <input type="file" accept="image/*" @change="upload" />
     </header>
+    <p class="drop-help">Drop image files anywhere in this panel to upload.</p>
 
     <div v-if="!card.images?.length" class="empty">No images uploaded.</div>
 
@@ -16,6 +23,7 @@
       >
         <img :src="imageUrl(image.id)" alt="" />
         <figcaption>
+          <span v-if="card.cover_image_id === image.id" class="cover-tag">Cover</span>
           <button type="button" class="link" @click="$emit('set-cover', image.id)">
             Set cover
           </button>
@@ -29,6 +37,7 @@
 </template>
 
 <script setup>
+import { ref } from "vue";
 import { imageService } from "@/services/imageService";
 
 const props = defineProps({
@@ -39,6 +48,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(["upload-image", "set-cover", "delete-image"]);
+const isDragActive = ref(false);
 
 function upload(event) {
   const file = event.target.files?.[0];
@@ -49,18 +59,45 @@ function upload(event) {
   event.target.value = "";
 }
 
+function onDragOver(event) {
+  const hasFiles = Array.from(event.dataTransfer?.types || []).includes("Files");
+  if (hasFiles) {
+    isDragActive.value = true;
+  }
+}
+
+function onDragLeave() {
+  isDragActive.value = false;
+}
+
+function onDrop(event) {
+  isDragActive.value = false;
+  const files = Array.from(event.dataTransfer?.files || []);
+  const imageFiles = files.filter((file) => file.type.startsWith("image/"));
+  if (!imageFiles.length) {
+    return;
+  }
+  imageFiles.forEach((file) => emit("upload-image", file));
+}
+
 function imageUrl(imageId) {
   return imageService.getImageContentUrl(imageId);
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .panel {
   display: grid;
   gap: var(--space-3);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
+  transition: border-color 120ms ease, background 120ms ease;
+}
+
+.panel.drag-active {
+  border-color: var(--primary);
+  background: #ecfdf3;
 }
 
 header {
@@ -72,6 +109,12 @@ header {
 
 header h4 {
   margin: 0;
+}
+
+.drop-help {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 12px;
 }
 
 .grid {
@@ -100,10 +143,11 @@ img {
 
 figcaption {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
   gap: 4px;
   padding: 6px;
+  flex-wrap: wrap;
 }
 
 .link {
@@ -122,4 +166,15 @@ figcaption {
   color: var(--text-muted);
   font-size: 13px;
 }
+
+.cover-tag {
+  background: var(--primary);
+  color: #fff;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 10px;
+  font-weight: 700;
+  margin-right: auto;
+}
 </style>
+

@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import Optional
 
 from sqlalchemy import Index, UniqueConstraint, text
-from sqlmodel import Field, Relationship, SQLModel
+from sqlmodel import Field, SQLModel
 
 
 def utcnow() -> datetime:
@@ -29,13 +29,6 @@ class User(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=utcnow, nullable=False)
     deleted_at: Optional[datetime] = Field(default=None, nullable=True)
 
-    memberships: list[BoardMembership] = Relationship(back_populates="user")
-    created_boards: list[Board] = Relationship(back_populates="created_by")
-    created_cards: list[Card] = Relationship(back_populates="created_by")
-    refresh_tokens: list[RefreshToken] = Relationship(back_populates="user")
-    uploaded_images: list[CardImage] = Relationship(back_populates="uploaded_by")
-    time_sessions: list[TimeSession] = Relationship(back_populates="user")
-
 
 class RefreshToken(SQLModel, table=True):
     __tablename__ = "refresh_tokens"
@@ -47,8 +40,6 @@ class RefreshToken(SQLModel, table=True):
     expires_at: datetime = Field(nullable=False)
     revoked_at: Optional[datetime] = Field(default=None, nullable=True)
     created_at: datetime = Field(default_factory=utcnow, nullable=False)
-
-    user: User = Relationship(back_populates="refresh_tokens")
 
 
 class Board(SQLModel, table=True):
@@ -63,12 +54,6 @@ class Board(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=utcnow, nullable=False)
     deleted_at: Optional[datetime] = Field(default=None, nullable=True)
 
-    created_by: User = Relationship(back_populates="created_boards")
-    memberships: list[BoardMembership] = Relationship(back_populates="board")
-    lists: list[BoardList] = Relationship(back_populates="board")
-    labels: list[Label] = Relationship(back_populates="board")
-    cards: list[Card] = Relationship(back_populates="board")
-
 
 class BoardMembership(SQLModel, table=True):
     __tablename__ = "board_memberships"
@@ -82,9 +67,6 @@ class BoardMembership(SQLModel, table=True):
     role: str = Field(default="member", max_length=20)
     created_at: datetime = Field(default_factory=utcnow, nullable=False)
 
-    board: Board = Relationship(back_populates="memberships")
-    user: User = Relationship(back_populates="memberships")
-
 
 class BoardList(SQLModel, table=True):
     __tablename__ = "lists"
@@ -96,9 +78,6 @@ class BoardList(SQLModel, table=True):
     created_at: datetime = Field(default_factory=utcnow, nullable=False)
     updated_at: datetime = Field(default_factory=utcnow, nullable=False)
     deleted_at: Optional[datetime] = Field(default=None, nullable=True)
-
-    board: Board = Relationship(back_populates="lists")
-    cards: list[Card] = Relationship(back_populates="list")
 
 
 class CardLabel(SQLModel, table=True):
@@ -127,13 +106,6 @@ class Card(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=utcnow, nullable=False)
     deleted_at: Optional[datetime] = Field(default=None, nullable=True)
 
-    board: Board = Relationship(back_populates="cards")
-    list: BoardList = Relationship(back_populates="cards")
-    created_by: User = Relationship(back_populates="created_cards")
-    checklists: list[Checklist] = Relationship(back_populates="card")
-    images: list[CardImage] = Relationship(back_populates="card")
-    time_sessions: list[TimeSession] = Relationship(back_populates="card")
-
 
 class Label(SQLModel, table=True):
     __tablename__ = "labels"
@@ -149,8 +121,6 @@ class Label(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=utcnow, nullable=False)
     deleted_at: Optional[datetime] = Field(default=None, nullable=True)
 
-    board: Board = Relationship(back_populates="labels")
-
 
 class Checklist(SQLModel, table=True):
     __tablename__ = "checklists"
@@ -162,9 +132,6 @@ class Checklist(SQLModel, table=True):
     created_at: datetime = Field(default_factory=utcnow, nullable=False)
     updated_at: datetime = Field(default_factory=utcnow, nullable=False)
     deleted_at: Optional[datetime] = Field(default=None, nullable=True)
-
-    card: Card = Relationship(back_populates="checklists")
-    items: list[ChecklistItem] = Relationship(back_populates="checklist")
 
 
 class ChecklistItem(SQLModel, table=True):
@@ -179,8 +146,6 @@ class ChecklistItem(SQLModel, table=True):
     updated_at: datetime = Field(default_factory=utcnow, nullable=False)
     deleted_at: Optional[datetime] = Field(default=None, nullable=True)
 
-    checklist: Checklist = Relationship(back_populates="items")
-
 
 class CardImage(SQLModel, table=True):
     __tablename__ = "card_images"
@@ -194,9 +159,6 @@ class CardImage(SQLModel, table=True):
     uploaded_by_user_id: int = Field(foreign_key="users.id", index=True)
     created_at: datetime = Field(default_factory=utcnow, nullable=False)
     deleted_at: Optional[datetime] = Field(default=None, nullable=True)
-
-    card: Card = Relationship(back_populates="images")
-    uploaded_by: User = Relationship(back_populates="uploaded_images")
 
 
 class TimeSession(SQLModel, table=True):
@@ -217,6 +179,3 @@ class TimeSession(SQLModel, table=True):
     ended_at: Optional[datetime] = Field(default=None, nullable=True)
     duration_seconds: Optional[int] = Field(default=None, nullable=True)
     created_at: datetime = Field(default_factory=utcnow, nullable=False)
-
-    card: Card = Relationship(back_populates="time_sessions")
-    user: User = Relationship(back_populates="time_sessions")

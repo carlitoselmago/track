@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section class="panel">
     <header>
       <h4>Labels</h4>
@@ -62,7 +62,7 @@ function create() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .panel {
   display: grid;
   gap: var(--space-3);
@@ -113,3 +113,4 @@ header h4 {
   cursor: pointer;
 }
 </style>
+

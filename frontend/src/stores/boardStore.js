@@ -164,6 +164,44 @@ export const useBoardStore = defineStore("board", () => {
     }
   }
 
+  async function updateBoard(boardId, payload) {
+    const uiStore = useUiStore();
+    uiStore.clearError();
+    try {
+      const response = await boardService.updateBoard(boardId, payload);
+      const board = normalizeBoard(extractPayload(response));
+      upsertBoardSummary(board);
+      if (currentBoard.value?.id === boardId) {
+        currentBoard.value = {
+          ...currentBoard.value,
+          ...board,
+        };
+      }
+      return board;
+    } catch (error) {
+      const normalized = normalizeApiError(error);
+      uiStore.setError(normalized.message);
+      throw normalized;
+    }
+  }
+
+  async function deleteBoard(boardId) {
+    const uiStore = useUiStore();
+    uiStore.clearError();
+    try {
+      await boardService.deleteBoard(boardId);
+      boards.value = boards.value.filter((board) => board.id !== boardId);
+      if (currentBoard.value?.id === boardId) {
+        currentBoard.value = null;
+      }
+      return true;
+    } catch (error) {
+      const normalized = normalizeApiError(error);
+      uiStore.setError(normalized.message);
+      throw normalized;
+    }
+  }
+
   async function loadBoard(boardId) {
     const uiStore = useUiStore();
     isLoading.value = true;
@@ -487,6 +525,8 @@ export const useBoardStore = defineStore("board", () => {
     hasBoardLoaded,
     fetchBoards,
     createBoard,
+    updateBoard,
+    deleteBoard,
     loadBoard,
     createList,
     updateList,

@@ -13,7 +13,7 @@ uvicorn app.main:app --reload
 
 Default admin bootstrap config is in `backend/config/admin.yaml`:
 
-- email: `admin@track.local`
+- email: `admin@email.com`
 - password: `admin123456`
 
 ### Frontend

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <nav class="topnav">
     <div class="container row">
       <RouterLink to="/boards" class="brand">Track</RouterLink>
@@ -24,7 +24,7 @@ async function onLogout() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .topnav {
   position: sticky;
   top: 0;
@@ -32,6 +32,7 @@ async function onLogout() {
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border);
   z-index: 10;
+  padding: 0px var(--space-4);
 }
 
 .row {
@@ -58,3 +59,4 @@ async function onLogout() {
   font-size: 13px;
 }
 </style>
+

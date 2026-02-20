@@ -39,7 +39,7 @@ defineProps({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .base-button {
   border: 0;
   border-radius: 8px;

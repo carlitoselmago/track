@@ -3,6 +3,7 @@ import AppLayout from "@/components/layout/AppLayout.vue";
 import LoginView from "@/views/LoginView.vue";
 import BoardListView from "@/views/BoardListView.vue";
 import KanbanBoardView from "@/views/KanbanBoardView.vue";
+import BoardCalendarView from "@/views/BoardCalendarView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -31,6 +32,12 @@ const router = createRouter({
           path: "boards/:boardId",
           name: "board",
           component: KanbanBoardView,
+          props: true,
+        },
+        {
+          path: "boards/:boardId/calendar",
+          name: "board-calendar",
+          component: BoardCalendarView,
           props: true,
         },
       ],

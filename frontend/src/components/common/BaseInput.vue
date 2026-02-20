@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <label class="field">
     <span v-if="label" class="label">{{ label }}</span>
     <input
@@ -49,7 +49,7 @@ defineProps({
 defineEmits(["update:modelValue"]);
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .field {
   display: grid;
   gap: 6px;
@@ -77,3 +77,4 @@ defineEmits(["update:modelValue"]);
   resize: vertical;
 }
 </style>
+

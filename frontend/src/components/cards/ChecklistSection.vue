@@ -1,8 +1,18 @@
-<template>
+﻿<template>
   <section class="panel">
     <header>
       <h4>Checklist</h4>
     </header>
+
+    <div class="progress-wrap">
+      <div class="progress-label">
+        <span>Progress</span>
+        <strong>{{ completionPercent }}%</strong>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar" :style="{ width: `${completionPercent}%` }" />
+      </div>
+    </div>
 
     <div class="add-row">
       <input v-model="newChecklistTitle" class="input" placeholder="New checklist title" />
@@ -48,7 +58,7 @@
 </template>
 
 <script setup>
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 
 const props = defineProps({
   card: {
@@ -67,6 +77,27 @@ const emit = defineEmits([
 
 const newChecklistTitle = ref("");
 const newItemByChecklist = reactive({});
+
+const checklistStats = computed(() => {
+  let total = 0;
+  let done = 0;
+  (props.card.checklists || []).forEach((checklist) => {
+    (checklist.items || []).forEach((item) => {
+      total += 1;
+      if (item.is_done) {
+        done += 1;
+      }
+    });
+  });
+  return { total, done };
+});
+
+const completionPercent = computed(() => {
+  if (checklistStats.value.total === 0) {
+    return 0;
+  }
+  return Math.round((checklistStats.value.done / checklistStats.value.total) * 100);
+});
 
 function addChecklist() {
   const title = newChecklistTitle.value.trim();
@@ -103,7 +134,7 @@ function removeItem(itemId) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .panel {
   display: grid;
   gap: var(--space-3);
@@ -114,6 +145,32 @@ function removeItem(itemId) {
 
 header h4 {
   margin: 0;
+}
+
+.progress-wrap {
+  display: grid;
+  gap: 6px;
+}
+
+.progress-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.progress-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #e5e7eb;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: var(--primary);
+  transition: width 160ms ease;
 }
 
 .checklist {
@@ -173,3 +230,4 @@ header h4 {
   color: var(--danger);
 }
 </style>
+

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="empty-state">
     <h3>{{ title }}</h3>
     <p>{{ description }}</p>
@@ -19,7 +19,7 @@ defineProps({
 });
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .empty-state {
   background: var(--surface);
   border: 1px dashed var(--border);
@@ -37,3 +37,4 @@ defineProps({
   color: var(--text-muted);
 }
 </style>
+

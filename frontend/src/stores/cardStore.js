@@ -230,11 +230,8 @@ export const useCardStore = defineStore("card", () => {
       return null;
     }
     await imageService.uploadCardImage(activeCard.value.id, file);
-    await refreshImages();
-    if (activeCard.value.images.length) {
-      const latest = activeCard.value.images[activeCard.value.images.length - 1];
-      activeCard.value.cover_image_id = latest.id;
-    }
+    const refreshed = await cardService.getCard(activeCard.value.id);
+    activeCard.value = normalizeCardDetail(extractPayload(refreshed));
     syncCardSummaryToBoard();
     return activeCard.value.images;
   }
@@ -254,7 +251,8 @@ export const useCardStore = defineStore("card", () => {
       return;
     }
     await imageService.setCardCover(activeCard.value.id, imageId);
-    activeCard.value.cover_image_id = imageId;
+    const refreshed = await cardService.getCard(activeCard.value.id);
+    activeCard.value = normalizeCardDetail(extractPayload(refreshed));
     syncCardSummaryToBoard();
   }
 

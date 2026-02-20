@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <form class="panel" @submit.prevent="submit">
     <BaseInput v-model="name" label="Board name" placeholder="Sprint planning" />
     <BaseInput
@@ -49,7 +49,7 @@ async function submit() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .panel {
   display: grid;
   gap: var(--space-3);
@@ -73,3 +73,4 @@ async function submit() {
   color: var(--text-muted);
 }
 </style>
+

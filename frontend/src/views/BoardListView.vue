@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section class="container section">
     <header class="header">
       <h1>Your Boards</h1>
@@ -17,22 +17,52 @@
     />
 
     <div v-else class="grid">
-      <BoardCard v-for="board in boardStore.boards" :key="board.id" :board="board" />
+      <BoardCard
+        v-for="board in boardStore.boards"
+        :key="board.id"
+        :board="board"
+        @open="openBoard"
+        @edit="startEditBoard"
+        @delete="confirmDeleteBoard"
+      />
     </div>
+
+    <BaseModal v-model="isEditModalOpen" title="Edit board">
+      <form class="edit-form" @submit.prevent="saveBoardEdit">
+        <BaseInput v-model="editName" label="Name" />
+        <BaseInput v-model="editDescription" label="Description" type="textarea" />
+        <label class="color-field">
+          <span>Color</span>
+          <input v-model="editColor" type="color" />
+        </label>
+        <div class="edit-actions">
+          <BaseButton variant="subtle" @click="isEditModalOpen = false">Cancel</BaseButton>
+          <BaseButton type="submit">Save changes</BaseButton>
+        </div>
+      </form>
+    </BaseModal>
   </section>
 </template>
 
 <script setup>
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import CreateBoardForm from "@/components/boards/CreateBoardForm.vue";
 import BoardCard from "@/components/boards/BoardCard.vue";
+import BaseModal from "@/components/common/BaseModal.vue";
+import BaseInput from "@/components/common/BaseInput.vue";
+import BaseButton from "@/components/common/BaseButton.vue";
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import EmptyState from "@/components/common/EmptyState.vue";
 import { useBoardStore } from "@/stores/boardStore";
 
 const router = useRouter();
 const boardStore = useBoardStore();
+const isEditModalOpen = ref(false);
+const editBoardId = ref(null);
+const editName = ref("");
+const editDescription = ref("");
+const editColor = ref("#16A34A");
 
 onMounted(() => {
   boardStore.fetchBoards();
@@ -44,9 +74,41 @@ async function handleCreateBoard(payload) {
     await router.push({ name: "board", params: { boardId: board.id } });
   }
 }
+
+async function openBoard(boardId) {
+  await router.push({ name: "board", params: { boardId } });
+}
+
+function startEditBoard(board) {
+  editBoardId.value = board.id;
+  editName.value = board.name || "";
+  editDescription.value = board.description || "";
+  editColor.value = board.color_hex || "#16A34A";
+  isEditModalOpen.value = true;
+}
+
+async function saveBoardEdit() {
+  if (!editBoardId.value) {
+    return;
+  }
+  await boardStore.updateBoard(editBoardId.value, {
+    name: editName.value.trim(),
+    description: editDescription.value.trim(),
+    color_hex: editColor.value,
+  });
+  isEditModalOpen.value = false;
+}
+
+async function confirmDeleteBoard(board) {
+  const ok = window.confirm(`Delete board "${board.name}"?`);
+  if (!ok) {
+    return;
+  }
+  await boardStore.deleteBoard(board.id);
+}
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .section {
   display: grid;
   gap: var(--space-4);
@@ -67,4 +129,23 @@ async function handleCreateBoard(payload) {
   justify-content: center;
   padding: var(--space-4);
 }
+
+.edit-form {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.color-field {
+  display: grid;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.edit-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
 </style>
+

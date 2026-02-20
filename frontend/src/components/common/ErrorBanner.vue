@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div v-if="uiStore.errorMessage" class="error-banner">
     <div class="container inner">
       <span>{{ uiStore.errorMessage }}</span>
@@ -13,7 +13,7 @@ import { useUiStore } from "@/stores/uiStore";
 const uiStore = useUiStore();
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .error-banner {
   background: #fee2e2;
   color: #7f1d1d;
@@ -36,3 +36,4 @@ const uiStore = useUiStore();
   font-size: 16px;
 }
 </style>
+

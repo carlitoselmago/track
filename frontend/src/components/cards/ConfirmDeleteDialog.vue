@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <BaseModal :model-value="modelValue" title="Delete card?" @update:model-value="$emit('update:modelValue', $event)">
     <p>This action cannot be undone.</p>
     <div class="actions">
@@ -22,7 +22,7 @@ defineProps({
 defineEmits(["update:modelValue", "confirm"]);
 </script>
 
-<style scoped>
+<style scoped lang="less">
 p {
   margin-top: 0;
 }
@@ -33,3 +33,4 @@ p {
   gap: var(--space-2);
 }
 </style>
+

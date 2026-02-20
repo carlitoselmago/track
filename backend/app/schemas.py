@@ -3,7 +3,7 @@ from __future__ import annotations
 from datetime import datetime
 from typing import Literal, Optional
 
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import BaseModel, Field
 
 
 BoardRole = Literal["board_admin", "member"]
@@ -18,7 +18,7 @@ class UserPublic(BaseModel):
 
 
 class LoginRequest(BaseModel):
-    email: EmailStr
+    email: str
     password: str
 
 
@@ -29,7 +29,7 @@ class TokenResponse(BaseModel):
 
 
 class UserCreateRequest(BaseModel):
-    email: EmailStr
+    email: str
     name: str
     password: str = Field(min_length=8)
     is_system_admin: bool = False

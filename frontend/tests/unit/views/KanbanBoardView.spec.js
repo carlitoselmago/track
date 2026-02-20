@@ -67,6 +67,10 @@ describe("KanbanBoardView", () => {
         plugins: [pinia],
         stubs: {
           teleport: true,
+          BoardHeader: {
+            props: ["board"],
+            template: "<div>{{ board?.name }}</div>",
+          },
         },
       },
     });

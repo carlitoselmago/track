@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section class="panel">
     <header>
       <h4>Timer</h4>
@@ -88,7 +88,7 @@ function formatDuration(totalSeconds) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .panel {
   display: grid;
   gap: var(--space-2);
@@ -123,3 +123,4 @@ header h4 {
   font-size: 12px;
 }
 </style>
+

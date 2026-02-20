@@ -1,11 +1,11 @@
-<template>
+﻿<template>
   <section class="container section">
     <div v-if="boardStore.isLoading" class="loading-row">
       <LoadingSpinner />
     </div>
 
     <template v-else-if="boardStore.currentBoard">
-      <BoardHeader :board="boardStore.currentBoard" />
+      <BoardHeader :board="boardStore.currentBoard" :board-id="props.boardId" />
 
       <div class="lists-wrap">
         <draggable
@@ -115,7 +115,7 @@ async function onCardDragEnd(payload) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .section {
   display: grid;
   gap: var(--space-4);
@@ -131,6 +131,7 @@ async function onCardDragEnd(payload) {
   gap: var(--space-3);
   overflow-x: auto;
   align-items: start;
+  padding: 0px var(--space-4);
   padding-bottom: var(--space-2);
 }
 
@@ -139,3 +140,4 @@ async function onCardDragEnd(payload) {
   gap: var(--space-3);
 }
 </style>
+

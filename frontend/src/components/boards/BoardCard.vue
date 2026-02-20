@@ -1,25 +1,29 @@
-<template>
-  <RouterLink :to="{ name: 'board', params: { boardId: board.id } }" class="board-card">
+﻿<template>
+  <article class="board-card" @click="$emit('open', board.id)">
     <span class="swatch" :style="{ background: board.color_hex || '#16A34A' }" />
-    <div>
+    <div class="content">
       <h3>{{ board.name }}</h3>
       <p>{{ board.description || "No description" }}</p>
     </div>
-  </RouterLink>
+    <div class="actions">
+      <button type="button" class="action-btn" @click.stop="$emit('edit', board)">Edit</button>
+      <button type="button" class="action-btn danger" @click.stop="$emit('delete', board)">Delete</button>
+    </div>
+  </article>
 </template>
 
 <script setup>
-import { RouterLink } from "vue-router";
-
 defineProps({
   board: {
     type: Object,
     required: true,
   },
 });
+
+defineEmits(["open", "edit", "delete"]);
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .board-card {
   display: flex;
   gap: var(--space-3);
@@ -29,6 +33,7 @@ defineProps({
   border-radius: var(--radius);
   padding: var(--space-4);
   transition: transform 140ms ease;
+  cursor: pointer;
 }
 
 .board-card:hover {
@@ -42,6 +47,11 @@ defineProps({
   border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.content {
+  min-width: 0;
+  flex: 1;
+}
+
 h3 {
   margin: 0 0 4px;
 }
@@ -50,5 +60,28 @@ p {
   margin: 0;
   font-size: 13px;
   color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.action-btn {
+  border: 1px solid var(--border);
+  background: #fff;
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.action-btn.danger {
+  color: var(--danger);
 }
 </style>
+

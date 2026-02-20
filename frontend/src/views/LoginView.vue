@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section class="login-page">
     <div class="panel">
       <h1>Track</h1>
@@ -49,7 +49,7 @@ async function submit() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .login-page {
   min-height: 100vh;
   display: grid;
@@ -81,3 +81,4 @@ p {
   gap: var(--space-3);
 }
 </style>
+

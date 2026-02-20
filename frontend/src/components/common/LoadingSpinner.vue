@@ -1,8 +1,8 @@
-<template>
+﻿<template>
   <div class="spinner" />
 </template>
 
-<style scoped>
+<style scoped lang="less">
 .spinner {
   width: 22px;
   height: 22px;
@@ -18,3 +18,4 @@
   }
 }
 </style>
+

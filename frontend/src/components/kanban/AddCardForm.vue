@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <form class="add-card" @submit.prevent="submit">
     <input v-model="title" class="input" placeholder="Add a card" />
     <button type="submit" class="btn" :disabled="!title.trim()">Add</button>
@@ -21,7 +21,7 @@ async function submit() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .add-card {
   display: flex;
   gap: var(--space-2);
@@ -42,3 +42,4 @@ async function submit() {
   cursor: pointer;
 }
 </style>
+

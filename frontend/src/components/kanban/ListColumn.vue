@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <section class="column">
     <header class="header">
       <input
@@ -81,7 +81,7 @@ function renameList(nextTitle) {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .column {
   width: 300px;
   min-width: 300px;
@@ -103,10 +103,11 @@ function renameList(nextTitle) {
 
 .title-input {
   flex: 1;
-  border: 1px solid var(--border);
+  border: 0px;
   border-radius: 8px;
   padding: 8px 10px;
   font-weight: 700;
+  background: transparent;
 }
 
 .delete-list {
@@ -123,3 +124,4 @@ function renameList(nextTitle) {
   min-height: 20px;
 }
 </style>
+

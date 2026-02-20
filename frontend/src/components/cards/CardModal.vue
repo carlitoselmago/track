@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <BaseModal
     v-model="isOpen"
     :title="cardStore.activeCard?.title || 'Card details'"
@@ -9,6 +9,11 @@
 
     <template v-else-if="cardStore.activeCard">
       <div class="sections">
+        <section v-if="coverImageId" class="cover-preview">
+          <img :src="coverImageUrl" alt="" />
+          <span>Cover image</span>
+        </section>
+
         <CardEditor :card="cardStore.activeCard" @save="saveCard" />
 
         <TimerSection
@@ -65,11 +70,16 @@ import TimerSection from "./TimerSection.vue";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog.vue";
 import { useCardStore } from "@/stores/cardStore";
 import { useBoardStore } from "@/stores/boardStore";
+import { imageService } from "@/services/imageService";
 
 const cardStore = useCardStore();
 const boardStore = useBoardStore();
 
 const confirmOpen = ref(false);
+const coverImageId = computed(() => cardStore.activeCard?.cover_image_id ?? null);
+const coverImageUrl = computed(() =>
+  coverImageId.value ? imageService.getImageContentUrl(coverImageId.value) : "",
+);
 
 const isOpen = computed({
   get: () => cardStore.isModalOpen,
@@ -82,6 +92,7 @@ const isOpen = computed({
 
 async function saveCard(payload) {
   await cardStore.saveCard(payload);
+  await cardStore.fetchTimeSummary();
 }
 
 async function createLabel({ name, color_hex }) {
@@ -94,7 +105,7 @@ async function deleteCard() {
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 .loading {
   display: flex;
   justify-content: center;
@@ -106,9 +117,28 @@ async function deleteCard() {
   gap: var(--space-3);
 }
 
+.cover-preview {
+  display: grid;
+  gap: 8px;
+}
+
+.cover-preview img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.cover-preview span {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 .footer {
   margin-top: var(--space-3);
   display: flex;
   justify-content: flex-end;
 }
 </style>
+

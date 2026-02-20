@@ -6,6 +6,7 @@ import { useUiStore } from "./uiStore";
 import { useTimerStore } from "./timerStore";
 
 const AUTH_META_KEY = "track_auth_meta_v1";
+const AUTH_TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 
 const parseJson = (value, fallback = null) => {
   try {
@@ -29,19 +30,29 @@ const extractUser = (payload) =>
 export const useAuthStore = defineStore("auth", () => {
   const storedMeta = parseJson(localStorage.getItem(AUTH_META_KEY), {});
   const user = ref(storedMeta?.user || null);
-  const accessToken = ref(null);
+  const accessToken = ref(storedMeta?.accessToken || null);
+  const tokenIssuedAt = ref(storedMeta?.tokenIssuedAt || null);
   const isBootstrapped = ref(false);
   const bootstrapPromise = ref(null);
 
   const isAuthenticated = computed(
-    () => Boolean(user.value) && Boolean(accessToken.value),
+    () => Boolean(user.value) && Boolean(accessToken.value) && !isTokenExpired(),
   );
+
+  function isTokenExpired() {
+    if (!tokenIssuedAt.value) {
+      return true;
+    }
+    return Date.now() - Number(tokenIssuedAt.value) > AUTH_TOKEN_TTL_MS;
+  }
 
   function persistMeta() {
     localStorage.setItem(
       AUTH_META_KEY,
       JSON.stringify({
         user: user.value,
+        accessToken: accessToken.value,
+        tokenIssuedAt: tokenIssuedAt.value,
       }),
     );
   }
@@ -52,6 +63,8 @@ export const useAuthStore = defineStore("auth", () => {
 
   function setAccessToken(token) {
     accessToken.value = token || null;
+    tokenIssuedAt.value = token ? Date.now() : null;
+    persistMeta();
   }
 
   async function configureAxiosAuth() {
@@ -127,8 +140,16 @@ export const useAuthStore = defineStore("auth", () => {
 
     bootstrapPromise.value = (async () => {
       try {
+        if (accessToken.value && user.value && !isTokenExpired()) {
+          isBootstrapped.value = true;
+          return true;
+        }
+
         await refreshAccessToken();
-        await fetchMe();
+
+        if (!user.value) {
+          await fetchMe();
+        }
       } catch {
         await forceLogout(false);
       } finally {
@@ -157,6 +178,7 @@ export const useAuthStore = defineStore("auth", () => {
 
     setAccessToken(null);
     user.value = null;
+    tokenIssuedAt.value = null;
     clearAuthMeta();
     if (resetBootstrap) {
       isBootstrapped.value = true;
