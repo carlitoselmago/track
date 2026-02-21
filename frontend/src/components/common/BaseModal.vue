@@ -1,9 +1,14 @@
 <template>
   <teleport to="body">
-    <div v-if="modelValue" class="overlay" @click.self="$emit('update:modelValue', false)">
+    <div
+      v-if="modelValue"
+      class="overlay"
+      :class="{ 'mobile-fullscreen-overlay': mobileFullscreen }"
+      @click.self="$emit('update:modelValue', false)"
+    >
       <section
         class="modal"
-        :class="[sizeClass, { 'drop-active': allowFileDrop && isDragActive }]"
+        :class="[sizeClass, { 'drop-active': allowFileDrop && isDragActive, 'mobile-fullscreen-modal': mobileFullscreen }]"
         @dragenter.prevent="onDragEnter"
         @dragover.prevent="onDragOver"
         @dragleave.prevent="onDragLeave"
@@ -61,6 +66,10 @@ const props = defineProps({
   size: {
     type: String,
     default: "md",
+  },
+  mobileFullscreen: {
+    type: Boolean,
+    default: false,
   },
 });
 
@@ -258,5 +267,20 @@ function onDrop(event) {
   background: rgba(15, 23, 42, 0.62);
   font-weight: 600;
   font-size: 13px;
+}
+
+@media (max-width: 768px) {
+  .overlay.mobile-fullscreen-overlay {
+    padding: 0;
+    margin-top: 62px;
+  }
+
+  .modal.mobile-fullscreen-modal {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    box-shadow: none;
+  }
 }
 </style>

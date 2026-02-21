@@ -1,59 +1,59 @@
-﻿<template>
+<template>
   <section class="container section">
     <div class="content">
-    <header class="header">
-      <h1>Your Boards</h1>
-      <RouterLink
-        v-if="authStore.user?.is_system_admin"
-        to="/admin/users"
-        class="admin-link"
-      >
-        Manage users
-      </RouterLink>
-    </header>
+      <header class="header">
+        <h1>Your Boards</h1>
+        <RouterLink
+          v-if="authStore.user?.is_system_admin"
+          to="/admin/users"
+          class="admin-link"
+        >
+          Manage users
+        </RouterLink>
+      </header>
 
-    <CreateBoardForm @create="handleCreateBoard" />
+      <CreateBoardForm @create="handleCreateBoard" />
 
-    <div v-if="boardStore.isLoading" class="loading-row">
-      <LoadingSpinner />
-    </div>
+      <div v-if="boardStore.isLoading" class="loading-row">
+        <LoadingSpinner />
+      </div>
 
-    <EmptyState
-      v-else-if="boardStore.boards.length === 0"
-      title="No boards yet"
-      description="Create your first board to begin organizing cards."
-    />
-
-    <div v-else class="grid">
-      <BoardCard
-        v-for="board in boardStore.boards"
-        :key="board.id"
-        :board="board"
-        @open="openBoard"
-        @edit="startEditBoard"
-        @delete="confirmDeleteBoard"
+      <EmptyState
+        v-else-if="boardStore.boards.length === 0"
+        title="No boards yet"
+        description="Create your first board to begin organizing cards."
       />
-    </div>
 
-    <BaseModal v-model="isEditModalOpen" title="Edit board">
-      <form class="edit-form" @submit.prevent="saveBoardEdit">
-        <BaseInput v-model="editName" label="Name" />
-        <BaseInput v-model="editDescription" label="Description" type="textarea" />
-        <div class="color-field">
-          <span>Color</span>
-          <label class="color-picker">
-            <input v-model="editColor" type="color" class="color-input" aria-label="Board color" />
-            <span class="swatch" :style="{ background: editColor }" />
-            <span class="hex">{{ editColor.toUpperCase() }}</span>
-          </label>
-        </div>
-        <div class="edit-actions">
-          <BaseButton variant="subtle" @click="isEditModalOpen = false">Cancel</BaseButton>
-          <BaseButton type="submit">Save changes</BaseButton>
-        </div>
-      </form>
-    </BaseModal>
-  </div>
+      <div v-else class="grid">
+        <BoardCard
+          v-for="board in boardStore.boards"
+          :key="board.id"
+          :board="board"
+          @open="openBoard"
+          @edit="startEditBoard"
+          @delete="confirmDeleteBoard"
+        />
+      </div>
+
+      <BaseModal v-model="isEditModalOpen" title="Edit board">
+        <form class="edit-form" @submit.prevent="saveBoardEdit">
+          <BaseInput v-model="editName" label="Name" />
+          <BaseInput v-model="editDescription" label="Description" type="textarea" />
+          <div class="color-field">
+            <span>Color</span>
+            <label class="color-picker">
+              <input v-model="editColor" type="color" class="color-input" aria-label="Board color" />
+              <span class="swatch" :style="{ background: editColor }" />
+              <span class="hex">{{ editColor.toUpperCase() }}</span>
+            </label>
+          </div>
+          <div class="edit-actions">
+            <BaseButton variant="subtle" @click="isEditModalOpen = false">Cancel</BaseButton>
+            <BaseButton type="submit">Save changes</BaseButton>
+          </div>
+        </form>
+      </BaseModal>
+    </div>
   </section>
 </template>
 

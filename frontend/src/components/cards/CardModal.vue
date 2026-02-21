@@ -2,6 +2,7 @@
   <BaseModal
     v-model="isOpen"
     :title="cardStore.activeCard?.title || 'Card details'"
+    mobile-fullscreen
     :allow-file-drop="Boolean(cardStore.activeCard?.id)"
     drop-hint="Drop files to upload to this card"
     @file-drop="onMainModalFilesDrop"

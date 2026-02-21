@@ -1,8 +1,10 @@
 <template>
   <nav class="topnav">
-    <div class="container row">
+    <div class=" row">
       <div class="left">
-        <RouterLink to="/boards" class="brand">Track</RouterLink>
+        <RouterLink to="/boards" class="brand" aria-label="Track home">
+          <img src="/logo.svg" alt="Track" class="brand-logo" />
+        </RouterLink>
         <RouterLink
           v-if="authStore.user?.is_system_admin"
           to="/admin/users"
@@ -172,9 +174,14 @@ function formatDate(iso) {
 }
 
 .brand {
-  font-weight: 800;
-  font-size: 22px;
-  color: var(--primary);
+  display: inline-flex;
+  align-items: center;
+}
+
+.brand-logo {
+  display: block;
+  height: 24px;
+  width: auto;
 }
 
 .admin-link {

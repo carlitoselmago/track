@@ -114,6 +114,9 @@ function onActionSelect(action) {
   gap: var(--space-3);
   align-content: start;
   max-height: calc(100vh - 220px);
+  @media (max-width: 768px) {
+    max-height: 100%;
+  }
 }
 
 .header {

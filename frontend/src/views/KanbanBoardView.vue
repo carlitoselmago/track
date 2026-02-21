@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="container section">
     <div v-if="boardStore.isLoading" class="loading-row">
       <LoadingSpinner />
@@ -7,7 +7,14 @@
     <template v-else-if="boardStore.currentBoard">
       <BoardHeader :board="boardStore.currentBoard" :board-id="props.boardId" />
 
-      <div class="lists-wrap content">
+      <div
+        ref="listsWrapRef"
+        class="lists-wrap content"
+        :class="{ dragging: isBackgroundDragging }"
+        @mousedown="startBackgroundDrag"
+        @mousemove="onBackgroundDrag"
+        @mouseleave="stopBackgroundDrag"
+      >
         <draggable
           v-model="boardStore.currentBoard.lists"
           item-key="id"
@@ -39,7 +46,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from "vue";
+import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import draggable from "vuedraggable";
 import BoardHeader from "@/components/kanban/BoardHeader.vue";
 import ListColumn from "@/components/kanban/ListColumn.vue";
@@ -63,12 +70,24 @@ const timerStore = useTimerStore();
 
 const listDragSnapshot = ref(null);
 const cardDragSnapshot = ref(null);
+const listsWrapRef = ref(null);
+const isBackgroundDragging = ref(false);
+const dragStartX = ref(0);
+const dragStartScrollLeft = ref(0);
 
 const loadBoard = async () => {
   await boardStore.loadBoard(props.boardId);
 };
 
-onMounted(loadBoard);
+onMounted(() => {
+  loadBoard();
+  window.addEventListener("mouseup", stopBackgroundDrag);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("mouseup", stopBackgroundDrag);
+});
+
 watch(
   () => props.boardId,
   () => loadBoard(),
@@ -114,6 +133,63 @@ async function onCardDragEnd(payload) {
     snapshot: cardDragSnapshot.value,
   });
 }
+
+function shouldSkipBackgroundDrag(target) {
+  if (!target || !(target instanceof Element)) {
+    return true;
+  }
+
+  if (
+    target.closest(".column") ||
+    target.closest(".card") ||
+    target.closest(".panel") ||
+    target.closest("button") ||
+    target.closest("input") ||
+    target.closest("textarea") ||
+    target.closest("select") ||
+    target.closest("a")
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+function startBackgroundDrag(event) {
+  if (event.button !== 0) {
+    return;
+  }
+  if (shouldSkipBackgroundDrag(event.target)) {
+    return;
+  }
+
+  const container = listsWrapRef.value;
+  if (!container) {
+    return;
+  }
+
+  isBackgroundDragging.value = true;
+  dragStartX.value = event.clientX;
+  dragStartScrollLeft.value = container.scrollLeft;
+}
+
+function onBackgroundDrag(event) {
+  if (!isBackgroundDragging.value) {
+    return;
+  }
+  const container = listsWrapRef.value;
+  if (!container) {
+    return;
+  }
+
+  event.preventDefault();
+  const delta = event.clientX - dragStartX.value;
+  container.scrollLeft = dragStartScrollLeft.value - delta;
+}
+
+function stopBackgroundDrag() {
+  isBackgroundDragging.value = false;
+}
 </script>
 
 <style scoped lang="less">
@@ -132,7 +208,12 @@ async function onCardDragEnd(payload) {
   gap: var(--space-3);
   overflow-x: auto;
   align-items: start;
+  cursor: grab;
+}
 
+.lists-wrap.dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .lists {
