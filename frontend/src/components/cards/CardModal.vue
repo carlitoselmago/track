@@ -652,6 +652,7 @@ async function commitTitleEdit() {
   border-radius: var(--radius);
   background: #fff;
   padding: var(--space-3);
+ 
   display: grid;
   gap: var(--space-3);
 }

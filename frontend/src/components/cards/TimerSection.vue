@@ -323,6 +323,7 @@ function formatDuration(totalSeconds) {
   border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: calc(12px * var(--ui-scale));
   padding: var(--space-3);
+
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(calc(4px * var(--ui-scale)));
 }
@@ -338,8 +339,11 @@ header h4 {
 }
 
 .time {
-  font-family: ui-monospace, Menlo, Consolas, monospace;
-  font-weight: 700;
+  /*font-family: ui-monospace, Menlo, Consolas, monospace;*/
+  font-weight: 100;
+  font-size: 20px;
+    position: absolute;
+    right:var(--space-3);
 }
 
 .controls {

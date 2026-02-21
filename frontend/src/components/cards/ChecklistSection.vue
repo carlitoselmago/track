@@ -155,7 +155,7 @@ function removeItem(itemId) {
 <style scoped lang="less">
 .panel {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-1);
   border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
@@ -183,6 +183,7 @@ header h4 {
   border-radius: calc(999px * var(--ui-scale));
   background: #e5e7eb;
   overflow: hidden;
+  margin-bottom: var(--space-2);
 }
 
 .progress-bar {
@@ -193,7 +194,7 @@ header h4 {
 
 .checklist {
   display: grid;
-  gap: var(--space-2);
+  gap: var(--space-1);
   background: #f8fafc;
   border-radius: calc(10px * var(--ui-scale));
   padding: var(--space-2);
@@ -232,7 +233,7 @@ header h4 {
 .input {
   border: 0;
   border-radius: calc(8px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  padding: calc(1px * var(--ui-scale)) calc(8px * var(--ui-scale));
   background-color: transparent;
 }
 

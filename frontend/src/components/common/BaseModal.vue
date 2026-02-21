@@ -197,7 +197,7 @@ function onDrop(event) {
   align-items: center;
   justify-content: space-between;
   gap: var(--space-2);
-  padding: var(--space-4);
+  padding: var(--space-3) var(--space-4);
   border-bottom: calc(1px * var(--ui-scale)) solid var(--border);
 }
 
