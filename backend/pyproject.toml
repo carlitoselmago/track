@@ -7,7 +7,7 @@ name = "track-backend"
 version = "0.1.0"
 description = "Track backend API"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.10"
 dependencies = [
   "fastapi>=0.116.0",
   "uvicorn[standard]>=0.35.0",
