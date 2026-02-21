@@ -5,6 +5,7 @@ backend/config/admin.yaml
 
 .DS_Store
 node_modules
+frontend/package-lock.json
 *.log
 explorations
 TODOs.md
