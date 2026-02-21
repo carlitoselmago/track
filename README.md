@@ -219,6 +219,37 @@ server {
 }
 ```
 
+If you serve the frontend under a subpath like `/track/`, use this pattern instead:
+
+```nginx
+server {
+    listen 80;
+    server_name your-domain.com;
+
+    # Backend API
+    location /api/ {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Frontend served from /track/
+    location /track/ {
+        alias /opt/track/frontend/dist/;
+        try_files $uri $uri/ /track/index.html;
+    }
+}
+```
+
+In this mode, set frontend build env:
+
+```env
+VITE_APP_BASE_PATH=/track/
+VITE_API_BASE_URL=/api
+```
+
 Enable site and reload nginx:
 
 ```bash
