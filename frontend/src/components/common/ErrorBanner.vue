@@ -17,15 +17,15 @@ const uiStore = useUiStore();
 .error-banner {
   background: #fee2e2;
   color: #7f1d1d;
-  border-bottom: calc(1px * var(--ui-scale)) solid #fecaca;
+  border-bottom: calc(1px * @ui-scale) solid #fecaca;
 }
 
 .inner {
-  min-height: calc(42px * var(--ui-scale));
+  min-height: calc(42px * @ui-scale);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
+  gap: @space-3;
 }
 
 .dismiss {
@@ -33,8 +33,9 @@ const uiStore = useUiStore();
   background: transparent;
   color: inherit;
   cursor: pointer;
-  font-size: calc(16px * var(--ui-scale));
+  font-size: calc(16px * @ui-scale);
 }
 </style>
+
 
 

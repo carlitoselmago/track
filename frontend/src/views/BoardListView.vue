@@ -126,7 +126,7 @@ async function confirmDeleteBoard(board) {
 <style scoped lang="less">
 .section {
   display: grid;
-  gap: var(--space-4);
+  gap: @space-4;
 }
 
 .header h1 {
@@ -137,56 +137,56 @@ async function confirmDeleteBoard(board) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .admin-link {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(999px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(12px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(999px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(12px * @ui-scale);
   background: #fff;
-  font-size: calc(13px * var(--ui-scale));
+  font-size: calc(13px * @ui-scale);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(calc(260px * var(--ui-scale)), 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fill, minmax(calc(260px * @ui-scale), 1fr));
+  gap: @space-3;
 }
 
 .loading-row {
   display: flex;
   justify-content: center;
-  padding: var(--space-4);
+  padding: @space-4;
 }
 
 .edit-form {
   display: grid;
-  gap: var(--space-3);
+  gap: @space-3;
 }
 
 .color-field {
   display: grid;
-  gap: calc(6px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  gap: calc(6px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .color-picker {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
   background: #fff;
-  min-width: calc(150px * var(--ui-scale));
-  padding: calc(6px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  min-width: calc(150px * @ui-scale);
+  padding: calc(6px * @ui-scale) calc(10px * @ui-scale);
   display: inline-flex;
   align-items: center;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
   position: relative;
   cursor: pointer;
 }
 
 .color-picker:hover {
-  background: var(--surface-muted);
+  background: @surface-muted;
 }
 
 .color-input {
@@ -197,22 +197,23 @@ async function confirmDeleteBoard(board) {
 }
 
 .swatch {
-  width: calc(18px * var(--ui-scale));
-  height: calc(18px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
-  border: calc(1px * var(--ui-scale)) solid rgba(15, 23, 42, 0.2);
+  width: calc(18px * @ui-scale);
+  height: calc(18px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
+  border: calc(1px * @ui-scale) solid rgba(15, 23, 42, 0.2);
   flex-shrink: 0;
 }
 
 .hex {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: calc(12px * var(--ui-scale));
+  font-size: calc(12px * @ui-scale);
 }
 
 .edit-actions {
   display: flex;
   justify-content: flex-end;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 </style>
+
 

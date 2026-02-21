@@ -195,7 +195,7 @@ function stopBackgroundDrag() {
 <style scoped lang="less">
 .section {
   display: grid;
-  gap: var(--space-4);
+  gap: @space-4;
 }
 
 .loading-row {
@@ -205,7 +205,7 @@ function stopBackgroundDrag() {
 
 .lists-wrap {
   display: flex;
-  gap: var(--space-3);
+  gap: @space-3;
   overflow-x: auto;
   align-items: start;
   cursor: grab;
@@ -214,7 +214,7 @@ function stopBackgroundDrag() {
 }
 
 .lists-wrap::-webkit-scrollbar {
-  height: calc(10px * var(--ui-scale));
+  height: calc(10px * @ui-scale);
 }
 
 .lists-wrap::-webkit-scrollbar-track {
@@ -223,7 +223,7 @@ function stopBackgroundDrag() {
 
 .lists-wrap::-webkit-scrollbar-thumb {
   background: rgba(15, 23, 42, 0.2);
-  border-radius: calc(999px * var(--ui-scale));
+  border-radius: calc(999px * @ui-scale);
 }
 
 .lists-wrap::-webkit-scrollbar-thumb:hover {
@@ -243,7 +243,8 @@ function stopBackgroundDrag() {
 
 .lists {
   display: flex;
-  gap: var(--space-3);
+  gap: @space-3;
   align-items: flex-start;
 }
 </style>
+

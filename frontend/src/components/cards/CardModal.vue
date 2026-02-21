@@ -583,12 +583,12 @@ async function commitTitleEdit() {
 .loading {
   display: flex;
   justify-content: center;
-  padding: var(--space-6);
+  padding: @space-6;
 }
 
 .sections {
   display: grid;
-  gap: var(--space-3);
+  gap: @space-3;
 }
 
 .title-wrap {
@@ -601,9 +601,9 @@ async function commitTitleEdit() {
   background: transparent;
   padding: 0;
   margin: 0;
-  font-size: calc(20px * var(--ui-scale));
+  font-size: calc(20px * @ui-scale);
   font-weight: 700;
-  color: var(--text);
+  color: @text;
   text-align: left;
   width: 100%;
   min-width: 0;
@@ -616,160 +616,160 @@ async function commitTitleEdit() {
 .title-input {
   width: 100%;
   min-width: 0;
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
-  font-size: calc(18px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
+  font-size: calc(18px * @ui-scale);
   font-weight: 700;
-  padding: calc(6px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  padding: calc(6px * @ui-scale) calc(8px * @ui-scale);
 }
 
 .title-input:focus {
-  outline: calc(2px * var(--ui-scale)) solid color-mix(in srgb, var(--primary) 28%, white);
-  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+  outline: calc(2px * @ui-scale) solid color-mix(in srgb, @primary 28%, white);
+  border-color: color-mix(in srgb, @primary 55%, @border);
 }
 
 .cover-preview {
   display: grid;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .cover-preview img {
   width: 100%;
-  max-height: calc(220px * var(--ui-scale));
+  max-height: calc(220px * @ui-scale);
   object-fit: contain;
-  border-radius: calc(10px * var(--ui-scale));
-  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(10px * @ui-scale);
+  border: calc(1px * @ui-scale) solid @border;
   background-color: #2d2d2d;
 }
 
 .cover-preview span {
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .meta-summary {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
   background: #fff;
-  padding: var(--space-3);
+  padding: @space-3;
  
   display: grid;
-  gap: var(--space-3);
+  gap: @space-3;
 }
 
 .meta-group {
   display: grid;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .meta-group h4 {
   margin: 0;
-  color: var(--text-muted);
-  font-size: calc(13px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(13px * @ui-scale);
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .label-chip,
 .assignee-chip {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(999px * var(--ui-scale));
-  padding: calc(4px * var(--ui-scale)) calc(10px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(999px * @ui-scale);
+  padding: calc(4px * @ui-scale) calc(10px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
 }
 
 .assignee-chip {
   background: #fff;
-  color: var(--text);
+  color: @text;
 }
 
 .add-actions {
-  border: calc(1px * var(--ui-scale)) dashed var(--border);
-  border-radius: var(--radius);
+  border: calc(1px * @ui-scale) dashed @border;
+  border-radius: @radius;
   background: #fff;
-  padding: var(--space-3);
+  padding: @space-3;
   display: grid;
-  gap: calc(10px * var(--ui-scale));
+  gap: calc(10px * @ui-scale);
 }
 
 .add-actions h4 {
   margin: 0;
-  color: var(--text-muted);
-  font-size: calc(13px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(13px * @ui-scale);
 }
 
 .add-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .add-btn {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(999px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(999px * @ui-scale);
   background: #fff;
-  color: var(--text);
-  padding: calc(7px * var(--ui-scale)) calc(12px * var(--ui-scale));
+  color: @text;
+  padding: calc(7px * @ui-scale) calc(12px * @ui-scale);
   cursor: pointer;
 }
 
 .add-btn:hover {
-  background: var(--surface-muted);
+  background: @surface-muted;
 }
 
 .mini-panel {
   display: grid;
-  gap: var(--space-3);
+  gap: @space-3;
 }
 
 .mini-panel h4 {
   margin: 0;
-  color: var(--text-muted);
-  font-size: calc(13px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(13px * @ui-scale);
 }
 
 .mini-form {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
   align-items: center;
 }
 
 .label-manage-list {
   display: grid;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .label-edit-row {
   display: grid;
   grid-template-columns: 1fr auto auto auto;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
   align-items: center;
 }
 
 .text-input {
   width: 100%;
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
   background: #fff;
-  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
 }
 
 .mini-btn {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
   background: #fff;
-  color: var(--text);
-  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  color: @text;
+  padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
   cursor: pointer;
 }
 
 .mini-btn:hover {
-  background: var(--surface-muted);
+  background: @surface-muted;
 }
 
 .mini-btn:disabled {
@@ -778,7 +778,7 @@ async function commitTitleEdit() {
 }
 
 .mini-btn.danger {
-  color: var(--danger);
+  color: @danger;
 }
 
 .button-chip {
@@ -787,22 +787,22 @@ async function commitTitleEdit() {
 }
 
 .button-chip.active {
-  box-shadow: inset 0 0 0 calc(2px * var(--ui-scale)) rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 0 0 calc(2px * @ui-scale) rgba(255, 255, 255, 0.85);
   opacity: 1;
 }
 
 .color-picker {
   position: relative;
-  width: calc(36px * var(--ui-scale));
-  height: calc(36px * var(--ui-scale));
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
+  width: calc(36px * @ui-scale);
+  height: calc(36px * @ui-scale);
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
   overflow: hidden;
 }
 
 .color-picker.small {
-  width: calc(32px * var(--ui-scale));
-  height: calc(32px * var(--ui-scale));
+  width: calc(32px * @ui-scale);
+  height: calc(32px * @ui-scale);
 }
 
 .color-input {
@@ -823,8 +823,9 @@ async function commitTitleEdit() {
 
 .mini-hint {
   margin: 0;
-  color: var(--text-muted);
-  font-size: calc(12px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(12px * @ui-scale);
 }
 </style>
+
 

@@ -25,15 +25,16 @@ async function submit() {
 
 <style scoped lang="less">
 .panel {
-  width: calc(300px * var(--ui-scale));
-  min-width: calc(300px * var(--ui-scale));
-  background: var(--surface);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
+  width: calc(300px * @ui-scale);
+  min-width: calc(300px * @ui-scale);
+  background: @surface;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
+  padding: @space-3;
   display: grid;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 </style>
+
 
 

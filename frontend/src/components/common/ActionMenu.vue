@@ -77,28 +77,28 @@ onBeforeUnmount(() => {
 }
 
 .trigger {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  width: calc(30px * var(--ui-scale));
-  height: calc(30px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  width: calc(30px * @ui-scale);
+  height: calc(30px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: #fff;
-  color: var(--text);
+  color: @text;
   cursor: pointer;
   transition: all 140ms ease;
 }
 
 .trigger:hover {
-  color: var(--text);
-  border-color: var(--text-muted);
-  background: var(--surface-muted);
+  color: @text;
+  border-color: @text-muted;
+  background: @surface-muted;
 }
 
 .default-icon {
-  width: calc(14px * var(--ui-scale));
-  height: calc(14px * var(--ui-scale));
+  width: calc(14px * @ui-scale);
+  height: calc(14px * @ui-scale);
   fill: none;
   stroke: currentColor;
   stroke-width: 2.1;
@@ -107,35 +107,36 @@ onBeforeUnmount(() => {
 
 .menu {
   position: absolute;
-  top: calc(100% + calc(6px * var(--ui-scale)));
+  top: calc(100% + calc(6px * @ui-scale));
   right: 0;
-  min-width: calc(130px * var(--ui-scale));
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
+  min-width: calc(130px * @ui-scale);
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
   background: #fff;
-  box-shadow: 0 calc(10px * var(--ui-scale)) calc(20px * var(--ui-scale)) rgba(0, 0, 0, 0.1);
+  box-shadow: 0 calc(10px * @ui-scale) calc(20px * @ui-scale) rgba(0, 0, 0, 0.1);
   z-index: 20;
-  padding: calc(6px * var(--ui-scale));
+  padding: calc(6px * @ui-scale);
   display: grid;
-  gap: calc(4px * var(--ui-scale));
+  gap: calc(4px * @ui-scale);
 }
 
 .menu-item {
   border: 0;
   background: transparent;
-  color: var(--text);
+  color: @text;
   text-align: left;
-  border-radius: calc(6px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  border-radius: calc(6px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(8px * @ui-scale);
   cursor: pointer;
 }
 
 .menu-item:hover {
-  background: var(--surface-muted);
+  background: @surface-muted;
 }
 
 .menu-item.danger {
-  color: var(--danger);
+  color: @danger;
 }
 </style>
+
 

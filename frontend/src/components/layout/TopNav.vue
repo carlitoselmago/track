@@ -154,14 +154,14 @@ function formatDate(iso) {
   position: sticky;
   top: 0;
   background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(calc(8px * var(--ui-scale)));
-  border-bottom: calc(1px * var(--ui-scale)) solid var(--border);
+  backdrop-filter: blur(calc(8px * @ui-scale));
+  border-bottom: calc(1px * @ui-scale) solid @border;
   z-index: 30;
-  padding: 0 var(--space-4);
+  padding: 0 @space-4;
 }
 
 .row {
-  min-height: calc(62px * var(--ui-scale));
+  min-height: calc(62px * @ui-scale);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -170,7 +170,7 @@ function formatDate(iso) {
 .left {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
+  gap: @space-3;
 }
 
 .brand {
@@ -180,26 +180,26 @@ function formatDate(iso) {
 
 .brand-logo {
   display: block;
-  height: calc(24px * var(--ui-scale));
+  height: calc(24px * @ui-scale);
   width: auto;
 }
 
 .admin-link {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(999px * var(--ui-scale));
-  padding: calc(5px * var(--ui-scale)) calc(10px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(999px * @ui-scale);
+  padding: calc(5px * @ui-scale) calc(10px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
 }
 
 .right {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .user {
-  color: var(--text-muted);
-  font-size: calc(13px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(13px * @ui-scale);
 }
 
 .notification-wrap {
@@ -207,12 +207,12 @@ function formatDate(iso) {
 }
 
 .bell {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border: calc(1px * @ui-scale) solid @border;
   background: #fff;
   color: #94a3b8;
-  width: calc(34px * var(--ui-scale));
-  height: calc(34px * var(--ui-scale));
-  border-radius: calc(10px * var(--ui-scale));
+  width: calc(34px * @ui-scale);
+  height: calc(34px * @ui-scale);
+  border-radius: calc(10px * @ui-scale);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -220,8 +220,8 @@ function formatDate(iso) {
 }
 
 .bell svg {
-  width: calc(16px * var(--ui-scale));
-  height: calc(16px * var(--ui-scale));
+  width: calc(16px * @ui-scale);
+  height: calc(16px * @ui-scale);
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
@@ -230,21 +230,21 @@ function formatDate(iso) {
 }
 
 .bell.active {
-  color: var(--primary);
-  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+  color: @primary;
+  border-color: color-mix(in srgb, @primary 40%, @border);
   background: #ecfdf3;
 }
 
 .notifications-panel {
   position: absolute;
-  top: calc(100% + calc(8px * var(--ui-scale)));
+  top: calc(100% + calc(8px * @ui-scale));
   right: 0;
-  width: min(calc(420px * var(--ui-scale)), 88vw);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(12px * var(--ui-scale));
+  width: min(calc(420px * @ui-scale), 88vw);
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(12px * @ui-scale);
   background: #fff;
-  box-shadow: 0 calc(12px * var(--ui-scale)) calc(30px * var(--ui-scale)) rgba(15, 23, 42, 0.14);
-  padding: var(--space-2);
+  box-shadow: 0 calc(12px * @ui-scale) calc(30px * @ui-scale) rgba(15, 23, 42, 0.14);
+  padding: @space-2;
   z-index: 40;
 }
 
@@ -252,72 +252,73 @@ function formatDate(iso) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: calc(6px * var(--ui-scale));
+  padding: calc(6px * @ui-scale);
 }
 
 .notifications-panel ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  max-height: calc(340px * var(--ui-scale));
+  max-height: calc(340px * @ui-scale);
   overflow: auto;
   display: grid;
-  gap: calc(6px * var(--ui-scale));
+  gap: calc(6px * @ui-scale);
 }
 
 .notifications-panel li {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(10px * var(--ui-scale));
-  padding: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(10px * @ui-scale);
+  padding: calc(8px * @ui-scale);
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .item-main strong {
   display: block;
-  font-size: calc(13px * var(--ui-scale));
+  font-size: calc(13px * @ui-scale);
 }
 
 .item-main p {
-  margin: calc(4px * var(--ui-scale)) 0;
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  margin: calc(4px * @ui-scale) 0;
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .item-main small {
-  color: var(--text-muted);
-  font-size: calc(11px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(11px * @ui-scale);
 }
 
 .mini-link {
   border: 0;
   background: transparent;
-  color: var(--text-muted);
-  font-size: calc(12px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(12px * @ui-scale);
   cursor: pointer;
 }
 
 .mini-link.danger {
-  color: var(--danger);
+  color: @danger;
 }
 
 .muted {
-  margin: calc(6px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  margin: calc(6px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .settings-grid {
   display: grid;
-  gap: var(--space-3);
+  gap: @space-3;
 }
 
 .toggle-row {
   display: inline-flex;
   align-items: center;
-  gap: calc(8px * var(--ui-scale));
-  font-size: calc(13px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
+  font-size: calc(13px * @ui-scale);
 }
 </style>
+
 

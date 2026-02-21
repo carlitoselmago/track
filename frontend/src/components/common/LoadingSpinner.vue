@@ -4,11 +4,11 @@
 
 <style scoped lang="less">
 .spinner {
-  width: calc(22px * var(--ui-scale));
-  height: calc(22px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
-  border: calc(3px * var(--ui-scale)) solid var(--surface-muted);
-  border-top-color: var(--primary);
+  width: calc(22px * @ui-scale);
+  height: calc(22px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
+  border: calc(3px * @ui-scale) solid @surface-muted;
+  border-top-color: @primary;
   animation: spin 700ms linear infinite;
 }
 
@@ -18,5 +18,6 @@
   }
 }
 </style>
+
 
 

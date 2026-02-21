@@ -42,17 +42,17 @@ defineProps({
 <style scoped lang="less">
 .base-button {
   border: 0;
-  border-radius: calc(8px * var(--ui-scale));
-  background: var(--primary);
+  border-radius: calc(8px * @ui-scale);
+  background: @primary;
   color: #fff;
   font-weight: 600;
-  padding: calc(10px * var(--ui-scale)) calc(14px * var(--ui-scale));
+  padding: calc(10px * @ui-scale) calc(14px * @ui-scale);
   cursor: pointer;
   transition: transform 120ms ease;
 }
 
 .base-button:hover:not(:disabled) {
-  transform: translateY(calc(-1px * var(--ui-scale)));
+  transform: translateY(calc(-1px * @ui-scale));
 }
 
 .base-button:disabled {
@@ -61,16 +61,17 @@ defineProps({
 }
 
 .base-button.danger {
-  background: var(--danger);
+  background: @danger;
 }
 
 .base-button.subtle {
-  background: var(--surface-muted);
-  color: var(--text);
+  background: @surface-muted;
+  color: @text;
 }
 
 .base-button.block {
   width: 100%;
 }
 </style>
+
 

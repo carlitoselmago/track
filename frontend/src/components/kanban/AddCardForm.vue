@@ -24,24 +24,25 @@ async function submit() {
 <style scoped lang="less">
 .add-card {
   display: flex;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .input {
   flex: 1;
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
 }
 
 .btn {
   border: 0;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
-  background: var(--surface-muted);
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
+  background: @surface-muted;
   cursor: pointer;
   border-color: black !important;
 }
 </style>
+
 
 

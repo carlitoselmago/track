@@ -54,32 +54,33 @@ async function submit() {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: var(--space-4);
+  padding: @space-4;
 }
 
 .panel {
-  width: min(calc(430px * var(--ui-scale)), 100%);
-  background: var(--surface);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(14px * var(--ui-scale));
-  padding: var(--space-6);
-  box-shadow: var(--shadow);
+  width: min(calc(430px * @ui-scale), 100%);
+  background: @surface;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(14px * @ui-scale);
+  padding: @space-6;
+  box-shadow: @shadow;
 }
 
 h1 {
   margin: 0;
-  font-size: calc(30px * var(--ui-scale));
+  font-size: calc(30px * @ui-scale);
 }
 
 p {
-  margin: calc(6px * var(--ui-scale)) 0 var(--space-4);
-  color: var(--text-muted);
+  margin: calc(6px * @ui-scale) 0 @space-4;
+  color: @text-muted;
 }
 
 .form {
   display: grid;
-  gap: var(--space-3);
+  gap: @space-3;
 }
 </style>
+
 
 

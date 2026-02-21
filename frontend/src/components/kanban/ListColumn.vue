@@ -104,16 +104,16 @@ function onActionSelect(action) {
 
 <style scoped lang="less">
 .column {
-  width: calc(300px * var(--ui-scale));
-  min-width: calc(300px * var(--ui-scale));
+  width: calc(300px * @ui-scale);
+  min-width: calc(300px * @ui-scale);
   background: #ebebeb;
   
-  border-radius: var(--radius);
-  padding: var(--space-3);
+  border-radius: @radius;
+  padding: @space-3;
   display: grid;
-  gap: var(--space-2);
+  gap: @space-2;
   align-content: start;
-  /*max-height: calc(100vh - calc(220px * var(--ui-scale)));*/
+  /*max-height: calc(100vh - calc(220px * @ui-scale));*/
   @media (max-width: 615px) {
     max-height: 100%;
   }
@@ -122,17 +122,17 @@ function onActionSelect(action) {
 .header {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
+  gap: @space-2;
   margin: 0;
 }
 
 .list-drag-handle {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  width: calc(28px * var(--ui-scale));
-  height: calc(28px * var(--ui-scale));
-  border-radius: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  width: calc(28px * @ui-scale);
+  height: calc(28px * @ui-scale);
+  border-radius: calc(8px * @ui-scale);
   background: #fff;
-  color: var(--text-muted);
+  color: @text-muted;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -145,8 +145,8 @@ function onActionSelect(action) {
 }
 
 .list-drag-handle svg {
-  width: calc(14px * var(--ui-scale));
-  height: calc(14px * var(--ui-scale));
+  width: calc(14px * @ui-scale);
+  height: calc(14px * @ui-scale);
   fill: none;
   stroke: currentColor;
   stroke-width: 2.1;
@@ -156,8 +156,8 @@ function onActionSelect(action) {
 .title-input {
   flex: 1;
   border: 0;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: 0 calc(10px * var(--ui-scale));
+  border-radius: calc(8px * @ui-scale);
+  padding: 0 calc(10px * @ui-scale);
   font-weight: 700;
   background: transparent;
   &:focus{
@@ -167,10 +167,11 @@ function onActionSelect(action) {
 
 .cards {
   display: grid;
-  gap: var(--space-2);
+  gap: @space-2;
   overflow: auto;
   min-height: 0;
 }
 </style>
+
 
 

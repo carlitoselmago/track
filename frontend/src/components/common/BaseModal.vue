@@ -140,29 +140,29 @@ function onDrop(event) {
   background: rgba(15, 23, 42, 0.45);
   display: grid;
   place-items: center;
-  padding: var(--space-4);
+  padding: @space-4;
   z-index: 20;
 }
 
 .modal {
-  width: min(calc(760px * var(--ui-scale)), 100%);
-  max-height: calc(100vh - calc(200px * var(--ui-scale)));
+  width: min(calc(760px * @ui-scale), 100%);
+  max-height: calc(100vh - calc(200px * @ui-scale));
   overflow: auto;
-  border-radius: calc(14px * var(--ui-scale));
+  border-radius: calc(14px * @ui-scale);
   background: #ebebeb;
-  box-shadow: var(--shadow);
+  box-shadow: @shadow;
   position: relative;
   scrollbar-width: thin;
   scrollbar-color: rgba(15, 23, 42, 0.28) transparent;
 }
 
 .modal.modal-sm {
-  width: min(calc(520px * var(--ui-scale)), 100%);
+  width: min(calc(520px * @ui-scale), 100%);
 }
 
 .modal::-webkit-scrollbar {
-  width: calc(8px * var(--ui-scale));
-  height: calc(8px * var(--ui-scale));
+  width: calc(8px * @ui-scale);
+  height: calc(8px * @ui-scale);
 }
 
 .modal::-webkit-scrollbar-track {
@@ -171,8 +171,8 @@ function onDrop(event) {
 
 .modal::-webkit-scrollbar-thumb {
   background: rgba(15, 23, 42, 0.26);
-  border-radius: calc(999px * var(--ui-scale));
-  border: calc(2px * var(--ui-scale)) solid transparent;
+  border-radius: calc(999px * @ui-scale);
+  border: calc(2px * @ui-scale) solid transparent;
   background-clip: padding-box;
 }
 
@@ -188,17 +188,17 @@ function onDrop(event) {
 }
 
 .modal.drop-active {
-  outline: calc(2px * var(--ui-scale)) dashed color-mix(in srgb, var(--primary) 45%, #ffffff);
-  outline-offset: calc(-10px * var(--ui-scale));
+  outline: calc(2px * @ui-scale) dashed color-mix(in srgb, @primary 45%, #ffffff);
+  outline-offset: calc(-10px * @ui-scale);
 }
 
 .modal-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border-bottom: calc(1px * var(--ui-scale)) solid var(--border);
+  gap: @space-2;
+  padding: @space-3 @space-4;
+  border-bottom: calc(1px * @ui-scale) solid @border;
 }
 
 .modal-title {
@@ -211,42 +211,42 @@ function onDrop(event) {
 }
 
 .modal-body {
-  padding: var(--space-4);
+  padding: @space-4;
 }
 
 .header-actions {
   display: flex;
   align-items: center;
-  gap: calc(6px * var(--ui-scale));
+  gap: calc(6px * @ui-scale);
   flex-shrink: 0;
 }
 
 .close {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  width: calc(30px * var(--ui-scale));
-  height: calc(30px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  width: calc(30px * @ui-scale);
+  height: calc(30px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: #fff;
   cursor: pointer;
-  color: var(--text-muted);
+  color: @text-muted;
   transition: all 140ms ease;
 }
 
 .close svg {
-  width: calc(14px * var(--ui-scale));
-  height: calc(14px * var(--ui-scale));
+  width: calc(14px * @ui-scale);
+  height: calc(14px * @ui-scale);
   stroke: currentColor;
   stroke-width: 2.4;
   stroke-linecap: round;
 }
 
 .close:hover {
-  color: var(--text);
-  border-color: var(--text-muted);
-  background: var(--surface-muted);
+  color: @text;
+  border-color: @text-muted;
+  background: @surface-muted;
 }
 
 .drop-overlay {
@@ -256,23 +256,23 @@ function onDrop(event) {
   place-items: center;
   background: rgba(15, 23, 42, 0.36);
   color: #fff;
-  border-radius: calc(14px * var(--ui-scale));
+  border-radius: calc(14px * @ui-scale);
   pointer-events: none;
 }
 
 .drop-overlay p {
   margin: 0;
-  padding: calc(10px * var(--ui-scale)) calc(14px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
+  padding: calc(10px * @ui-scale) calc(14px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
   background: rgba(15, 23, 42, 0.62);
   font-weight: 600;
-  font-size: calc(13px * var(--ui-scale));
+  font-size: calc(13px * @ui-scale);
 }
 
 @media (max-width: 615px) {
   .overlay.mobile-fullscreen-overlay {
     padding: 0;
-    margin-top: calc(62px * var(--ui-scale));
+    margin-top: calc(62px * @ui-scale);
   }
 
   .modal.mobile-fullscreen-modal {
@@ -284,4 +284,5 @@ function onDrop(event) {
   }
 }
 </style>
+
 

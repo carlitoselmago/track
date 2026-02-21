@@ -104,7 +104,7 @@ async function assignUserToBoard(userId) {
 <style scoped lang="less">
 .section {
   display: grid;
-  gap: var(--space-4);
+  gap: @space-4;
 }
 
 .header h1 {
@@ -113,70 +113,71 @@ async function assignUserToBoard(userId) {
 
 .create-form {
   display: grid;
-  gap: var(--space-2);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
+  gap: @space-2;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
   background: #fff;
-  padding: var(--space-3);
-  margin-bottom: var(--space-3);
+  padding: @space-3;
+  margin-bottom: @space-3;
 }
 
 .checkbox-row {
   display: inline-flex;
   align-items: center;
-  gap: calc(8px * var(--ui-scale));
-  font-size: calc(13px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
+  font-size: calc(13px * @ui-scale);
 }
 
 .field {
   display: grid;
-  gap: calc(6px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  gap: calc(6px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .multiselect,
 .select {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(8px * @ui-scale);
   background: #fff;
 }
 
 .list {
   display: grid;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .user-row {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(10px * @ui-scale);
   background: #fff;
-  padding: var(--space-3);
+  padding: @space-3;
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: var(--space-2);
+  gap: @space-2;
   align-items: center;
 }
 
 .user-row p {
-  margin: calc(4px * var(--ui-scale)) 0 0;
-  color: var(--text-muted);
-  font-size: calc(13px * var(--ui-scale));
+  margin: calc(4px * @ui-scale) 0 0;
+  color: @text-muted;
+  font-size: calc(13px * @ui-scale);
 }
 
 .assign-row {
   display: inline-flex;
   align-items: center;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .btn {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(10px * var(--ui-scale));
-  background: var(--surface-muted);
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(10px * @ui-scale);
+  background: @surface-muted;
   cursor: pointer;
 }
 </style>
+
 

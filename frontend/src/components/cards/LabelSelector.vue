@@ -69,10 +69,10 @@ function create() {
 <style scoped lang="less">
 .panel {
   display: grid;
-  gap: var(--space-3);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
+  gap: @space-3;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
+  padding: @space-3;
 }
 
 header h4 {
@@ -82,15 +82,15 @@ header h4 {
 .labels {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .label {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(999px * var(--ui-scale));
-  padding: calc(6px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(999px * @ui-scale);
+  padding: calc(6px * @ui-scale) calc(10px * @ui-scale);
   cursor: pointer;
-  font-size: calc(12px * var(--ui-scale));
+  font-size: calc(12px * @ui-scale);
 }
 
 .label.active {
@@ -100,24 +100,24 @@ header h4 {
 .create {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .color-picker {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
   background: #fff;
-  min-width: calc(132px * var(--ui-scale));
-  padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  min-width: calc(132px * @ui-scale);
+  padding: calc(4px * @ui-scale) calc(8px * @ui-scale);
   display: inline-flex;
   align-items: center;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
   position: relative;
   cursor: pointer;
 }
 
 .color-picker:hover {
-  background: var(--surface-muted);
+  background: @surface-muted;
 }
 
 .color-input {
@@ -128,32 +128,33 @@ header h4 {
 }
 
 .swatch {
-  width: calc(18px * var(--ui-scale));
-  height: calc(18px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
-  border: calc(1px * var(--ui-scale)) solid rgba(15, 23, 42, 0.2);
+  width: calc(18px * @ui-scale);
+  height: calc(18px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
+  border: calc(1px * @ui-scale) solid rgba(15, 23, 42, 0.2);
   flex-shrink: 0;
 }
 
 .hex {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .input {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(8px * @ui-scale);
 }
 
 .btn {
   border: 0;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(10px * var(--ui-scale));
-  background: var(--surface-muted);
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(10px * @ui-scale);
+  background: @surface-muted;
   cursor: pointer;
 }
 </style>
+
 
 

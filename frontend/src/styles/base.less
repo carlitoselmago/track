@@ -6,12 +6,12 @@
 
 body {
   margin: 0;
-  font-family: var(--font-body);
-  color: var(--text);
+  font-family: @font-body;
+  color: @text;
   background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
   min-height: 100vh;
   max-width: 100vw;
-  font-size: calc(14px * var(--ui-scale));
+  font-size: calc(14px * @ui-scale);
 
 
   a {
@@ -27,7 +27,7 @@ body {
   }
 
   .container {
-    /* width: min(calc(1200px * var(--ui-scale)), calc(100% - calc(32px * var(--ui-scale))));*/
+    /* width: min(calc(1200px * @ui-scale), calc(100% - calc(32px * @ui-scale)));*/
     width: 100%;
     display: flex !important;
     flex-direction: column;
@@ -40,31 +40,31 @@ body {
 
   .page {
     padding: 0;
-    min-height: calc(100vh - calc(63px * var(--ui-scale)));
+    min-height: calc(100vh - calc(63px * @ui-scale));
     position: relative;
     display: flex;
     flex-direction: column;
   }
 
   .content {
-    padding: 0 var(--space-4);
-    padding-bottom: var(--space-2);
+    padding: 0 @space-4;
+    padding-bottom: @space-2;
     flex: 1;
 
     header {
-      margin: var(--space-4) 0;
+      margin: @space-4 0;
     }
 
   }
 
   .grid {
-    margin-top: var(--space-4);
+    margin-top: @space-4;
   }
 
   .panel,
   .meta-summary,
   .add-actions {
-    padding-top: var(--space-2) !important;
+    padding-top: @space-2 !important;
   }
 }
 
@@ -72,3 +72,4 @@ body {
 @media (prefers-color-scheme: dark) {
  
   }
+

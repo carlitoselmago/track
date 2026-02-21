@@ -52,30 +52,31 @@ defineEmits(["update:modelValue"]);
 <style scoped lang="less">
 .field {
   display: grid;
-  gap: calc(6px * var(--ui-scale));
+  gap: calc(6px * @ui-scale);
 }
 
 .label {
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .control {
   width: 100%;
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
   background: #fff;
-  padding: calc(10px * var(--ui-scale)) calc(12px * var(--ui-scale));
+  padding: calc(10px * @ui-scale) calc(12px * @ui-scale);
 }
 
 .control:focus {
-  outline: calc(2px * var(--ui-scale)) solid color-mix(in srgb, var(--primary) 35%, white);
-  border-color: color-mix(in srgb, var(--primary) 65%, var(--border));
+  outline: calc(2px * @ui-scale) solid color-mix(in srgb, @primary 35%, white);
+  border-color: color-mix(in srgb, @primary 65%, @border);
 }
 
 .textarea {
   resize: vertical;
 }
 </style>
+
 
 

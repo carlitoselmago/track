@@ -74,10 +74,10 @@ function assign() {
 <style scoped lang="less">
 .panel {
   display: grid;
-  gap: var(--space-3);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
+  gap: @space-3;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
+  padding: @space-3;
 }
 
 header h4 {
@@ -87,51 +87,52 @@ header h4 {
 .assigned {
   display: flex;
   flex-wrap: wrap;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .pill {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(999px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(999px * @ui-scale);
   background: #fff;
-  padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  padding: calc(4px * @ui-scale) calc(8px * @ui-scale);
   display: inline-flex;
   align-items: center;
-  gap: calc(6px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
+  gap: calc(6px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
 }
 
 .remove {
   border: 0;
   background: transparent;
-  color: var(--text-muted);
+  color: @text-muted;
   cursor: pointer;
 }
 
 .assign-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .select {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(8px * @ui-scale);
   background: #fff;
 }
 
 .btn {
   border: 0;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(10px * var(--ui-scale));
-  background: var(--surface-muted);
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(10px * @ui-scale);
+  background: @surface-muted;
   cursor: pointer;
 }
 
 .muted {
-  color: var(--text-muted);
-  font-size: calc(12px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(12px * @ui-scale);
 }
 </style>
+
 

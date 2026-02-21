@@ -26,12 +26,12 @@ defineEmits(["open", "edit", "delete"]);
 <style scoped lang="less">
 .board-card {
   display: flex;
-  gap: var(--space-3);
+  gap: @space-3;
   align-items: center;
-  background: var(--surface);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-4);
+  background: @surface;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
+  padding: @space-4;
   transition: transform 140ms ease;
   cursor: pointer;
   h3{
@@ -40,14 +40,14 @@ defineEmits(["open", "edit", "delete"]);
 }
 
 .board-card:hover {
-  transform: translateY(calc(-2px * var(--ui-scale)));
+  transform: translateY(calc(-2px * @ui-scale));
 }
 
 .swatch {
-  width: calc(22px * var(--ui-scale));
-  height: calc(22px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
-  border: calc(1px * var(--ui-scale)) solid rgba(0, 0, 0, 0.1);
+  width: calc(22px * @ui-scale);
+  height: calc(22px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
+  border: calc(1px * @ui-scale) solid rgba(0, 0, 0, 0.1);
 }
 
 .content {
@@ -56,13 +56,13 @@ defineEmits(["open", "edit", "delete"]);
 }
 
 h3 {
-  margin: 0 0 calc(4px * var(--ui-scale));
+  margin: 0 0 calc(4px * @ui-scale);
 }
 
 p {
   margin: 0;
-  font-size: calc(13px * var(--ui-scale));
-  color: var(--text-muted);
+  font-size: calc(13px * @ui-scale);
+  color: @text-muted;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -71,21 +71,22 @@ p {
 .actions {
   display: flex;
   flex-direction: column;
-  gap: calc(6px * var(--ui-scale));
+  gap: calc(6px * @ui-scale);
 }
 
 .action-btn {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border: calc(1px * @ui-scale) solid @border;
   background: #fff;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(4px * @ui-scale) calc(8px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
   cursor: pointer;
 }
 
 .action-btn.danger {
-  color: var(--danger);
+  color: @danger;
 }
 </style>
+
 
 

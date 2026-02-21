@@ -219,7 +219,7 @@ onMounted(async () => {
 <style scoped lang="less">
 .section {
   display: grid;
-  gap: var(--space-4);
+  gap: @space-4;
 }
 
 .loading-row {
@@ -230,49 +230,49 @@ onMounted(async () => {
 .toolbar {
   display: flex;
   align-items: center;
-  gap: var(--space-2);
-  background: var(--surface);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
-  margin-bottom: var(--space-3);
+  gap: @space-2;
+  background: @surface;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
+  padding: @space-3;
+  margin-bottom: @space-3;
 }
 
 .month-btn {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border: calc(1px * @ui-scale) solid @border;
   background: #fff;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(10px * @ui-scale);
   cursor: pointer;
 }
 
 .month-input {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(7px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(7px * @ui-scale) calc(10px * @ui-scale);
 }
 
 .tz {
   margin-left: auto;
-  color: var(--text-muted);
-  font-size: calc(12px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(12px * @ui-scale);
 }
 
 .layout {
   display: grid;
-  grid-template-columns: calc(280px * var(--ui-scale)) 1fr;
-  gap: var(--space-3);
+  grid-template-columns: calc(280px * @ui-scale) 1fr;
+  gap: @space-3;
 }
 
 .sidebar {
-  background: var(--surface);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
+  background: @surface;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
+  padding: @space-3;
   display: grid;
-  gap: var(--space-2);
+  gap: @space-2;
   align-content: start;
-  max-height: calc(100vh - calc(230px * var(--ui-scale)));
+  max-height: calc(100vh - calc(230px * @ui-scale));
   overflow: auto;
 }
 
@@ -281,13 +281,13 @@ onMounted(async () => {
 }
 
 .total {
-  margin: 0 0 var(--space-2);
-  font-size: calc(13px * var(--ui-scale));
+  margin: 0 0 @space-2;
+  font-size: calc(13px * @ui-scale);
 }
 
 .muted {
-  color: var(--text-muted);
-  font-size: calc(13px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(13px * @ui-scale);
   margin: 0;
 }
 
@@ -295,8 +295,8 @@ onMounted(async () => {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: var(--space-2);
-  font-size: calc(13px * var(--ui-scale));
+  gap: @space-2;
+  font-size: calc(13px * @ui-scale);
 }
 
 .name {
@@ -306,34 +306,34 @@ onMounted(async () => {
 }
 
 .value {
-  color: var(--text-muted);
+  color: @text-muted;
 }
 
 .calendar {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
-  gap: calc(1px * var(--ui-scale));
-  background: var(--border);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
+  gap: calc(1px * @ui-scale);
+  background: @border;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
   overflow: hidden;
 }
 
 .weekday {
   background: #f3f6fb;
-  padding: calc(8px * var(--ui-scale));
+  padding: calc(8px * @ui-scale);
   font-weight: 700;
-  font-size: calc(12px * var(--ui-scale));
+  font-size: calc(12px * @ui-scale);
   text-transform: uppercase;
-  color: var(--text-muted);
+  color: @text-muted;
 }
 
 .day-cell {
-  min-height: calc(150px * var(--ui-scale));
-  background: var(--surface);
-  padding: calc(8px * var(--ui-scale));
+  min-height: calc(150px * @ui-scale);
+  background: @surface;
+  padding: calc(8px * @ui-scale);
   display: grid;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
   align-content: start;
 }
 
@@ -345,7 +345,7 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .date {
@@ -353,8 +353,8 @@ onMounted(async () => {
 }
 
 .daily-total {
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--primary);
+  font-size: calc(12px * @ui-scale);
+  color: @primary;
   font-weight: 700;
 }
 
@@ -363,25 +363,25 @@ onMounted(async () => {
   padding: 0;
   list-style: none;
   display: grid;
-  gap: calc(6px * var(--ui-scale));
+  gap: calc(6px * @ui-scale);
 }
 
 .entries li {
   display: flex;
   justify-content: space-between;
-  gap: calc(8px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
 }
 
 .entry-name {
-  color: var(--text);
+  color: @text;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 .entry-seconds {
-  color: var(--text-muted);
+  color: @text-muted;
   white-space: nowrap;
 }
 
@@ -395,5 +395,6 @@ onMounted(async () => {
   }
 }
 </style>
+
 
 

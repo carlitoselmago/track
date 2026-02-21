@@ -114,55 +114,56 @@ function onDescriptionChange() {
 <style scoped lang="less">
 .editor {
   display: grid;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .editor-head h4 {
   margin: 0;
-  font-size: calc(13px * var(--ui-scale));
-  color: var(--text-muted);
+  font-size: calc(13px * @ui-scale);
+  color: @text-muted;
   font-weight: 600;
 }
 
 .empty-button,
 .preview {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(10px * @ui-scale);
   background: #fff;
-  color: var(--text);
+  color: @text;
   text-align: left;
   width: 100%;
-  padding: calc(10px * var(--ui-scale)) calc(12px * var(--ui-scale));
+  padding: calc(10px * @ui-scale) calc(12px * @ui-scale);
   cursor: text;
 }
 
 .empty-button {
-  color: var(--text-muted);
+  color: @text-muted;
   font-style: italic;
-  min-height: calc(44px * var(--ui-scale));
+  min-height: calc(44px * @ui-scale);
 }
 
 .preview {
   white-space: pre-wrap;
   line-height: 1.45;
-  min-height: calc(44px * var(--ui-scale));
+  min-height: calc(44px * @ui-scale);
 }
 
 .editor-input {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(10px * @ui-scale);
   background: #fff;
-  color: var(--text);
+  color: @text;
   width: 100%;
-  min-height: calc(108px * var(--ui-scale));
+  min-height: calc(108px * @ui-scale);
   resize: vertical;
-  padding: calc(10px * var(--ui-scale)) calc(12px * var(--ui-scale));
+  padding: calc(10px * @ui-scale) calc(12px * @ui-scale);
   line-height: 1.45;
 }
 
 .editor-input:focus {
-  outline: calc(2px * var(--ui-scale)) solid color-mix(in srgb, var(--primary) 26%, white);
-  border-color: color-mix(in srgb, var(--primary) 50%, var(--border));
+  outline: calc(2px * @ui-scale) solid color-mix(in srgb, @primary 26%, white);
+  border-color: color-mix(in srgb, @primary 50%, @border);
 }
 </style>
+
 

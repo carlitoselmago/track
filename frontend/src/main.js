@@ -6,7 +6,6 @@ import { setupRouterGuards } from "./router/guards";
 import { useAuthStore } from "./stores/authStore";
 import { useTimerStore } from "./stores/timerStore";
 import { useNotificationStore } from "./stores/notificationStore";
-import "./styles/tokens.less";
 import "./styles/base.less";
 
 const app = createApp(App);

@@ -155,10 +155,10 @@ function removeItem(itemId) {
 <style scoped lang="less">
 .panel {
   display: grid;
-  gap: var(--space-1);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
+  gap: @space-1;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
+  padding: @space-3;
 }
 
 header h4 {
@@ -167,58 +167,58 @@ header h4 {
 
 .progress-wrap {
   display: grid;
-  gap: calc(6px * var(--ui-scale));
+  gap: calc(6px * @ui-scale);
 }
 
 .progress-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .progress-track {
-  height: calc(8px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
+  height: calc(8px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
   background: #e5e7eb;
   overflow: hidden;
-  margin-bottom: var(--space-2);
+  margin-bottom: @space-2;
 }
 
 .progress-bar {
   height: 100%;
-  background: var(--primary);
+  background: @primary;
   transition: width 160ms ease;
 }
 
 .checklist {
   display: grid;
-  gap: var(--space-1);
+  gap: @space-1;
   background: #f8fafc;
-  border-radius: calc(10px * var(--ui-scale));
-  padding: var(--space-2);
+  border-radius: calc(10px * @ui-scale);
+  padding: @space-2;
 }
 
 .checklist-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .checklist-title-input {
   flex: 1;
   min-width: 0;
   border: 0;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(5px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(5px * @ui-scale) calc(8px * @ui-scale);
   font-weight: 700;
   background: transparent;
 }
 
 .checklist-title-input:focus {
-  outline: calc(1px * var(--ui-scale)) solid var(--border);
+  outline: calc(1px * @ui-scale) solid @border;
   background: #fff;
 }
 
@@ -226,45 +226,46 @@ header h4 {
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .item-input,
 .input {
   border: 0;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(1px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(1px * @ui-scale) calc(8px * @ui-scale);
   background-color: transparent;
 }
 
 .add-row {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .add-row.small {
-  margin-top: var(--space-1);
+  margin-top: @space-1;
 }
 
 .btn {
   border: 0;
-  border-radius: calc(8px * var(--ui-scale));
-  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
-  background: var(--surface-muted);
+  border-radius: calc(8px * @ui-scale);
+  padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
+  background: @surface-muted;
   cursor: pointer;
 }
 
 .link {
   border: 0;
   background: transparent;
-  color: var(--text-muted);
+  color: @text-muted;
   cursor: pointer;
 }
 
 .danger {
-  color: var(--danger);
+  color: @danger;
 }
 </style>
+
 
 

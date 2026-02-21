@@ -319,13 +319,13 @@ function formatDuration(totalSeconds) {
 <style scoped lang="less">
 .panel {
   display: grid;
-  gap: var(--space-2);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(12px * var(--ui-scale));
-  padding: var(--space-3);
+  gap: @space-2;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(12px * @ui-scale);
+  padding: @space-3;
 
   background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(calc(4px * var(--ui-scale)));
+  backdrop-filter: blur(calc(4px * @ui-scale));
 }
 
 header {
@@ -343,26 +343,26 @@ header h4 {
   font-weight: 100;
   font-size: 20px;
     position: absolute;
-    right:var(--space-3);
+    right:@space-3;
 }
 
 .controls {
   display: flex;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 .info {
   margin: 0;
-  color: var(--text-muted);
-  font-size: calc(12px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(12px * @ui-scale);
 }
 
 .chunks-toggle {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(10px * @ui-scale);
   background: #fff;
-  color: var(--text);
-  padding: calc(9px * var(--ui-scale)) calc(12px * var(--ui-scale));
+  color: @text;
+  padding: calc(9px * @ui-scale) calc(12px * @ui-scale);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -370,14 +370,14 @@ header h4 {
 }
 
 .chunks-toggle:hover {
-  background: var(--surface-muted);
+  background: @surface-muted;
 }
 
 .toggle-meta {
   display: inline-flex;
   align-items: center;
-  gap: calc(6px * var(--ui-scale));
-  color: var(--text-muted);
+  gap: calc(6px * @ui-scale);
+  color: @text-muted;
 }
 
 .caret {
@@ -389,9 +389,9 @@ header h4 {
 }
 
 .chunks-panel {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(12px * var(--ui-scale));
-  padding: var(--space-2);
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(12px * @ui-scale);
+  padding: @space-2;
   background: #fff;
 }
 
@@ -400,40 +400,40 @@ header h4 {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .chunk-row {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(10px * var(--ui-scale));
-  padding: calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(10px * @ui-scale);
+  padding: calc(10px * @ui-scale);
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: var(--space-2);
+  gap: @space-2;
   align-items: center;
 }
 
 .chunk-main {
   min-width: 0;
   display: grid;
-  gap: calc(7px * var(--ui-scale));
+  gap: calc(7px * @ui-scale);
 }
 
 .duration-wrap {
   display: inline-flex;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
   align-items: center;
 }
 
 .time-chip {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border: calc(1px * @ui-scale) solid @border;
   background: #f8fafc;
-  color: var(--text);
-  border-radius: calc(999px * var(--ui-scale));
-  padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
-  min-width: calc(54px * var(--ui-scale));
-  height: calc(28px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
+  color: @text;
+  border-radius: calc(999px * @ui-scale);
+  padding: calc(4px * @ui-scale) calc(8px * @ui-scale);
+  min-width: calc(54px * @ui-scale);
+  height: calc(28px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
@@ -453,29 +453,29 @@ header h4 {
 
 .time-chip.active {
   background: #ecfdf3;
-  border-color: color-mix(in srgb, var(--primary) 40%, var(--border));
+  border-color: color-mix(in srgb, @primary 40%, @border);
 }
 
 .duration-editor {
   display: inline-flex;
   align-items: center;
-  gap: calc(8px * var(--ui-scale));
+  gap: calc(8px * @ui-scale);
 }
 
 .time-chip.editable {
   cursor: text;
-  gap: calc(4px * var(--ui-scale));
+  gap: calc(4px * @ui-scale);
   justify-content: center;
 }
 
 .time-chip.editable input {
-  width: calc(24px * var(--ui-scale));
+  width: calc(24px * @ui-scale);
   border: 0;
   outline: none;
   background: transparent;
-  font-size: calc(12px * var(--ui-scale));
+  font-size: calc(12px * @ui-scale);
   font-weight: 700;
-  color: var(--text);
+  color: @text;
   text-align: right;
 }
 
@@ -492,13 +492,13 @@ header h4 {
 .meta {
   display: flex;
   flex-wrap: wrap;
-  gap: calc(8px * var(--ui-scale));
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  gap: calc(8px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 
 .running-tag {
-  color: var(--primary);
+  color: @primary;
   font-weight: 700;
 }
 
@@ -510,13 +510,13 @@ header h4 {
 .mini-link {
   border: 0;
   background: transparent;
-  color: var(--text-muted);
+  color: @text-muted;
   cursor: pointer;
-  font-size: calc(12px * var(--ui-scale));
+  font-size: calc(12px * @ui-scale);
 }
 
 .mini-link:hover {
-  color: var(--text);
+  color: @text;
 }
 
 .mini-link:disabled {
@@ -525,18 +525,19 @@ header h4 {
 }
 
 .mini-link.save {
-  color: var(--primary);
+  color: @primary;
   font-weight: 700;
 }
 
 .mini-link.danger {
-  color: var(--danger);
+  color: @danger;
 }
 
 .muted {
   margin: 0;
-  font-size: calc(12px * var(--ui-scale));
-  color: var(--text-muted);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
 }
 </style>
+
 

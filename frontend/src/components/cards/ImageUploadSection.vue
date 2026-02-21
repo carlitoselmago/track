@@ -102,15 +102,15 @@ function imageUrl(imageId) {
 <style scoped lang="less">
 .panel {
   display: grid;
-  gap: var(--space-3);
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-3);
+  gap: @space-3;
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: @radius;
+  padding: @space-3;
   transition: border-color 120ms ease, background 120ms ease;
 }
 
 .panel.drag-active {
-  border-color: var(--primary);
+  border-color: @primary;
   background: #ecfdf3;
 }
 
@@ -118,7 +118,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 
 header h4 {
@@ -130,39 +130,39 @@ header h4 {
 }
 
 .add-image-btn {
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(8px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
   background: #fff;
-  color: var(--text);
-  padding: calc(7px * var(--ui-scale)) calc(12px * var(--ui-scale));
+  color: @text;
+  padding: calc(7px * @ui-scale) calc(12px * @ui-scale);
   cursor: pointer;
 }
 
 .add-image-btn:hover {
-  background: var(--surface-muted);
+  background: @surface-muted;
 }
 
 .drop-help {
   margin: 0;
-  color: var(--text-muted);
-  font-size: calc(12px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(12px * @ui-scale);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(calc(120px * var(--ui-scale)), 1fr));
-  gap: var(--space-2);
+  grid-template-columns: repeat(auto-fill, minmax(calc(120px * @ui-scale), 1fr));
+  gap: @space-2;
 }
 
 .item {
   margin: 0;
-  border: calc(1px * var(--ui-scale)) solid var(--border);
-  border-radius: calc(10px * var(--ui-scale));
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(10px * @ui-scale);
   overflow: hidden;
 }
 
 .item.cover {
-  border-color: var(--primary);
+  border-color: @primary;
 }
 
 img {
@@ -176,8 +176,8 @@ figcaption {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: calc(4px * var(--ui-scale));
-  padding: calc(6px * var(--ui-scale));
+  gap: calc(4px * @ui-scale);
+  padding: calc(6px * @ui-scale);
   flex-wrap: wrap;
 }
 
@@ -185,28 +185,29 @@ figcaption {
   border: 0;
   background: transparent;
   cursor: pointer;
-  color: var(--text-muted);
-  font-size: calc(11px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(11px * @ui-scale);
 }
 
 .danger {
-  color: var(--danger);
+  color: @danger;
 }
 
 .empty {
-  color: var(--text-muted);
-  font-size: calc(13px * var(--ui-scale));
+  color: @text-muted;
+  font-size: calc(13px * @ui-scale);
 }
 
 .cover-tag {
-  background: var(--primary);
+  background: @primary;
   color: #fff;
-  border-radius: calc(999px * var(--ui-scale));
-  padding: calc(2px * var(--ui-scale)) calc(8px * var(--ui-scale));
-  font-size: calc(10px * var(--ui-scale));
+  border-radius: calc(999px * @ui-scale);
+  padding: calc(2px * @ui-scale) calc(8px * @ui-scale);
+  font-size: calc(10px * @ui-scale);
   font-weight: 700;
   margin-right: auto;
 }
 </style>
+
 
 

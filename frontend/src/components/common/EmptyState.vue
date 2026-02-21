@@ -21,21 +21,22 @@ defineProps({
 
 <style scoped lang="less">
 .empty-state {
-  background: var(--surface);
-  border: calc(1px * var(--ui-scale)) dashed var(--border);
-  border-radius: var(--radius);
-  padding: var(--space-5);
+  background: @surface;
+  border: calc(1px * @ui-scale) dashed @border;
+  border-radius: @radius;
+  padding: @space-5;
   text-align: center;
 }
 
 .empty-state h3 {
-  margin: 0 0 var(--space-2);
+  margin: 0 0 @space-2;
 }
 
 .empty-state p {
   margin: 0;
-  color: var(--text-muted);
+  color: @text-muted;
 }
 </style>
+
 
 

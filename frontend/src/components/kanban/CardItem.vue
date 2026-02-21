@@ -69,22 +69,22 @@ function imageUrl(imageId) {
 <style scoped lang="less">
 .card {
   display: grid;
-  gap: var(--space-2);
+  gap: @space-2;
  
-  border-radius: calc(10px * var(--ui-scale));
-  background: var(--surface);
-  padding: var(--space-3);
+  border-radius: calc(10px * @ui-scale);
+  background: @surface;
+  padding: @space-3;
   cursor: pointer;
 }
 
 .cover-image {
-  width: calc(100% + var(--space-3)*2);
-  margin-left: calc(-1 * var(--space-3));
-  margin-top: calc(-1 * var(--space-3));
+  width: calc(100% + @space-3*2);
+  margin-left: calc(-1 * @space-3);
+  margin-top: calc(-1 * @space-3);
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: calc(8px * var(--ui-scale));
-  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * @ui-scale);
+  border: calc(1px * @ui-scale) solid @border;
   
   border-end-end-radius: 0;
   border-bottom-left-radius: 0;
@@ -92,33 +92,34 @@ function imageUrl(imageId) {
 
 h4 {
   margin: 0;
-  font-size: calc(14px * var(--ui-scale));
+  font-size: calc(14px * @ui-scale);
 }
 
 .labels {
   display: flex;
-  gap: calc(5px * var(--ui-scale));
+  gap: calc(5px * @ui-scale);
 }
 
 .label {
-  width: calc(20px * var(--ui-scale));
-  height: calc(7px * var(--ui-scale));
-  border-radius: calc(999px * var(--ui-scale));
+  width: calc(20px * @ui-scale);
+  height: calc(7px * @ui-scale);
+  border-radius: calc(999px * @ui-scale);
 }
 
 .meta {
   display: flex;
   flex-wrap: wrap;
-  gap: calc(6px * var(--ui-scale));
-  font-size: calc(11px * var(--ui-scale));
-  color: var(--text-muted);
+  gap: calc(6px * @ui-scale);
+  font-size: calc(11px * @ui-scale);
+  color: @text-muted;
 }
 
 .running {
-  color: var(--primary);
+  color: @primary;
   font-weight: 700;
 }
 </style>
+
 
 
 

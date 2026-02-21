@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <BaseModal :model-value="modelValue" title="Delete card?" @update:model-value="$emit('update:modelValue', $event)">
     <p>This action cannot be undone.</p>
     <div class="actions">
@@ -30,7 +30,8 @@ p {
 .actions {
   display: flex;
   justify-content: flex-end;
-  gap: var(--space-2);
+  gap: @space-2;
 }
 </style>
+
 
