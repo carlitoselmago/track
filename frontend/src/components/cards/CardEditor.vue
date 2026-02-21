@@ -1,18 +1,43 @@
 <template>
   <section class="editor">
-    <BaseInput
+    <header class="editor-head">
+      <h4>Description</h4>
+    </header>
+
+    <button
+      v-if="!isEditing && !draftDescription"
+      type="button"
+      class="empty-button"
+      @click="startEditing"
+    >
+      Add description
+    </button>
+
+    <button
+      v-else-if="!isEditing"
+      type="button"
+      class="preview"
+      @click="startEditing"
+    >
+      {{ draftDescription }}
+    </button>
+
+    <textarea
+      v-else
+      ref="textareaRef"
       v-model="draftDescription"
-      label="Description"
-      type="textarea"
-      @update:model-value="onDescriptionChange"
+      class="editor-input"
+      rows="4"
+      placeholder="Add description"
+      @input="onDescriptionChange"
+      @blur="finishEditing"
+      @keydown.esc.prevent="cancelEditing"
     />
-    <p class="hint">Changes are saved automatically.</p>
   </section>
 </template>
 
 <script setup>
-import { ref, watch } from "vue";
-import BaseInput from "@/components/common/BaseInput.vue";
+import { nextTick, onBeforeUnmount, ref, watch } from "vue";
 
 const props = defineProps({
   card: {
@@ -25,29 +50,60 @@ const emit = defineEmits(["save"]);
 
 const draftDescription = ref("");
 const lastSyncedDescription = ref("");
-const saveTimer = ref(null);
+const isEditing = ref(false);
+const textareaRef = ref(null);
+let saveTimer = null;
 
 watch(
-  () => props.card,
-  (card) => {
-    draftDescription.value = card?.description || "";
-    lastSyncedDescription.value = draftDescription.value;
-  },
-  { immediate: true, deep: true },
-);
-
-function scheduleSave() {
-  if (saveTimer.value) {
-    clearTimeout(saveTimer.value);
-  }
-  saveTimer.value = setTimeout(() => {
-    const description = draftDescription.value.trim();
-    if (description === lastSyncedDescription.value) {
+  () => [props.card?.id, props.card?.description],
+  ([, description]) => {
+    if (isEditing.value) {
       return;
     }
-    emit("save", { description });
-    lastSyncedDescription.value = description;
-  }, 350);
+    draftDescription.value = description || "";
+    lastSyncedDescription.value = draftDescription.value;
+  },
+  { immediate: true },
+);
+
+onBeforeUnmount(() => {
+  if (saveTimer) {
+    clearTimeout(saveTimer);
+  }
+});
+
+async function startEditing() {
+  isEditing.value = true;
+  await nextTick();
+  textareaRef.value?.focus();
+}
+
+function cancelEditing() {
+  draftDescription.value = lastSyncedDescription.value;
+  isEditing.value = false;
+}
+
+function finishEditing() {
+  commitNow();
+  isEditing.value = false;
+}
+
+function scheduleSave() {
+  if (saveTimer) {
+    clearTimeout(saveTimer);
+  }
+  saveTimer = setTimeout(() => {
+    commitNow();
+  }, 320);
+}
+
+function commitNow() {
+  const value = draftDescription.value.trim() ? draftDescription.value : "";
+  if (value === lastSyncedDescription.value) {
+    return;
+  }
+  emit("save", { description: value });
+  lastSyncedDescription.value = value;
 }
 
 function onDescriptionChange() {
@@ -58,12 +114,54 @@ function onDescriptionChange() {
 <style scoped lang="less">
 .editor {
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
 }
 
-.hint {
+.editor-head h4 {
   margin: 0;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--text-muted);
+  font-weight: 600;
+}
+
+.empty-button,
+.preview {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  text-align: left;
+  width: 100%;
+  padding: 10px 12px;
+  cursor: text;
+}
+
+.empty-button {
+  color: var(--text-muted);
+  font-style: italic;
+  min-height: 44px;
+}
+
+.preview {
+  white-space: pre-wrap;
+  line-height: 1.45;
+  min-height: 44px;
+}
+
+.editor-input {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--text);
+  width: 100%;
+  min-height: 108px;
+  resize: vertical;
+  padding: 10px 12px;
+  line-height: 1.45;
+}
+
+.editor-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--primary) 26%, white);
+  border-color: color-mix(in srgb, var(--primary) 50%, var(--border));
 }
 </style>

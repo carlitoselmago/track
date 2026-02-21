@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="add-row">
+    <div v-if="props.showChecklistCreate" class="add-row">
       <input v-model="newChecklistTitle" class="input" placeholder="New checklist title" />
       <button type="button" class="btn" @click="addChecklist">Add</button>
     </div>
@@ -54,6 +54,7 @@
           v-model="newItemByChecklist[checklist.id]"
           class="input"
           placeholder="Add checklist item"
+          @keydown.enter.prevent="addItem(checklist.id)"
         />
         <button type="button" class="btn" @click="addItem(checklist.id)">Add</button>
       </div>
@@ -68,6 +69,10 @@ const props = defineProps({
   card: {
     type: Object,
     required: true,
+  },
+  showChecklistCreate: {
+    type: Boolean,
+    default: true,
   },
 });
 
@@ -225,9 +230,10 @@ header h4 {
 
 .item-input,
 .input {
-  border: 1px solid var(--border);
+  border: 0px;
   border-radius: 8px;
   padding: 7px 8px;
+  background-color: transparent;
 }
 
 .add-row {
@@ -259,4 +265,3 @@ header h4 {
   color: var(--danger);
 }
 </style>
-

@@ -30,7 +30,7 @@
       </template>
     </p>
 
-    <button type="button" class="chunks-toggle" @click="chunksOpen = !chunksOpen">
+    <button v-if="showChunksToggle" type="button" class="chunks-toggle" @click="chunksOpen = !chunksOpen">
       <span>Time chunks</span>
       <span class="toggle-meta">
         {{ sessions.length }}
@@ -156,7 +156,8 @@ const displaySeconds = computed(() => totalTrackedSeconds.value);
 
 const activeStartAt = computed(() => {
   const startedAt = timerStore.activeSession?.started_at;
-  return startedAt ? new Date(startedAt).toISOString() : "-";
+  const value = parseApiDate(startedAt);
+  return value ? value.toISOString() : "-";
 });
 
 const sessions = computed(() => {
@@ -167,6 +168,10 @@ const sessions = computed(() => {
   }));
 });
 
+const showChunksToggle = computed(
+  () => isCurrentCardRunning.value || sessions.value.length > 0 || totalTrackedSeconds.value > 0,
+);
+
 watch(
   () => props.card.id,
   async () => {
@@ -176,6 +181,12 @@ watch(
   },
   { immediate: true },
 );
+
+watch(showChunksToggle, (visible) => {
+  if (!visible) {
+    chunksOpen.value = false;
+  }
+});
 
 async function loadSessions() {
   isLoadingChunks.value = true;
@@ -248,11 +259,13 @@ function resolveDurationSeconds(row) {
     return Math.max(0, Number(row.duration_seconds) || 0);
   }
   if (row.ended_at && row.started_at) {
-    const endMs = new Date(row.ended_at).getTime();
-    const startMs = new Date(row.started_at).getTime();
-    if (Number.isNaN(endMs) || Number.isNaN(startMs)) {
+    const endDate = parseApiDate(row.ended_at);
+    const startDate = parseApiDate(row.started_at);
+    if (!endDate || !startDate) {
       return 0;
     }
+    const endMs = endDate.getTime();
+    const startMs = startDate.getTime();
     return Math.max(0, Math.floor((endMs - startMs) / 1000));
   }
   return 0;
@@ -270,11 +283,25 @@ function formatDateTime(isoValue) {
   if (!isoValue) {
     return "-";
   }
-  const value = new Date(isoValue);
-  if (Number.isNaN(value.getTime())) {
+  const value = parseApiDate(isoValue);
+  if (!value) {
     return "-";
   }
   return value.toLocaleString();
+}
+
+function parseApiDate(value) {
+  if (!value) {
+    return null;
+  }
+  const raw = String(value);
+  const hasZone = /(?:Z|[+-]\d{2}:\d{2})$/.test(raw);
+  const normalized = hasZone ? raw : `${raw}Z`;
+  const parsed = new Date(normalized);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+  return parsed;
 }
 
 function formatDuration(totalSeconds) {

@@ -216,6 +216,42 @@ export const useCardStore = defineStore("card", () => {
     return label;
   }
 
+  async function updateBoardLabel(labelId, patch) {
+    const boardStore = useBoardStore();
+    if (!boardStore.currentBoard?.id) {
+      return null;
+    }
+
+    const payload = await labelService.updateLabel(labelId, patch);
+    const updated = extractPayload(payload);
+    boardStore.setBoardLabels(
+      (boardStore.currentBoard.labels || []).map((label) =>
+        label.id === labelId ? { ...label, ...updated } : label,
+      ),
+    );
+    if (activeCard.value?.labels?.length) {
+      activeCard.value.labels = activeCard.value.labels.map((label) =>
+        label.id === labelId ? { ...label, ...updated } : label,
+      );
+      syncCardSummaryToBoard();
+    }
+    return updated;
+  }
+
+  async function deleteBoardLabel(labelId) {
+    const boardStore = useBoardStore();
+    await labelService.deleteLabel(labelId);
+    if (boardStore.currentBoard?.labels?.length) {
+      boardStore.setBoardLabels(
+        boardStore.currentBoard.labels.filter((label) => label.id !== labelId),
+      );
+    }
+    if (activeCard.value?.labels?.length) {
+      activeCard.value.labels = activeCard.value.labels.filter((label) => label.id !== labelId);
+      syncCardSummaryToBoard();
+    }
+  }
+
   async function refreshImages() {
     if (!activeCard.value?.id) {
       return [];
@@ -227,15 +263,28 @@ export const useCardStore = defineStore("card", () => {
     return activeCard.value.images;
   }
 
-  async function uploadImage(file) {
-    if (!activeCard.value?.id || !file) {
+  async function uploadFiles(files) {
+    if (!activeCard.value?.id) {
       return null;
     }
-    await imageService.uploadCardImage(activeCard.value.id, file);
+    const queue = Array.isArray(files) ? files.filter(Boolean) : [];
+    if (!queue.length) {
+      return null;
+    }
+    for (const file of queue) {
+      await imageService.uploadCardImage(activeCard.value.id, file);
+    }
     const refreshed = await cardService.getCard(activeCard.value.id);
     activeCard.value = normalizeCardDetail(extractPayload(refreshed));
     syncCardSummaryToBoard();
     return activeCard.value.images;
+  }
+
+  async function uploadImage(file) {
+    if (!file) {
+      return null;
+    }
+    return uploadFiles([file]);
   }
 
   async function deleteImage(imageId) {
@@ -246,6 +295,10 @@ export const useCardStore = defineStore("card", () => {
       activeCard.value.cover_image_id = fallback?.id || null;
     }
     syncCardSummaryToBoard();
+  }
+
+  async function deleteFile(fileId) {
+    return deleteImage(fileId);
   }
 
   async function setCover(imageId) {
@@ -312,8 +365,12 @@ export const useCardStore = defineStore("card", () => {
     deleteChecklistItem,
     toggleLabel,
     createBoardLabel,
+    updateBoardLabel,
+    deleteBoardLabel,
     refreshImages,
+    uploadFiles,
     uploadImage,
+    deleteFile,
     deleteImage,
     setCover,
     fetchTimeSummary,

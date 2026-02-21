@@ -27,14 +27,32 @@ const extractTimeSummary = (payload) =>
   payload ||
   {};
 
+const parseApiDate = (value) => {
+  if (!value) {
+    return null;
+  }
+  if (value instanceof Date) {
+    return value;
+  }
+  const raw = String(value);
+  const hasZone = /(?:Z|[+-]\d{2}:\d{2})$/.test(raw);
+  const normalized = hasZone ? raw : `${raw}Z`;
+  const parsed = new Date(normalized);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+  return parsed;
+};
+
 const toSecondsSince = (isoDate, nowMs) => {
   if (!isoDate) {
     return 0;
   }
-  const startedMs = new Date(isoDate).getTime();
-  if (Number.isNaN(startedMs)) {
+  const started = parseApiDate(isoDate);
+  if (!started) {
     return 0;
   }
+  const startedMs = started.getTime();
   return Math.max(0, Math.floor((nowMs - startedMs) / 1000));
 };
 

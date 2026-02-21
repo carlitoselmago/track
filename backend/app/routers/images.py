@@ -27,7 +27,13 @@ def _ensure_card(card_id: int, user: User, session: Session) -> Card:
 def _fallback_cover_id(session: Session, card_id: int) -> int | None:
     latest = session.exec(
         select(CardImage)
-        .where(and_(CardImage.card_id == card_id, CardImage.deleted_at.is_(None)))
+        .where(
+            and_(
+                CardImage.card_id == card_id,
+                CardImage.deleted_at.is_(None),
+                CardImage.mime_type.like("image/%"),
+            ),
+        )
         .order_by(CardImage.created_at.desc(), CardImage.id.desc()),
     ).first()
     return latest.id if latest else None
@@ -41,8 +47,6 @@ async def upload_card_image(
     session: Session = Depends(get_session),
 ):
     card = _ensure_card(card_id, current_user, session)
-    if not file.content_type or not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Only image files are allowed")
 
     card_dir = settings.upload_dir / str(card.id)
     card_dir.mkdir(parents=True, exist_ok=True)
@@ -57,7 +61,7 @@ async def upload_card_image(
         card_id=card.id,
         storage_path=str(file_path.resolve()),
         original_filename=file.filename or filename,
-        mime_type=file.content_type,
+        mime_type=file.content_type or "application/octet-stream",
         size_bytes=len(content),
         uploaded_by_user_id=current_user.id,
     )
@@ -65,10 +69,11 @@ async def upload_card_image(
     session.commit()
     session.refresh(image)
 
-    card.cover_image_id = image.id
-    card.updated_at = datetime.utcnow()
-    session.add(card)
-    session.commit()
+    if image.mime_type.startswith("image/"):
+        card.cover_image_id = image.id
+        card.updated_at = datetime.utcnow()
+        session.add(card)
+        session.commit()
     return card_image_payload(image)
 
 
@@ -141,6 +146,11 @@ def set_card_cover(
     image = session.get(CardImage, image_id)
     if not image or image.deleted_at is not None or image.card_id != card.id:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Image not found")
+    if not image.mime_type.startswith("image/"):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Only image files can be set as cover",
+        )
     card.cover_image_id = image.id
     card.updated_at = datetime.utcnow()
     session.add(card)

@@ -1,7 +1,14 @@
-﻿<template>
+<template>
   <teleport to="body">
     <div v-if="modelValue" class="overlay" @click.self="$emit('update:modelValue', false)">
-      <section class="modal">
+      <section
+        class="modal"
+        :class="[sizeClass, { 'drop-active': allowFileDrop && isDragActive }]"
+        @dragenter.prevent="onDragEnter"
+        @dragover.prevent="onDragOver"
+        @dragleave.prevent="onDragLeave"
+        @drop.prevent="onDrop"
+      >
         <header class="modal-header">
           <slot name="title">
             <h3 class="modal-title">{{ title }}</h3>
@@ -23,13 +30,18 @@
         <div class="modal-body">
           <slot />
         </div>
+        <div v-if="allowFileDrop && isDragActive" class="drop-overlay">
+          <p>{{ dropHint }}</p>
+        </div>
       </section>
     </div>
   </teleport>
 </template>
 
 <script setup>
-defineProps({
+import { computed, ref, watch } from "vue";
+
+const props = defineProps({
   modelValue: {
     type: Boolean,
     default: false,
@@ -38,9 +50,78 @@ defineProps({
     type: String,
     default: "",
   },
+  allowFileDrop: {
+    type: Boolean,
+    default: false,
+  },
+  dropHint: {
+    type: String,
+    default: "Drop files to upload",
+  },
+  size: {
+    type: String,
+    default: "md",
+  },
 });
 
-defineEmits(["update:modelValue"]);
+const emit = defineEmits(["update:modelValue", "file-drop"]);
+
+const dragDepth = ref(0);
+const isDragActive = ref(false);
+const sizeClass = computed(() => (props.size === "sm" ? "modal-sm" : ""));
+
+watch(
+  () => props.modelValue,
+  (isOpen) => {
+    if (!isOpen) {
+      dragDepth.value = 0;
+      isDragActive.value = false;
+    }
+  },
+);
+
+function hasFiles(event) {
+  return Array.from(event.dataTransfer?.types || []).includes("Files");
+}
+
+function onDragEnter(event) {
+  if (!props.allowFileDrop || !hasFiles(event)) {
+    return;
+  }
+  dragDepth.value += 1;
+  isDragActive.value = true;
+}
+
+function onDragOver(event) {
+  if (!props.allowFileDrop || !hasFiles(event)) {
+    return;
+  }
+  event.dataTransfer.dropEffect = "copy";
+  isDragActive.value = true;
+}
+
+function onDragLeave(event) {
+  if (!props.allowFileDrop || !hasFiles(event)) {
+    return;
+  }
+  dragDepth.value = Math.max(0, dragDepth.value - 1);
+  if (dragDepth.value === 0) {
+    isDragActive.value = false;
+  }
+}
+
+function onDrop(event) {
+  if (!props.allowFileDrop) {
+    return;
+  }
+  dragDepth.value = 0;
+  isDragActive.value = false;
+  const files = Array.from(event.dataTransfer?.files || []);
+  if (!files.length) {
+    return;
+  }
+  emit("file-drop", files);
+}
 </script>
 
 <style scoped lang="less">
@@ -56,11 +137,50 @@ defineEmits(["update:modelValue"]);
 
 .modal {
   width: min(760px, 100%);
-  max-height: calc(100vh - 48px);
+  max-height: calc(100vh - 200px);
   overflow: auto;
   border-radius: 14px;
-  background: var(--surface);
+  background: #ebebeb;
   box-shadow: var(--shadow);
+  position: relative;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 23, 42, 0.28) transparent;
+}
+
+.modal.modal-sm {
+  width: min(520px, 100%);
+}
+
+.modal::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.modal::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.26);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.modal::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.38);
+  background-clip: padding-box;
+}
+
+.modal::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.modal.drop-active {
+  outline: 2px dashed color-mix(in srgb, var(--primary) 45%, #ffffff);
+  outline-offset: -10px;
 }
 
 .modal-header {
@@ -119,5 +239,24 @@ defineEmits(["update:modelValue"]);
   border-color: var(--text-muted);
   background: var(--surface-muted);
 }
-</style>
 
+.drop-overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(15, 23, 42, 0.36);
+  color: #fff;
+  border-radius: 14px;
+  pointer-events: none;
+}
+
+.drop-overlay p {
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.62);
+  font-weight: 600;
+  font-size: 13px;
+}
+</style>
