@@ -6,9 +6,10 @@
         class="title-input"
         @change="renameList($event.target.value)"
       />
-      <button type="button" class="delete-list" @click="$emit('delete-list', list.id)">
-        x
-      </button>
+      <ActionMenu
+        :items="listActions"
+        @select="onActionSelect"
+      />
     </header>
 
     <draggable
@@ -35,6 +36,7 @@
 
 <script setup>
 import draggable from "vuedraggable";
+import ActionMenu from "@/components/common/ActionMenu.vue";
 import AddCardForm from "./AddCardForm.vue";
 import CardItem from "./CardItem.vue";
 
@@ -58,6 +60,8 @@ const emit = defineEmits([
   "card-drag-end",
 ]);
 
+const listActions = [{ label: "Delete", value: "delete", variant: "danger" }];
+
 function onCardDragEnd(evt) {
   const fromListId = Number(evt.from?.dataset?.listId || props.list.id);
   const toListId = Number(evt.to?.dataset?.listId || props.list.id);
@@ -78,6 +82,12 @@ function renameList(nextTitle) {
     listId: props.list.id,
     title,
   });
+}
+
+function onActionSelect(action) {
+  if (action === "delete") {
+    emit("delete-list", props.list.id);
+  }
 }
 </script>
 
@@ -114,13 +124,6 @@ function renameList(nextTitle) {
   }
 }
 
-.delete-list {
-  border: 0;
-  background: transparent;
-  cursor: pointer;
-  color: var(--text-muted);
-}
-
 .cards {
   display: grid;
   gap: var(--space-2);
@@ -128,4 +131,3 @@ function renameList(nextTitle) {
   min-height: 20px;
 }
 </style>
-

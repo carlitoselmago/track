@@ -3,6 +3,13 @@
     v-model="isOpen"
     :title="cardStore.activeCard?.title || 'Card details'"
   >
+    <template #header-actions>
+      <ActionMenu
+        :items="cardActions"
+        @select="onActionSelect"
+      />
+    </template>
+
     <div v-if="cardStore.isLoading" class="loading">
       <LoadingSpinner />
     </div>
@@ -44,10 +51,6 @@
           @delete-image="cardStore.deleteImage"
         />
       </div>
-
-      <footer class="footer">
-        <BaseButton variant="danger" @click="confirmOpen = true">Delete card</BaseButton>
-      </footer>
     </template>
   </BaseModal>
 
@@ -60,7 +63,7 @@
 <script setup>
 import { computed, ref } from "vue";
 import BaseModal from "@/components/common/BaseModal.vue";
-import BaseButton from "@/components/common/BaseButton.vue";
+import ActionMenu from "@/components/common/ActionMenu.vue";
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import CardEditor from "./CardEditor.vue";
 import ChecklistSection from "./ChecklistSection.vue";
@@ -76,6 +79,7 @@ const cardStore = useCardStore();
 const boardStore = useBoardStore();
 
 const confirmOpen = ref(false);
+const cardActions = [{ label: "Delete", value: "delete", variant: "danger" }];
 const coverImageId = computed(() => cardStore.activeCard?.cover_image_id ?? null);
 const coverImageUrl = computed(() =>
   coverImageId.value ? imageService.getImageContentUrl(coverImageId.value) : "",
@@ -102,6 +106,12 @@ async function createLabel({ name, color_hex }) {
 async function deleteCard() {
   await cardStore.deleteCard();
   confirmOpen.value = false;
+}
+
+function onActionSelect(action) {
+  if (action === "delete") {
+    confirmOpen.value = true;
+  }
 }
 </script>
 
@@ -136,11 +146,4 @@ async function deleteCard() {
   font-size: 12px;
   color: var(--text-muted);
 }
-
-.footer {
-  margin-top: var(--space-3);
-  display: flex;
-  justify-content: flex-end;
-}
 </style>
-
