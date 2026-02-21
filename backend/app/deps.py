@@ -10,7 +10,7 @@ from app.db.session import get_session
 from app.models import Board, BoardMembership, RefreshToken, User
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.api_prefix}/auth/login")
 
 
 def get_current_user(
@@ -55,7 +55,7 @@ def require_system_admin(user: User = Depends(get_current_user)) -> User:
 
 def get_current_user_flexible(
     request: Request,
-    token: str | None = Depends(OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login", auto_error=False)),
+    token: str | None = Depends(OAuth2PasswordBearer(tokenUrl=f"{settings.api_prefix}/auth/login", auto_error=False)),
     session: Session = Depends(get_session),
 ) -> User:
     if token:

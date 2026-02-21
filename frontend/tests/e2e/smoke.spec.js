@@ -46,11 +46,11 @@ test("login -> open board -> open card -> start/stop timer", async ({ page }) =>
 
   let activeSession = null;
 
-  await page.route("**/api/v1/**", async (route) => {
+  await page.route("**/api/**", async (route) => {
     const request = route.request();
     const method = request.method();
     const url = new URL(request.url());
-    const path = url.pathname.replace("/api/v1", "");
+    const path = url.pathname.replace(/^\/api(?:\/v1)?/, "");
 
     if (method === "POST" && path === "/auth/login") {
       await route.fulfill({

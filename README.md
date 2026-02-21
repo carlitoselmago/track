@@ -50,6 +50,12 @@ npm run dev
 
 Frontend dev server proxies `/api/*` to `http://127.0.0.1:8000`.
 
+Frontend env options (`frontend/.env` or shell env):
+
+- `VITE_APP_BASE_PATH` (default `/`) for subpath deploys like `/track/`
+- `VITE_API_BASE_URL` (default `/api`)
+- `VITE_DEV_API_PROXY_TARGET` (default `http://127.0.0.1:8000`)
+
 ## Production Deploy (Ubuntu)
 
 ### 1) Install system packages
@@ -94,6 +100,7 @@ Recommended production values in `.env`:
 - `TRACK_SERVER_RELOAD=false`
 - `TRACK_SERVER_WORKERS=2` (or more based on CPU)
 - `TRACK_ALLOWED_ORIGINS=https://your-domain.com`
+- `TRACK_API_PREFIX=/api` (default)
 
 ### 4) Frontend build
 
@@ -109,12 +116,13 @@ This creates static assets in `frontend/dist`.
 
 If your API is served from a custom URL/path, set `VITE_API_BASE_URL` before building.
 This value is baked into the frontend build output.
+Make sure it matches backend `TRACK_API_PREFIX`.
 
 Option A: one-off build variable
 
 ```bash
 cd /opt/track/frontend
-VITE_API_BASE_URL="https://your-domain.com/track/api/v1" npm run build
+VITE_API_BASE_URL="https://your-domain.com/track/api" npm run build
 ```
 
 Option B: local production env file (not committed)
@@ -122,7 +130,7 @@ Option B: local production env file (not committed)
 Create `frontend/.env.production.local`:
 
 ```env
-VITE_API_BASE_URL=https://your-domain.com/track/api/v1
+VITE_API_BASE_URL=https://your-domain.com/track/api
 ```
 
 Then build normally:
@@ -130,6 +138,22 @@ Then build normally:
 ```bash
 cd /opt/track/frontend
 npm run build
+```
+
+#### Frontend app base path (subpath deploy, e.g. `/track/`)
+
+If frontend is served under a subpath, set:
+
+```env
+VITE_APP_BASE_PATH=/track/
+```
+
+This affects Vite asset URLs and Vue Router base history.
+
+For local dev, keep:
+
+```env
+VITE_APP_BASE_PATH=/
 ```
 
 ### 5) Create systemd service for backend

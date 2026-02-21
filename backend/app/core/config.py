@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     )
 
     app_name: str = "Track API"
-    api_prefix: str = "/api/v1"
+    api_prefix: str = "/api"
     secret_key: str = "change-me-in-production"
     algorithm: str = "HS256"
     access_token_expire_minutes: int = 15
