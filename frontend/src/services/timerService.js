@@ -18,4 +18,12 @@ export const timerService = {
   getTimeSessions(cardId) {
     return api.get(`/cards/${cardId}/time-sessions`).then(getData);
   },
+  updateTimeSession(sessionId, durationSeconds) {
+    return api
+      .patch(`/time-sessions/${sessionId}`, { duration_seconds: durationSeconds })
+      .then(getData);
+  },
+  deleteTimeSession(sessionId) {
+    return api.delete(`/time-sessions/${sessionId}`).then(getData);
+  },
 };

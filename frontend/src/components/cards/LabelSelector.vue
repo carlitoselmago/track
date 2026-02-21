@@ -20,7 +20,11 @@
 
     <div class="create">
       <input v-model="name" class="input" placeholder="New label name" />
-      <input v-model="colorHex" type="color" />
+      <label class="color-picker">
+        <input v-model="colorHex" type="color" class="color-input" aria-label="Label color" />
+        <span class="swatch" :style="{ background: colorHex }" />
+        <span class="hex">{{ colorHex.toUpperCase() }}</span>
+      </label>
       <button type="button" class="btn" @click="create">Create</button>
     </div>
   </section>
@@ -97,6 +101,44 @@ header h4 {
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: var(--space-2);
+}
+
+.color-picker {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  min-width: 132px;
+  padding: 4px 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+  cursor: pointer;
+}
+
+.color-picker:hover {
+  background: var(--surface-muted);
+}
+
+.color-input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(15, 23, 42, 0.2);
+  flex-shrink: 0;
+}
+
+.hex {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  color: var(--text-muted);
 }
 
 .input {

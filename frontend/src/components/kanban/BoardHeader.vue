@@ -4,7 +4,7 @@
       <span class="dot" :style="{ background: board?.color_hex || '#16A34A' }" />
       <div>
         <h1>{{ board?.name || "Board" }}</h1>
-        <p>{{ board?.description || "No description" }}</p>
+        <p v-if="board?.description">{{ board.description }}</p>
       </div>
     </div>
     <div class="nav-links">
@@ -62,6 +62,7 @@ const resolvedBoardId = computed(() => props.boardId ?? props.board?.id ?? "");
     font-size: 20px;
     display: inline;
     margin-right: 10px;
+    color:white
   }
   p{
     margin: 0;

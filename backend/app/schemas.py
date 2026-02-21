@@ -206,3 +206,15 @@ class TimeSessionResponse(BaseModel):
 class CardTimeSummaryResponse(BaseModel):
     total_seconds: int
     active_session: Optional[TimeSessionResponse] = None
+
+
+class ManualTimeAddRequest(BaseModel):
+    duration_seconds: int = Field(gt=0)
+
+
+class CardTimeTotalUpdateRequest(BaseModel):
+    total_seconds: int = Field(ge=0)
+
+
+class TimeSessionUpdateRequest(BaseModel):
+    duration_seconds: int = Field(ge=0)

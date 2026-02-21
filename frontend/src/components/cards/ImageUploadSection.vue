@@ -8,7 +8,16 @@
   >
     <header>
       <h4>Images</h4>
-      <input type="file" accept="image/*" @change="upload" />
+      <input
+        ref="fileInputRef"
+        type="file"
+        class="native-file-input"
+        accept="image/*"
+        @change="upload"
+      />
+      <button type="button" class="add-image-btn" @click="openFilePicker">
+        Add image
+      </button>
     </header>
     <p class="drop-help">Drop image files anywhere in this panel to upload.</p>
 
@@ -49,6 +58,11 @@ const props = defineProps({
 
 const emit = defineEmits(["upload-image", "set-cover", "delete-image"]);
 const isDragActive = ref(false);
+const fileInputRef = ref(null);
+
+function openFilePicker() {
+  fileInputRef.value?.click();
+}
 
 function upload(event) {
   const file = event.target.files?.[0];
@@ -109,6 +123,23 @@ header {
 
 header h4 {
   margin: 0;
+}
+
+.native-file-input {
+  display: none;
+}
+
+.add-image-btn {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text);
+  padding: 7px 12px;
+  cursor: pointer;
+}
+
+.add-image-btn:hover {
+  background: var(--surface-muted);
 }
 
 .drop-help {

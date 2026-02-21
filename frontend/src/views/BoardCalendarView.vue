@@ -54,7 +54,6 @@
                   <span class="entry-name">{{ entry.card_title }}</span>
                   <span class="entry-seconds">{{ formatDuration(entry.seconds) }}</span>
                 </li>
-                <li v-if="cell.entries.length === 0" class="empty-row">No work</li>
               </ul>
             </template>
           </article>
@@ -384,11 +383,6 @@ onMounted(async () => {
 .entry-seconds {
   color: var(--text-muted);
   white-space: nowrap;
-}
-
-.empty-row {
-  color: var(--text-muted);
-  font-style: italic;
 }
 
 @media (max-width: 980px) {

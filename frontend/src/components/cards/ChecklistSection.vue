@@ -21,7 +21,11 @@
 
     <div v-for="checklist in card.checklists" :key="checklist.id" class="checklist">
       <div class="checklist-head">
-        <strong>{{ checklist.title }}</strong>
+        <input
+          class="checklist-title-input"
+          :value="checklist.title"
+          @change="renameChecklist(checklist.id, checklist.title, $event.target.value)"
+        />
         <button type="button" class="link danger" @click="removeChecklist(checklist.id)">
           Delete
         </button>
@@ -69,6 +73,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   "add-checklist",
+  "update-checklist",
   "delete-checklist",
   "add-item",
   "update-item",
@@ -110,6 +115,14 @@ function addChecklist() {
 
 function removeChecklist(checklistId) {
   emit("delete-checklist", checklistId);
+}
+
+function renameChecklist(checklistId, currentTitle, nextTitle) {
+  const title = (nextTitle || "").trim();
+  if (!title || title === currentTitle) {
+    return;
+  }
+  emit("update-checklist", { checklistId, patch: { title } });
 }
 
 function addItem(checklistId) {
@@ -185,6 +198,22 @@ header h4 {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.checklist-title-input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  border-radius: 8px;
+  padding: 5px 8px;
+  font-weight: 700;
+  background: transparent;
+}
+
+.checklist-title-input:focus {
+  outline: 1px solid var(--border);
+  background: #fff;
 }
 
 .item-row {

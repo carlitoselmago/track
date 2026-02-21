@@ -7,6 +7,7 @@ from sqlmodel import Session, and_, select
 from app.db.session import get_session
 from app.deps import ensure_board_access, get_current_user
 from app.models import Card, TimeSession, User
+from app.schemas import TimeSessionUpdateRequest
 
 
 router = APIRouter(tags=["time-tracking"])
@@ -30,6 +31,14 @@ def _session_payload(row: TimeSession) -> dict:
         "ended_at": row.ended_at,
         "duration_seconds": row.duration_seconds,
     }
+
+
+def _resolved_duration_seconds(row: TimeSession) -> int:
+    if row.duration_seconds is not None:
+        return int(row.duration_seconds)
+    if row.ended_at is None:
+        return 0
+    return max(0, int((row.ended_at - row.started_at).total_seconds()))
 
 
 def _month_bounds(month: str | None) -> tuple[str, datetime, datetime]:
@@ -193,10 +202,96 @@ def get_time_sessions(
     ensure_board_access(board_id=card.board_id, user=current_user, session=session)
     rows = session.exec(
         select(TimeSession)
-        .where(TimeSession.card_id == card_id)
+        .where(
+            and_(
+                TimeSession.card_id == card_id,
+                TimeSession.user_id == current_user.id,
+            ),
+        )
         .order_by(TimeSession.started_at.desc(), TimeSession.id.desc()),
     ).all()
     return [_session_payload(row) for row in rows]
+
+
+@router.patch("/time-sessions/{session_id}")
+def update_time_session(
+    session_id: int,
+    payload: TimeSessionUpdateRequest,
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_session),
+):
+    row = session.get(TimeSession, session_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Time session not found")
+    if row.user_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
+    if row.ended_at is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Stop the running timer before editing this time chunk",
+        )
+
+    card = session.get(Card, row.card_id)
+    if not card or card.deleted_at is not None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Card not found")
+    ensure_board_access(board_id=card.board_id, user=current_user, session=session)
+
+    previous = _resolved_duration_seconds(row)
+    next_duration = max(0, int(payload.duration_seconds))
+    delta = next_duration - previous
+
+    row.duration_seconds = next_duration
+    row.ended_at = row.started_at + timedelta(seconds=next_duration)
+    card.total_tracked_seconds = max(0, card.total_tracked_seconds + delta)
+    card.updated_at = datetime.utcnow()
+
+    session.add(row)
+    session.add(card)
+    session.commit()
+    session.refresh(row)
+    session.refresh(card)
+    return {
+        "session": _session_payload(row),
+        "summary": {"total_seconds": card.total_tracked_seconds},
+    }
+
+
+@router.delete("/time-sessions/{session_id}")
+def delete_time_session(
+    session_id: int,
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_session),
+):
+    row = session.get(TimeSession, session_id)
+    if not row:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Time session not found")
+    if row.user_id != current_user.id:
+        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Forbidden")
+    if row.ended_at is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Stop the running timer before deleting this time chunk",
+        )
+
+    card = session.get(Card, row.card_id)
+    if not card or card.deleted_at is not None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Card not found")
+    ensure_board_access(board_id=card.board_id, user=current_user, session=session)
+
+    duration = _resolved_duration_seconds(row)
+    card.total_tracked_seconds = max(0, card.total_tracked_seconds - duration)
+    card.updated_at = datetime.utcnow()
+
+    card_id = row.card_id
+    session.delete(row)
+    session.add(card)
+    session.commit()
+    session.refresh(card)
+    return {
+        "deleted": True,
+        "card_id": card_id,
+        "summary": {"total_seconds": card.total_tracked_seconds},
+    }
 
 
 @router.get("/boards/{board_id}/calendar")

@@ -3,7 +3,7 @@
     <span class="swatch" :style="{ background: board.color_hex || '#16A34A' }" />
     <div class="content">
       <h3>{{ board.name }}</h3>
-      <p>{{ board.description || "No description" }}</p>
+      <p v-if="board.description">{{ board.description }}</p>
     </div>
     <div class="actions">
       <button type="button" class="action-btn" @click.stop="$emit('edit', board)">Edit</button>

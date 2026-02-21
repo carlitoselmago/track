@@ -1,6 +1,5 @@
-﻿<template>
+<template>
   <section class="editor">
-    <BaseInput v-model="draftTitle" label="Title" @update:model-value="onTitleChange" />
     <BaseInput
       v-model="draftDescription"
       label="Description"
@@ -24,18 +23,14 @@ const props = defineProps({
 
 const emit = defineEmits(["save"]);
 
-const draftTitle = ref("");
 const draftDescription = ref("");
-const lastSyncedTitle = ref("");
 const lastSyncedDescription = ref("");
 const saveTimer = ref(null);
 
 watch(
   () => props.card,
   (card) => {
-    draftTitle.value = card?.title || "";
     draftDescription.value = card?.description || "";
-    lastSyncedTitle.value = draftTitle.value;
     lastSyncedDescription.value = draftDescription.value;
   },
   { immediate: true, deep: true },
@@ -46,19 +41,13 @@ function scheduleSave() {
     clearTimeout(saveTimer.value);
   }
   saveTimer.value = setTimeout(() => {
-    const title = draftTitle.value.trim();
     const description = draftDescription.value.trim();
-    if (title === lastSyncedTitle.value && description === lastSyncedDescription.value) {
+    if (description === lastSyncedDescription.value) {
       return;
     }
-    emit("save", { title, description });
-    lastSyncedTitle.value = title;
+    emit("save", { description });
     lastSyncedDescription.value = description;
   }, 350);
-}
-
-function onTitleChange() {
-  scheduleSave();
 }
 
 function onDescriptionChange() {
@@ -78,4 +67,3 @@ function onDescriptionChange() {
   color: var(--text-muted);
 }
 </style>
-

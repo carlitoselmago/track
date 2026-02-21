@@ -3,7 +3,9 @@
     <div v-if="modelValue" class="overlay" @click.self="$emit('update:modelValue', false)">
       <section class="modal">
         <header class="modal-header">
-          <h3>{{ title }}</h3>
+          <slot name="title">
+            <h3 class="modal-title">{{ title }}</h3>
+          </slot>
           <div class="header-actions">
             <slot name="header-actions"></slot>
             <button
@@ -70,7 +72,7 @@ defineEmits(["update:modelValue"]);
   border-bottom: 1px solid var(--border);
 }
 
-.modal-header h3 {
+.modal-title {
   margin: 0;
   flex: 1;
   min-width: 0;

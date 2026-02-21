@@ -1,8 +1,30 @@
-﻿<template>
+<template>
   <BaseModal
     v-model="isOpen"
     :title="cardStore.activeCard?.title || 'Card details'"
   >
+    <template #title>
+      <div class="title-wrap">
+        <button
+          v-if="!isTitleEditing"
+          type="button"
+          class="title-button"
+          @click="startTitleEdit"
+        >
+          {{ cardStore.activeCard?.title || "Untitled card" }}
+        </button>
+        <input
+          v-else
+          ref="titleInputRef"
+          v-model="draftTitle"
+          class="title-input"
+          @blur="commitTitleEdit"
+          @keydown.enter.prevent="commitTitleEdit"
+          @keydown.esc.prevent="cancelTitleEdit"
+        />
+      </div>
+    </template>
+
     <template #header-actions>
       <ActionMenu
         :items="cardActions"
@@ -38,6 +60,7 @@
         <ChecklistSection
           :card="cardStore.activeCard"
           @add-checklist="cardStore.addChecklist"
+          @update-checklist="({ checklistId, patch }) => cardStore.updateChecklist(checklistId, patch)"
           @delete-checklist="cardStore.deleteChecklist"
           @add-item="({ checklistId, content }) => cardStore.addChecklistItem(checklistId, content)"
           @update-item="({ itemId, patch }) => cardStore.updateChecklistItem(itemId, patch)"
@@ -61,7 +84,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 import BaseModal from "@/components/common/BaseModal.vue";
 import ActionMenu from "@/components/common/ActionMenu.vue";
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
@@ -80,6 +103,10 @@ const boardStore = useBoardStore();
 
 const confirmOpen = ref(false);
 const cardActions = [{ label: "Delete", value: "delete", variant: "danger" }];
+const isTitleEditing = ref(false);
+const isTitleSaving = ref(false);
+const draftTitle = ref("");
+const titleInputRef = ref(null);
 const coverImageId = computed(() => cardStore.activeCard?.cover_image_id ?? null);
 const coverImageUrl = computed(() =>
   coverImageId.value ? imageService.getImageContentUrl(coverImageId.value) : "",
@@ -93,6 +120,14 @@ const isOpen = computed({
     }
   },
 });
+
+watch(
+  () => cardStore.activeCard?.id,
+  () => {
+    draftTitle.value = cardStore.activeCard?.title || "";
+    isTitleEditing.value = false;
+  },
+);
 
 async function saveCard(payload) {
   await cardStore.saveCard(payload);
@@ -113,6 +148,39 @@ function onActionSelect(action) {
     confirmOpen.value = true;
   }
 }
+
+async function startTitleEdit() {
+  draftTitle.value = cardStore.activeCard?.title || "";
+  isTitleEditing.value = true;
+  await nextTick();
+  titleInputRef.value?.focus();
+  titleInputRef.value?.select();
+}
+
+function cancelTitleEdit() {
+  draftTitle.value = cardStore.activeCard?.title || "";
+  isTitleEditing.value = false;
+}
+
+async function commitTitleEdit() {
+  if (!isTitleEditing.value || isTitleSaving.value) {
+    return;
+  }
+  isTitleSaving.value = true;
+  const title = draftTitle.value.trim();
+  try {
+    if (!title) {
+      cancelTitleEdit();
+      return;
+    }
+    if (title !== (cardStore.activeCard?.title || "")) {
+      await saveCard({ title });
+    }
+    isTitleEditing.value = false;
+  } finally {
+    isTitleSaving.value = false;
+  }
+}
 </script>
 
 <style scoped lang="less">
@@ -127,10 +195,46 @@ function onActionSelect(action) {
   gap: var(--space-3);
 }
 
+.title-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.title-button {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  text-align: left;
+  width: 100%;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: text;
+}
+
+.title-input {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 6px 8px;
+}
+
+.title-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--primary) 28%, white);
+  border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+}
+
 .cover-preview {
   display: grid;
   gap: 8px;
-
 }
 
 .cover-preview img {
@@ -139,7 +243,7 @@ function onActionSelect(action) {
   object-fit: contain;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background-color:rgb(219, 219, 219)
+  background-color: rgb(219, 219, 219);
 }
 
 .cover-preview span {

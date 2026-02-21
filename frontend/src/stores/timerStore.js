@@ -45,6 +45,7 @@ export const useTimerStore = defineStore("timer", () => {
   const activeSession = ref(saved?.activeSession || null);
   const nowMs = ref(Date.now());
   const totalByCard = ref({});
+  const sessionsByCard = ref({});
 
   const hasActiveTimer = computed(() => Boolean(activeSession.value?.id));
   const activeCardId = computed(() => activeSession.value?.card_id ?? null);
@@ -205,6 +206,72 @@ export const useTimerStore = defineStore("timer", () => {
     }
   }
 
+  async function fetchTimeSessions(cardId) {
+    const uiStore = useUiStore();
+    try {
+      const payload = await timerService.getTimeSessions(cardId);
+      const rows = Array.isArray(payload)
+        ? payload
+        : payload?.sessions || payload?.items || [];
+      sessionsByCard.value[cardId] = rows;
+      return rows;
+    } catch (error) {
+      const normalized = normalizeApiError(error);
+      uiStore.setError(normalized.message);
+      throw normalized;
+    }
+  }
+
+  async function updateTimeSession(sessionId, durationSeconds) {
+    const uiStore = useUiStore();
+    try {
+      const payload = await timerService.updateTimeSession(sessionId, durationSeconds);
+      const cleanPayload = extractPayload(payload);
+      const sessionRow = extractSession(cleanPayload);
+      const cardId = sessionRow?.card_id;
+      if (cardId != null) {
+        const sessions = sessionsByCard.value[cardId] || [];
+        const nextSessions = sessions.map((entry) =>
+          entry.id === sessionRow.id ? sessionRow : entry,
+        );
+        sessionsByCard.value[cardId] = nextSessions;
+        applySummary(cardId, cleanPayload);
+      }
+      return cleanPayload;
+    } catch (error) {
+      const normalized = normalizeApiError(error);
+      uiStore.setError(normalized.message);
+      throw normalized;
+    }
+  }
+
+  async function deleteTimeSession(sessionId) {
+    const uiStore = useUiStore();
+    try {
+      let resolvedCardId = null;
+      for (const [cardIdKey, rows] of Object.entries(sessionsByCard.value)) {
+        if ((rows || []).some((row) => row.id === sessionId)) {
+          resolvedCardId = Number(cardIdKey);
+          break;
+        }
+      }
+
+      const payload = await timerService.deleteTimeSession(sessionId);
+      const cleanPayload = extractPayload(payload);
+      const cardId = cleanPayload.card_id ?? resolvedCardId;
+      if (cardId != null) {
+        const sessions = sessionsByCard.value[cardId] || [];
+        sessionsByCard.value[cardId] = sessions.filter((row) => row.id !== sessionId);
+        applySummary(cardId, cleanPayload);
+      }
+      return cleanPayload;
+    } catch (error) {
+      const normalized = normalizeApiError(error);
+      uiStore.setError(normalized.message);
+      throw normalized;
+    }
+  }
+
   function totalSecondsForCard(cardId, baseTotal = 0) {
     const persisted = totalByCard.value[cardId];
     const baseline = persisted != null ? persisted : baseTotal;
@@ -222,10 +289,14 @@ export const useTimerStore = defineStore("timer", () => {
     activeCardId,
     liveElapsedSeconds,
     totalByCard,
+    sessionsByCard,
     bootstrapActiveTimer,
     startTimer,
     stopTimer,
     fetchCardSummary,
+    fetchTimeSessions,
+    updateTimeSession,
+    deleteTimeSession,
     totalSecondsForCard,
     clearActiveTimer,
   };
