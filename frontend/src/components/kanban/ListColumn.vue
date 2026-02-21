@@ -110,9 +110,11 @@ function onActionSelect(action) {
   
   border-radius: @radius;
   padding: @space-3;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   gap: @space-2;
   align-content: start;
+  box-sizing: content-box;
   /*max-height: calc(100vh - calc(220px * @ui-scale));*/
   @media (max-width: 615px) {
     max-height: 100%;
@@ -127,6 +129,7 @@ function onActionSelect(action) {
   align-items: center;
   gap: @space-2;
   margin: 0;
+  width: 100%;
 }
 
 .list-drag-handle {
@@ -134,7 +137,7 @@ function onActionSelect(action) {
   width: calc(28px * @ui-scale);
   height: calc(28px * @ui-scale);
   border-radius: calc(8px * @ui-scale);
-  background: #fff;
+ 
   color: @text-muted;
   display: inline-flex;
   align-items: center;

@@ -138,23 +138,22 @@ function onDrop(event) {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
-  display: grid;
-  place-items: center;
+  display: block;
   padding: @space-4;
   z-index: 30;
   backdrop-filter: blur(20px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
 }
 
 .modal {
   width: min(calc(760px * @ui-scale), 100%);
-  max-height: calc(100vh - calc(200px * @ui-scale));
-  overflow: auto;
+  margin: 0 auto @space-4;
   border-radius: calc(14px * @ui-scale);
   background: #ebebeb;
   box-shadow: @shadow;
   position: relative;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(15, 23, 42, 0.28) transparent;
   @media (prefers-color-scheme: dark) {
     background-color: @bg-dark;
   }
@@ -162,33 +161,6 @@ function onDrop(event) {
 
 .modal.modal-sm {
   width: min(calc(520px * @ui-scale), 100%);
-}
-
-.modal::-webkit-scrollbar {
-  width: calc(8px * @ui-scale);
-  height: calc(8px * @ui-scale);
-}
-
-.modal::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.modal::-webkit-scrollbar-thumb {
-  background: rgba(15, 23, 42, 0.26);
-  border-radius: calc(999px * @ui-scale);
-  border: calc(2px * @ui-scale) solid transparent;
-  background-clip: padding-box;
-}
-
-.modal::-webkit-scrollbar-thumb:hover {
-  background: rgba(15, 23, 42, 0.38);
-  background-clip: padding-box;
-}
-
-.modal::-webkit-scrollbar-button {
-  display: none;
-  width: 0;
-  height: 0;
 }
 
 .modal.drop-active {
@@ -284,12 +256,11 @@ function onDrop(event) {
 
   .modal.mobile-fullscreen-modal {
     width: 100%;
-    height: 100%;
-    max-height: 100vh;
+    min-height: calc(100vh - calc(62px * @ui-scale));
     border-radius: 0;
     box-shadow: none;
+    margin: 0;
   }
 }
 </style>
-
 

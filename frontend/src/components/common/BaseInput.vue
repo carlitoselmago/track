@@ -3,7 +3,7 @@
     <span v-if="label" class="label">{{ label }}</span>
     <input
       v-if="type !== 'textarea'"
-      class="control"
+      class="control ui-control"
       :type="type"
       :value="modelValue"
       :placeholder="placeholder"
@@ -12,7 +12,7 @@
     />
     <textarea
       v-else
-      class="control textarea"
+      class="control textarea ui-control"
       :value="modelValue"
       :placeholder="placeholder"
       :disabled="disabled"
@@ -62,15 +62,7 @@ defineEmits(["update:modelValue"]);
 
 .control {
   width: 100%;
-  border: calc(1px * @ui-scale) solid @border;
-  border-radius: calc(8px * @ui-scale);
-  background: #fff;
   padding: calc(10px * @ui-scale) calc(12px * @ui-scale);
-}
-
-.control:focus {
-  outline: calc(2px * @ui-scale) solid color-mix(in srgb, @primary 35%, white);
-  border-color: color-mix(in srgb, @primary 65%, @border);
 }
 
 .textarea {

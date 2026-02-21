@@ -32,7 +32,7 @@ async function submit() {
   border: calc(1px * @ui-scale) solid @border;
   border-radius: calc(8px * @ui-scale);
   padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
-  background-color: black;
+ 
   border:none;
 }
 

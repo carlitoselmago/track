@@ -21,7 +21,7 @@
           v-else
           ref="titleInputRef"
           v-model="draftTitle"
-          class="title-input"
+          class="title-input ui-control"
           @blur="commitTitleEdit"
           @keydown.enter.prevent="commitTitleEdit"
           @keydown.esc.prevent="cancelTitleEdit"
@@ -51,12 +51,12 @@
 
         <section v-if="showMetaSummary" class="meta-summary">
           <div v-if="hasLabels" class="meta-group">
-            <h4>Labels</h4>
+            <h4 class="ui-section-title">Labels</h4>
             <div class="chips">
               <span
                 v-for="label in cardStore.activeCard.labels"
                 :key="label.id"
-                class="label-chip"
+                class="label-chip ui-chip"
                 :style="labelChipStyle(label.color_hex)"
               >
                 {{ label.name }}
@@ -65,12 +65,12 @@
           </div>
 
           <div v-if="hasAssignees" class="meta-group">
-            <h4>Assignees</h4>
+            <h4 class="ui-section-title">Assignees</h4>
             <div class="chips">
               <span
                 v-for="user in cardStore.activeCard.assignees"
                 :key="user.id"
-                class="assignee-chip"
+                class="assignee-chip ui-chip"
               >
                 {{ displayUser(user) }}
               </span>
@@ -105,12 +105,12 @@
         />
 
         <section class="add-actions">
-          <h4>Add</h4>
+          <h4 class="ui-section-title">Add</h4>
           <div class="add-buttons">
-            <button type="button" class="add-btn" @click="openAdd('labels')">+ Label</button>
-            <button type="button" class="add-btn" @click="openAdd('assignees')">+ Assignee</button>
-            <button type="button" class="add-btn" @click="openAdd('checklist')">+ Checklist</button>
-            <button type="button" class="add-btn" @click="openAdd('files')">+ File</button>
+            <button type="button" class="add-btn ui-btn ui-btn-pill" @click="openAdd('labels')">+ Label</button>
+            <button type="button" class="add-btn ui-btn ui-btn-pill" @click="openAdd('assignees')">+ Assignee</button>
+            <button type="button" class="add-btn ui-btn ui-btn-pill" @click="openAdd('checklist')">+ Checklist</button>
+            <button type="button" class="add-btn ui-btn ui-btn-pill" @click="openAdd('files')">+ File</button>
           </div>
         </section>
       </div>
@@ -127,13 +127,13 @@
   >
     <template v-if="addPanel === 'labels'">
       <section class="mini-panel">
-        <h4>Assign label</h4>
+        <h4 class="ui-section-title">Assign label</h4>
         <div class="chips">
           <button
             v-for="label in (boardStore.currentBoard?.labels || []).filter(Boolean)"
             :key="label.id"
             type="button"
-            class="label-chip button-chip"
+            class="label-chip ui-chip button-chip"
             :class="{ active: selectedLabelIds.has(label.id) }"
             :style="labelChipStyle(label.color_hex)"
             @click="cardStore.toggleLabel(label)"
@@ -149,7 +149,7 @@
           >
             <input
               :value="getLabelEdit(label).name"
-              class="text-input"
+              class="text-input ui-control"
               :placeholder="label.name"
               @input="setLabelEditName(label, $event.target.value)"
               @keydown.enter.prevent="saveLabelEdit(label)"
@@ -166,19 +166,19 @@
             </label>
             <button
               type="button"
-              class="mini-btn"
+              class="mini-btn ui-btn"
               :disabled="!canSaveLabelEdit(label)"
               @click="saveLabelEdit(label)"
             >
               Save
             </button>
-            <button type="button" class="mini-btn danger" @click="deleteLabel(label)">Delete</button>
+            <button type="button" class="mini-btn ui-btn danger" @click="deleteLabel(label)">Delete</button>
           </div>
         </div>
         <div class="mini-form">
           <input
             v-model="newLabelName"
-            class="text-input"
+            class="text-input ui-control"
             placeholder="New label name"
             @keydown.enter.prevent="createAndAssignLabel"
           />
@@ -186,16 +186,16 @@
             <input v-model="newLabelColor" type="color" class="color-input" aria-label="New label color" />
             <span class="swatch" :style="{ background: newLabelColor }" />
           </label>
-          <button type="button" class="mini-btn" @click="createAndAssignLabel">Create</button>
+          <button type="button" class="mini-btn ui-btn" @click="createAndAssignLabel">Create</button>
         </div>
       </section>
     </template>
 
     <template v-else-if="addPanel === 'assignees'">
       <section class="mini-panel">
-        <h4>Add assignee</h4>
+        <h4 class="ui-section-title">Add assignee</h4>
         <div class="mini-form">
-          <select v-model="selectedAssigneeId" class="text-input">
+          <select v-model="selectedAssigneeId" class="text-input ui-control">
             <option value="">Select board user...</option>
             <option
               v-for="user in assignableUsers"
@@ -205,7 +205,7 @@
               {{ displayUser(user) }}
             </option>
           </select>
-          <button type="button" class="mini-btn" :disabled="!selectedAssigneeId" @click="addAssignee">
+          <button type="button" class="mini-btn ui-btn" :disabled="!selectedAssigneeId" @click="addAssignee">
             Add
           </button>
         </div>
@@ -214,15 +214,15 @@
 
     <template v-else-if="addPanel === 'checklist'">
       <section class="mini-panel">
-        <h4>New checklist</h4>
+        <h4 class="ui-section-title">New checklist</h4>
         <div class="mini-form">
           <input
             v-model="newChecklistTitle"
-            class="text-input"
+            class="text-input ui-control"
             placeholder="Checklist title"
             @keydown.enter.prevent="addChecklist"
           />
-          <button type="button" class="mini-btn" :disabled="!newChecklistTitle.trim()" @click="addChecklist">
+          <button type="button" class="mini-btn ui-btn" :disabled="!newChecklistTitle.trim()" @click="addChecklist">
             Add
           </button>
         </div>
@@ -231,7 +231,7 @@
 
     <template v-else-if="addPanel === 'files'">
       <section class="mini-panel">
-        <h4>Upload files</h4>
+        <h4 class="ui-section-title">Upload files</h4>
         <input
           ref="addFileInputRef"
           type="file"
@@ -239,7 +239,7 @@
           multiple
           @change="onAddFilesInput"
         />
-        <button type="button" class="mini-btn" @click="openAddFilePicker">Choose files</button>
+        <button type="button" class="mini-btn ui-btn" @click="openAddFilePicker">Choose files</button>
         <p class="mini-hint">Or drag files into this modal.</p>
       </section>
     </template>
@@ -619,8 +619,6 @@ async function commitTitleEdit() {
 .title-input {
   width: 100%;
   min-width: 0;
-  border: calc(1px * @ui-scale) solid @border;
-  border-radius: calc(8px * @ui-scale);
   font-size: calc(18px * @ui-scale);
   font-weight: 700;
   padding: calc(6px * @ui-scale) calc(8px * @ui-scale);
@@ -657,13 +655,13 @@ async function commitTitleEdit() {
 }
 
 .meta-summary {
-  border: calc(1px * @ui-scale) solid @border;
+
   border-radius: @radius;
  
   padding: @space-3;
  
-  display: grid;
-  gap: @space-3;
+  
+ 
   @media (prefers-color-scheme: dark) {
     border-color:@surface-muted-dark;
     
@@ -675,12 +673,6 @@ async function commitTitleEdit() {
   gap: calc(8px * @ui-scale);
 }
 
-.meta-group h4 {
-  margin: 0;
-  color: @text-muted;
-  font-size: calc(13px * @ui-scale);
-}
-
 .chips {
   display: flex;
   flex-wrap: wrap;
@@ -689,15 +681,11 @@ async function commitTitleEdit() {
 
 .label-chip,
 .assignee-chip {
-  border: calc(1px * @ui-scale) solid @border;
-  border-radius: calc(999px * @ui-scale);
-  padding: calc(4px * @ui-scale) calc(10px * @ui-scale);
-  font-size: calc(12px * @ui-scale);
+  line-height: 1.1;
 }
 
 .assignee-chip {
   background: #fff;
-  color: @text;
 }
 
 .add-actions {
@@ -713,12 +701,6 @@ async function commitTitleEdit() {
   }
 }
 
-.add-actions h4 {
-  margin: 0;
-  color: @text-muted;
-  font-size: calc(13px * @ui-scale);
-}
-
 .add-buttons {
   display: flex;
   flex-wrap: wrap;
@@ -726,27 +708,12 @@ async function commitTitleEdit() {
 }
 
 .add-btn {
-  border: calc(1px * @ui-scale) solid @border;
-  border-radius: calc(999px * @ui-scale);
-  background: #fff;
-  color: @text;
   padding: calc(7px * @ui-scale) calc(12px * @ui-scale);
-  cursor: pointer;
-}
-
-.add-btn:hover {
-  background: @surface-muted;
 }
 
 .mini-panel {
   display: grid;
   gap: @space-3;
-}
-
-.mini-panel h4 {
-  margin: 0;
-  color: @text-muted;
-  font-size: calc(13px * @ui-scale);
 }
 
 .mini-form {
@@ -770,28 +737,11 @@ async function commitTitleEdit() {
 
 .text-input {
   width: 100%;
-  border: calc(1px * @ui-scale) solid @border;
-  border-radius: calc(8px * @ui-scale);
-  background: #fff;
   padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
 }
 
 .mini-btn {
-  border: calc(1px * @ui-scale) solid @border;
-  border-radius: calc(8px * @ui-scale);
-  background: #fff;
-  color: @text;
   padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
-  cursor: pointer;
-}
-
-.mini-btn:hover {
-  background: @surface-muted;
-}
-
-.mini-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .mini-btn.danger {
@@ -844,5 +794,3 @@ async function commitTitleEdit() {
   font-size: calc(12px * @ui-scale);
 }
 </style>
-
-

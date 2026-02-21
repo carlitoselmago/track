@@ -7,7 +7,7 @@
     <button
       v-if="!isEditing && !hasContent"
       type="button"
-      class="empty-button"
+      class="empty-button ui-control"
       @click="startEditing"
     >
       Add description
@@ -16,7 +16,7 @@
     <div
       v-else-if="!isEditing"
       ref="previewRef"
-      class="preview rich-content"
+      class="preview ui-control rich-content"
       :style="previewStyle"
       v-html="renderedDescription"
       @click="startEditing"
@@ -24,29 +24,29 @@
 
     <div v-else class="editor-shell">
       <div class="toolbar">
-        <button type="button" class="tool-btn" :class="{ active: isActive('bold') }" @click="toggleBold">
+        <button type="button" class="tool-btn ui-btn" :class="{ active: isActive('bold') }" @click="toggleBold">
           B
         </button>
-        <button type="button" class="tool-btn" :class="{ active: isActive('italic') }" @click="toggleItalic">
+        <button type="button" class="tool-btn ui-btn" :class="{ active: isActive('italic') }" @click="toggleItalic">
           I
         </button>
-        <button type="button" class="tool-btn" :class="{ active: isActive('underline') }" @click="toggleUnderline">
+        <button type="button" class="tool-btn ui-btn" :class="{ active: isActive('underline') }" @click="toggleUnderline">
           U
         </button>
         <button
           type="button"
-          class="tool-btn"
+          class="tool-btn ui-btn"
           :class="{ active: isActive('heading', { level: 2 }) }"
           @click="toggleHeading(2)"
         >
           H2
         </button>
-        <button type="button" class="tool-btn" :class="{ active: isActive('paragraph') }" @click="setParagraph">
+        <button type="button" class="tool-btn ui-btn" :class="{ active: isActive('paragraph') }" @click="setParagraph">
           P
         </button>
         <button
           type="button"
-          class="tool-btn"
+          class="tool-btn ui-btn"
           :class="{ active: isActive('bulletList') }"
           @click="toggleBulletList"
         >
@@ -54,22 +54,22 @@
         </button>
         <button
           type="button"
-          class="tool-btn"
+          class="tool-btn ui-btn"
           :class="{ active: isActive('orderedList') }"
           @click="toggleOrderedList"
         >
           1.
         </button>
-        <button type="button" class="tool-btn" :class="{ active: isActive('link') }" @click="setLink">
+        <button type="button" class="tool-btn ui-btn" :class="{ active: isActive('link') }" @click="setLink">
           Link
         </button>
-        <button type="button" class="tool-btn" :disabled="!isActive('link')" @click="unsetLink">
+        <button type="button" class="tool-btn ui-btn" :disabled="!isActive('link')" @click="unsetLink">
           Unlink
         </button>
 
         <span class="toolbar-spacer" />
-        <button type="button" class="action-btn subtle" @click="cancelEditing">Cancel</button>
-        <button type="button" class="action-btn primary" :disabled="isSaving || !isDirty" @click="saveEditing">
+        <button type="button" class="action-btn ui-btn subtle" @click="cancelEditing">Cancel</button>
+        <button type="button" class="action-btn ui-btn primary" :disabled="isSaving || !isDirty" @click="saveEditing">
           Save
         </button>
       </div>
@@ -419,17 +419,14 @@ function sanitizeHref(value) {
 
 .editor-head h4 {
   margin: 0;
-
+  font-size: calc(13px * @ui-scale);
   color: @text-muted;
   font-weight: 600;
 }
 
 .empty-button,
 .preview {
- 
   border-radius: calc(10px * @ui-scale);
-
-  color: @text;
   text-align: left;
   width: 100%;
   padding: calc(10px * @ui-scale) calc(12px * @ui-scale);
@@ -470,19 +467,9 @@ function sanitizeHref(value) {
 
 .tool-btn,
 .action-btn {
-  border: calc(1px * @ui-scale) solid @border;
-  border-radius: calc(8px * @ui-scale);
-  background: #fff;
-  color: @text;
   min-height: calc(30px * @ui-scale);
   padding: calc(4px * @ui-scale) calc(8px * @ui-scale);
   font-size: calc(12px * @ui-scale);
-  cursor: pointer;
-}
-
-.tool-btn:hover,
-.action-btn:hover {
-  background: #f8fafc;
 }
 
 .tool-btn.active {
@@ -498,12 +485,6 @@ function sanitizeHref(value) {
   background: @primary;
   border-color: @primary;
   color: #fff;
-}
-
-.action-btn:disabled,
-.tool-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
 }
 
 .editor-input {
@@ -523,33 +504,4 @@ function sanitizeHref(value) {
   box-shadow: inset 0 0 0 calc(2px * @ui-scale) color-mix(in srgb, @primary 24%, #fff);
 }
 
-.rich-content :deep(p),
-.rich-content :deep(h1),
-.rich-content :deep(h2),
-.rich-content :deep(h3),
-.rich-content :deep(ul),
-.rich-content :deep(ol),
-.rich-content :deep(blockquote) {
-  margin: 0 0 calc(8px * @ui-scale);
-}
-
-.rich-content :deep(ul),
-.rich-content :deep(ol) {
-  padding-left: calc(20px * @ui-scale);
-}
-
-.rich-content :deep(a) {
-  color: color-mix(in srgb, @primary 82%, #0b1220);
-  text-decoration: underline;
-}
-
-.rich-content :deep(blockquote) {
-  border-left: calc(3px * @ui-scale) solid @border;
-  padding-left: calc(10px * @ui-scale);
-  color: @text-muted;
-}
-
-.rich-content :deep(*:last-child) {
-  margin-bottom: 0;
-}
 </style>

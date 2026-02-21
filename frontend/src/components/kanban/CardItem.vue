@@ -75,6 +75,7 @@ function imageUrl(imageId) {
   background: @surface;
   padding: @space-3;
   cursor: pointer;
+  
   @media (prefers-color-scheme: dark) {
     background: @surface-muted-dark;
   }

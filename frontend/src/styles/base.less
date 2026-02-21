@@ -73,6 +73,93 @@ body {
   .add-actions {
     padding-top: @space-2 !important;
   }
+  .meta-summary{
+   gap: @space-4;
+    display: flex;
+  }
+  .ui-control {
+    border: calc(1px * @ui-scale) solid @border;
+    border-radius: calc(8px * @ui-scale);
+    background: #fff;
+    color: @text;
+    &.preview{
+      background: transparent;
+      border:none;
+    }
+  }
+
+  .ui-control:focus {
+    outline: calc(2px * @ui-scale) solid color-mix(in srgb, @primary 35%, white);
+    border-color: color-mix(in srgb, @primary 65%, @border);
+  }
+
+  .ui-btn {
+    border: calc(1px * @ui-scale) solid @border;
+    border-radius: calc(8px * @ui-scale);
+    background: #fff;
+    color: @text;
+    cursor: pointer;
+  }
+
+  .ui-btn:hover:not(:disabled) {
+    background: @surface-muted;
+  }
+
+  .ui-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .ui-btn-pill {
+    border-radius: calc(999px * @ui-scale);
+  }
+
+  .ui-chip {
+    border: calc(1px * @ui-scale) solid @border;
+    border-radius: calc(999px * @ui-scale);
+    padding: calc(6px * @ui-scale) calc(12px * @ui-scale);
+    font-size: calc(14px * @ui-scale);
+  }
+
+  .ui-section-title {
+    margin: 0;
+    color: @text-muted;
+    font-size: calc(13px * @ui-scale);
+    font-weight: 600;
+  }
+
+  .rich-content {
+    p,
+    h1,
+    h2,
+    h3,
+    ul,
+    ol,
+    blockquote {
+      margin: 0 0 calc(8px * @ui-scale);
+    }
+
+    ul,
+    ol {
+      padding-left: calc(20px * @ui-scale);
+    }
+
+    a {
+      color: color-mix(in srgb, @primary 82%, #0b1220);
+      text-decoration: underline;
+    }
+
+    blockquote {
+      border-left: calc(3px * @ui-scale) solid @border;
+      padding-left: calc(10px * @ui-scale);
+      color: @text-muted;
+    }
+
+    *:last-child {
+      margin-bottom: 0;
+    }
+    
+  }
 }
 
 
