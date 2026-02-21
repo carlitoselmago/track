@@ -34,6 +34,9 @@ defineEmits(["open", "edit", "delete"]);
   padding: var(--space-4);
   transition: transform 140ms ease;
   cursor: pointer;
+  h3{
+    margin: 0px;
+  }
 }
 
 .board-card:hover {
