@@ -6,12 +6,30 @@ FastAPI backend for Track.
 
 ```bash
 cd backend
-uvicorn app.main:app --reload
+pip install -e .
+cp .env.example .env
+# edit .env
+python -m app.run
 ```
 
-## Notes
+You can also use the console script after install:
 
-- API base path: `/api/v1`
-- Admin bootstrap config: `config/admin.yaml`
-- SQLite database file: `data/track.db`
-- Uploaded images: `data/uploads/cards/`
+```bash
+track-api
+```
+
+## Configuration
+
+Primary config is `backend/.env` (env prefix: `TRACK_`).
+
+Important keys:
+
+- `TRACK_SERVER_HOST`
+- `TRACK_SERVER_PORT`
+- `TRACK_SERVER_RELOAD`
+- `TRACK_SERVER_WORKERS`
+- `TRACK_ADMIN_BOOTSTRAP_*`
+- `TRACK_SMTP_*`
+- `TRACK_EMAIL_FROM`
+
+Optional legacy fallback remains available in `backend/config/system.yaml`.
