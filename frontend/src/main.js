@@ -5,6 +5,7 @@ import router from "./router";
 import { setupRouterGuards } from "./router/guards";
 import { useAuthStore } from "./stores/authStore";
 import { useTimerStore } from "./stores/timerStore";
+import { useNotificationStore } from "./stores/notificationStore";
 import "./styles/tokens.less";
 import "./styles/base.less";
 
@@ -20,7 +21,9 @@ async function bootstrap() {
 
   if (authStore.isAuthenticated) {
     const timerStore = useTimerStore(pinia);
+    const notificationStore = useNotificationStore(pinia);
     await timerStore.bootstrapActiveTimer();
+    await notificationStore.fetchNotifications();
   }
 
   setupRouterGuards(router, pinia);

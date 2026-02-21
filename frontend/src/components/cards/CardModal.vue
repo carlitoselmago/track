@@ -57,6 +57,13 @@
           @create-label="createLabel"
         />
 
+        <AssigneeSection
+          :board-members="boardStore.currentBoard?.members || []"
+          :selected-assignees="cardStore.activeCard.assignees || []"
+          @assign-user="cardStore.assignUser"
+          @unassign-user="cardStore.unassignUser"
+        />
+
         <ChecklistSection
           :card="cardStore.activeCard"
           @add-checklist="cardStore.addChecklist"
@@ -93,6 +100,7 @@ import ChecklistSection from "./ChecklistSection.vue";
 import LabelSelector from "./LabelSelector.vue";
 import ImageUploadSection from "./ImageUploadSection.vue";
 import TimerSection from "./TimerSection.vue";
+import AssigneeSection from "./AssigneeSection.vue";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog.vue";
 import { useCardStore } from "@/stores/cardStore";
 import { useBoardStore } from "@/stores/boardStore";

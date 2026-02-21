@@ -12,6 +12,7 @@ BoardRole = Literal["board_admin", "member"]
 class UserPublic(BaseModel):
     id: int
     email: str
+    full_name: str
     name: str
     is_system_admin: bool
     is_active: bool
@@ -30,9 +31,22 @@ class TokenResponse(BaseModel):
 
 class UserCreateRequest(BaseModel):
     email: str
-    name: str
+    full_name: str
     password: str = Field(min_length=8)
     is_system_admin: bool = False
+    board_ids: list[int] = Field(default_factory=list)
+
+
+class UserPasswordChangeRequest(BaseModel):
+    new_password: str = Field(min_length=8)
+
+
+class UserEmailPreferenceUpdateRequest(BaseModel):
+    email_notifications_enabled: bool
+
+
+class UserEmailPreferenceResponse(BaseModel):
+    email_notifications_enabled: bool
 
 
 class BoardCreateRequest(BaseModel):
@@ -168,6 +182,7 @@ class CardResponse(BaseModel):
     labels: list[LabelResponse]
     checklists: list[ChecklistResponse]
     images: list[CardImageResponse]
+    assignees: list[UserPublic] = Field(default_factory=list)
 
 
 class ListResponse(BaseModel):
@@ -218,3 +233,18 @@ class CardTimeTotalUpdateRequest(BaseModel):
 
 class TimeSessionUpdateRequest(BaseModel):
     duration_seconds: int = Field(ge=0)
+
+
+class CardAssigneeAssignRequest(BaseModel):
+    user_id: int
+
+
+class NotificationResponse(BaseModel):
+    id: int
+    type: str
+    title: str
+    message: str
+    is_read: bool
+    created_at: datetime
+    actor_user: Optional[UserPublic] = None
+    data: Optional[dict] = None

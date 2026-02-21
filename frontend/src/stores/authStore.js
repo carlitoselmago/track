@@ -4,6 +4,7 @@ import { authService } from "@/services/authService";
 import { configureApiAuth, normalizeApiError } from "@/services/axios";
 import { useUiStore } from "./uiStore";
 import { useTimerStore } from "./timerStore";
+import { useNotificationStore } from "./notificationStore";
 
 const AUTH_META_KEY = "track_auth_meta_v1";
 const AUTH_TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
@@ -174,7 +175,9 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function forceLogout(resetBootstrap = true) {
     const timerStore = useTimerStore();
+    const notificationStore = useNotificationStore();
     timerStore.clearActiveTimer();
+    notificationStore.reset();
 
     setAccessToken(null);
     user.value = null;

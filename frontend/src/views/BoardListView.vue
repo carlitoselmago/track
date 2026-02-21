@@ -3,6 +3,13 @@
     <div class="content">
     <header class="header">
       <h1>Your Boards</h1>
+      <RouterLink
+        v-if="authStore.user?.is_system_admin"
+        to="/admin/users"
+        class="admin-link"
+      >
+        Manage users
+      </RouterLink>
     </header>
 
     <CreateBoardForm @create="handleCreateBoard" />
@@ -52,7 +59,7 @@
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { useRouter } from "vue-router";
+import { RouterLink, useRouter } from "vue-router";
 import CreateBoardForm from "@/components/boards/CreateBoardForm.vue";
 import BoardCard from "@/components/boards/BoardCard.vue";
 import BaseModal from "@/components/common/BaseModal.vue";
@@ -61,9 +68,11 @@ import BaseButton from "@/components/common/BaseButton.vue";
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
 import EmptyState from "@/components/common/EmptyState.vue";
 import { useBoardStore } from "@/stores/boardStore";
+import { useAuthStore } from "@/stores/authStore";
 
 const router = useRouter();
 const boardStore = useBoardStore();
+const authStore = useAuthStore();
 const isEditModalOpen = ref(false);
 const editBoardId = ref(null);
 const editName = ref("");
@@ -122,6 +131,21 @@ async function confirmDeleteBoard(board) {
 
 .header h1 {
   margin: 0;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.admin-link {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 7px 12px;
+  background: #fff;
+  font-size: 13px;
 }
 
 .grid {

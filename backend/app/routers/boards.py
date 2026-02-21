@@ -5,7 +5,7 @@ from sqlmodel import Session, and_, select
 
 from app.core.config import settings
 from app.db.session import get_session
-from app.deps import ensure_board_access, get_current_user
+from app.deps import ensure_board_access, get_current_user, require_system_admin
 from app.models import Board, BoardMembership, User
 from app.schemas import (
     BoardCreateRequest,
@@ -162,15 +162,11 @@ def list_members(
 def add_member(
     board_id: int,
     payload: BoardMemberCreateRequest,
+    _: User = Depends(require_system_admin),
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
 ):
-    ensure_board_access(
-        board_id=board_id,
-        user=current_user,
-        session=session,
-        require_board_admin=True,
-    )
+    ensure_board_access(board_id=board_id, user=current_user, session=session)
     user = session.get(User, payload.user_id)
     if not user or user.deleted_at is not None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
@@ -201,15 +197,11 @@ def update_member(
     board_id: int,
     user_id: int,
     payload: BoardMemberUpdateRequest,
+    _: User = Depends(require_system_admin),
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
 ):
-    ensure_board_access(
-        board_id=board_id,
-        user=current_user,
-        session=session,
-        require_board_admin=True,
-    )
+    ensure_board_access(board_id=board_id, user=current_user, session=session)
     membership = session.exec(
         select(BoardMembership).where(
             and_(BoardMembership.board_id == board_id, BoardMembership.user_id == user_id),
@@ -227,15 +219,11 @@ def update_member(
 def remove_member(
     board_id: int,
     user_id: int,
+    _: User = Depends(require_system_admin),
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
 ):
-    ensure_board_access(
-        board_id=board_id,
-        user=current_user,
-        session=session,
-        require_board_admin=True,
-    )
+    ensure_board_access(board_id=board_id, user=current_user, session=session)
     membership = session.exec(
         select(BoardMembership).where(
             and_(BoardMembership.board_id == board_id, BoardMembership.user_id == user_id),

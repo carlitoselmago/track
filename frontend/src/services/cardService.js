@@ -21,4 +21,13 @@ export const cardService = {
   reorderCards(listId, payload) {
     return api.post(`/lists/${listId}/cards/reorder`, payload).then(getData);
   },
+  getAssignees(cardId) {
+    return api.get(`/cards/${cardId}/assignees`).then(getData);
+  },
+  assignUser(cardId, userId) {
+    return api.post(`/cards/${cardId}/assignees`, { user_id: userId }).then(getData);
+  },
+  unassignUser(cardId, userId) {
+    return api.delete(`/cards/${cardId}/assignees/${userId}`).then(getData);
+  },
 };

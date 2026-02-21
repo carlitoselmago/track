@@ -4,6 +4,7 @@ import LoginView from "@/views/LoginView.vue";
 import BoardListView from "@/views/BoardListView.vue";
 import KanbanBoardView from "@/views/KanbanBoardView.vue";
 import BoardCalendarView from "@/views/BoardCalendarView.vue";
+import AdminUsersView from "@/views/AdminUsersView.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -39,6 +40,12 @@ const router = createRouter({
           name: "board-calendar",
           component: BoardCalendarView,
           props: true,
+        },
+        {
+          path: "admin/users",
+          name: "admin-users",
+          component: AdminUsersView,
+          meta: { requiresAdmin: true },
         },
       ],
     },

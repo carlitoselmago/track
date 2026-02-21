@@ -28,6 +28,7 @@ function normalizeCard(card, listId) {
     images: card.images || [],
     cover_image_id: card.cover_image_id ?? null,
     total_tracked_seconds: card.total_tracked_seconds ?? 0,
+    assignees: card.assignees || [],
   };
 }
 
@@ -53,6 +54,7 @@ function normalizeBoard(board) {
     description: board.description || "",
     color_hex: board.color_hex || DEFAULT_BOARD_COLOR,
     labels: board.labels || [],
+    members: board.members || [],
     lists,
   };
 }
@@ -219,6 +221,13 @@ export const useBoardStore = defineStore("board", () => {
         } catch {
           board.labels = [];
         }
+      }
+      try {
+        const membersPayload = await boardService.getBoardMembers(boardId);
+        const members = extractPayload(membersPayload);
+        board.members = Array.isArray(members) ? members : members?.items || [];
+      } catch {
+        board.members = [];
       }
 
       currentBoard.value = board;
@@ -518,6 +527,14 @@ export const useBoardStore = defineStore("board", () => {
     currentBoard.value.labels = labels;
   }
 
+  async function addBoardMember(boardId, userId, role = "member") {
+    await boardService.addBoardMember(boardId, userId, role);
+    if (currentBoard.value?.id === Number(boardId)) {
+      const membersPayload = await boardService.getBoardMembers(boardId);
+      currentBoard.value.members = extractPayload(membersPayload) || [];
+    }
+  }
+
   return {
     boards,
     currentBoard,
@@ -540,5 +557,6 @@ export const useBoardStore = defineStore("board", () => {
     persistCardMove,
     snapshotLists,
     setBoardLabels,
+    addBoardMember,
   };
 });

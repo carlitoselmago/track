@@ -23,6 +23,7 @@ const normalizeCardDetail = (card) => ({
   cover_image_id: card.cover_image_id ?? null,
   total_tracked_seconds: card.total_tracked_seconds ?? 0,
   time_summary: card.time_summary || null,
+  assignees: card.assignees || [],
 });
 
 export const useCardStore = defineStore("card", () => {
@@ -46,6 +47,7 @@ export const useCardStore = defineStore("card", () => {
       images: activeCard.value.images,
       cover_image_id: activeCard.value.cover_image_id,
       total_tracked_seconds: activeCard.value.total_tracked_seconds,
+      assignees: activeCard.value.assignees,
     });
   };
 
@@ -273,6 +275,25 @@ export const useCardStore = defineStore("card", () => {
     return summary;
   }
 
+  async function assignUser(userId) {
+    if (!activeCard.value?.id) {
+      return;
+    }
+    await cardService.assignUser(activeCard.value.id, userId);
+    const refreshed = await cardService.getCard(activeCard.value.id);
+    activeCard.value = normalizeCardDetail(extractPayload(refreshed));
+    syncCardSummaryToBoard();
+  }
+
+  async function unassignUser(userId) {
+    if (!activeCard.value?.id) {
+      return;
+    }
+    await cardService.unassignUser(activeCard.value.id, userId);
+    activeCard.value.assignees = (activeCard.value.assignees || []).filter((user) => user.id !== userId);
+    syncCardSummaryToBoard();
+  }
+
   return {
     isModalOpen,
     isLoading,
@@ -296,5 +317,7 @@ export const useCardStore = defineStore("card", () => {
     deleteImage,
     setCover,
     fetchTimeSummary,
+    assignUser,
+    unassignUser,
   };
 });

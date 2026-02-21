@@ -97,12 +97,12 @@ h4 {
 
 .labels {
   display: flex;
-  gap: 6px;
+  gap: 5px;
 }
 
 .label {
-  width: 18px;
-  height: 6px;
+  width: 20px;
+  height: 7px;
   border-radius: 999px;
 }
 

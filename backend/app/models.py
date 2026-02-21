@@ -90,6 +90,17 @@ class CardLabel(SQLModel, table=True):
     created_at: datetime = Field(default_factory=utcnow, nullable=False)
 
 
+class CardAssignee(SQLModel, table=True):
+    __tablename__ = "card_assignees"
+    __table_args__ = (UniqueConstraint("card_id", "user_id", name="uq_card_assignee"),)
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    card_id: int = Field(foreign_key="cards.id", index=True)
+    user_id: int = Field(foreign_key="users.id", index=True)
+    assigned_by_user_id: int = Field(foreign_key="users.id", index=True)
+    created_at: datetime = Field(default_factory=utcnow, nullable=False)
+
+
 class Card(SQLModel, table=True):
     __tablename__ = "cards"
 
@@ -179,3 +190,29 @@ class TimeSession(SQLModel, table=True):
     ended_at: Optional[datetime] = Field(default=None, nullable=True)
     duration_seconds: Optional[int] = Field(default=None, nullable=True)
     created_at: datetime = Field(default_factory=utcnow, nullable=False)
+
+
+class Notification(SQLModel, table=True):
+    __tablename__ = "notifications"
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="users.id", index=True)
+    actor_user_id: Optional[int] = Field(default=None, foreign_key="users.id", index=True)
+    type: str = Field(max_length=80)
+    title: str = Field(max_length=200)
+    message: str = Field(max_length=1000)
+    data_json: Optional[str] = Field(default=None)
+    is_read: bool = Field(default=False, nullable=False)
+    created_at: datetime = Field(default_factory=utcnow, nullable=False)
+    read_at: Optional[datetime] = Field(default=None, nullable=True)
+
+
+class UserNotificationPreference(SQLModel, table=True):
+    __tablename__ = "user_notification_preferences"
+    __table_args__ = (UniqueConstraint("user_id", name="uq_user_notification_pref_user"),)
+
+    id: Optional[int] = Field(default=None, primary_key=True)
+    user_id: int = Field(foreign_key="users.id", index=True)
+    email_notifications_enabled: bool = Field(default=True, nullable=False)
+    created_at: datetime = Field(default_factory=utcnow, nullable=False)
+    updated_at: datetime = Field(default_factory=utcnow, nullable=False)

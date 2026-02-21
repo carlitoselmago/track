@@ -15,6 +15,10 @@ export function setupRouterGuards(router, pinia) {
       };
     }
 
+    if (to.meta.requiresAdmin && !authStore.user?.is_system_admin) {
+      return { name: "boards" };
+    }
+
     if (to.meta.guestOnly && authStore.isAuthenticated) {
       return { name: "boards" };
     }

@@ -1,0 +1,13 @@
+admin:
+  email: "admin@email.com"
+  password: "admin123456"
+  full_name: "System Admin"
+  reset_password_on_startup: false
+
+smtp:
+  host: ""
+  port: 587
+  username: ""
+  password: ""
+  use_tls: true
+  from_email: "noreply@track.local"

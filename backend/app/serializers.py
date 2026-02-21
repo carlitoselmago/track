@@ -3,6 +3,7 @@ from sqlmodel import Session, and_, select
 from app.models import (
     Board,
     BoardList,
+    CardAssignee,
     Card,
     CardImage,
     CardLabel,
@@ -17,6 +18,7 @@ def user_public(user: User) -> dict:
     return {
         "id": user.id,
         "email": user.email,
+        "full_name": user.name,
         "name": user.name,
         "is_system_admin": user.is_system_admin,
         "is_active": user.is_active,
@@ -95,6 +97,18 @@ def card_payload(session: Session, card: Card) -> dict:
         .where(and_(CardImage.card_id == card.id, CardImage.deleted_at.is_(None)))
         .order_by(CardImage.created_at, CardImage.id),
     ).all()
+    assignee_users = session.exec(
+        select(User)
+        .join(CardAssignee, CardAssignee.user_id == User.id)
+        .where(
+            and_(
+                CardAssignee.card_id == card.id,
+                User.deleted_at.is_(None),
+                User.is_active.is_(True),
+            ),
+        )
+        .order_by(User.name, User.id),
+    ).all()
     return {
         "id": card.id,
         "board_id": card.board_id,
@@ -107,6 +121,7 @@ def card_payload(session: Session, card: Card) -> dict:
         "labels": [label_payload(label) for label in labels],
         "checklists": [checklist_payload(session, checklist) for checklist in checklists],
         "images": [card_image_payload(image) for image in images],
+        "assignees": [user_public(user) for user in assignee_users],
     }
 
 
