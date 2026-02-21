@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="panel">
     <header>
       <h4>Labels</h4>
@@ -70,7 +70,7 @@ function create() {
 .panel {
   display: grid;
   gap: var(--space-3);
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
 }
@@ -86,11 +86,11 @@ header h4 {
 }
 
 .label {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 6px 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(999px * var(--ui-scale));
+  padding: calc(6px * var(--ui-scale)) calc(10px * var(--ui-scale));
   cursor: pointer;
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
 }
 
 .label.active {
@@ -104,14 +104,14 @@ header h4 {
 }
 
 .color-picker {
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
   background: #fff;
-  min-width: 132px;
-  padding: 4px 8px;
+  min-width: calc(132px * var(--ui-scale));
+  padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
   position: relative;
   cursor: pointer;
 }
@@ -128,31 +128,32 @@ header h4 {
 }
 
 .swatch {
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.2);
+  width: calc(18px * var(--ui-scale));
+  height: calc(18px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
+  border: calc(1px * var(--ui-scale)) solid rgba(15, 23, 42, 0.2);
   flex-shrink: 0;
 }
 
 .hex {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
 .input {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 7px 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(7px * var(--ui-scale)) calc(8px * var(--ui-scale));
 }
 
 .btn {
   border: 0;
-  border-radius: 8px;
-  padding: 7px 10px;
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(7px * var(--ui-scale)) calc(10px * var(--ui-scale));
   background: var(--surface-muted);
   cursor: pointer;
 }
 </style>
+
 

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <article class="board-card" @click="$emit('open', board.id)">
     <span class="swatch" :style="{ background: board.color_hex || '#16A34A' }" />
     <div class="content">
@@ -29,7 +29,7 @@ defineEmits(["open", "edit", "delete"]);
   gap: var(--space-3);
   align-items: center;
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-4);
   transition: transform 140ms ease;
@@ -37,14 +37,14 @@ defineEmits(["open", "edit", "delete"]);
 }
 
 .board-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(calc(-2px * var(--ui-scale)));
 }
 
 .swatch {
-  width: 22px;
-  height: 22px;
-  border-radius: 999px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
+  width: calc(22px * var(--ui-scale));
+  height: calc(22px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
+  border: calc(1px * var(--ui-scale)) solid rgba(0, 0, 0, 0.1);
 }
 
 .content {
@@ -53,12 +53,12 @@ defineEmits(["open", "edit", "delete"]);
 }
 
 h3 {
-  margin: 0 0 4px;
+  margin: 0 0 calc(4px * var(--ui-scale));
 }
 
 p {
   margin: 0;
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
   color: var(--text-muted);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -68,15 +68,15 @@ p {
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: calc(6px * var(--ui-scale));
 }
 
 .action-btn {
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   background: #fff;
-  border-radius: 8px;
-  padding: 4px 8px;
-  font-size: 12px;
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
   cursor: pointer;
 }
 
@@ -84,4 +84,5 @@ p {
   color: var(--danger);
 }
 </style>
+
 

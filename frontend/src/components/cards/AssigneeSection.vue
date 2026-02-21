@@ -75,7 +75,7 @@ function assign() {
 .panel {
   display: grid;
   gap: var(--space-3);
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
 }
@@ -87,18 +87,18 @@ header h4 {
 .assigned {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .pill {
-  border: 1px solid var(--border);
-  border-radius: 999px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(999px * var(--ui-scale));
   background: #fff;
-  padding: 4px 8px;
+  padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  gap: calc(6px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
 }
 
 .remove {
@@ -115,22 +115,23 @@ header h4 {
 }
 
 .select {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 7px 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(7px * var(--ui-scale)) calc(8px * var(--ui-scale));
   background: #fff;
 }
 
 .btn {
   border: 0;
-  border-radius: 8px;
-  padding: 7px 10px;
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(7px * var(--ui-scale)) calc(10px * var(--ui-scale));
   background: var(--surface-muted);
   cursor: pointer;
 }
 
 .muted {
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
 }
 </style>
+

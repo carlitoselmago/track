@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div v-if="uiStore.errorMessage" class="error-banner">
     <div class="container inner">
       <span>{{ uiStore.errorMessage }}</span>
@@ -17,11 +17,11 @@ const uiStore = useUiStore();
 .error-banner {
   background: #fee2e2;
   color: #7f1d1d;
-  border-bottom: 1px solid #fecaca;
+  border-bottom: calc(1px * var(--ui-scale)) solid #fecaca;
 }
 
 .inner {
-  min-height: 42px;
+  min-height: calc(42px * var(--ui-scale));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -33,7 +33,8 @@ const uiStore = useUiStore();
   background: transparent;
   color: inherit;
   cursor: pointer;
-  font-size: 16px;
+  font-size: calc(16px * var(--ui-scale));
 }
 </style>
+
 

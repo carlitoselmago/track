@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="panel">
     <header>
       <h4>Checklist</h4>
@@ -156,7 +156,7 @@ function removeItem(itemId) {
 .panel {
   display: grid;
   gap: var(--space-3);
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
 }
@@ -167,20 +167,20 @@ header h4 {
 
 .progress-wrap {
   display: grid;
-  gap: 6px;
+  gap: calc(6px * var(--ui-scale));
 }
 
 .progress-label {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
 .progress-track {
-  height: 8px;
-  border-radius: 999px;
+  height: calc(8px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
   background: #e5e7eb;
   overflow: hidden;
 }
@@ -195,7 +195,7 @@ header h4 {
   display: grid;
   gap: var(--space-2);
   background: #f8fafc;
-  border-radius: 10px;
+  border-radius: calc(10px * var(--ui-scale));
   padding: var(--space-2);
 }
 
@@ -210,14 +210,14 @@ header h4 {
   flex: 1;
   min-width: 0;
   border: 0;
-  border-radius: 8px;
-  padding: 5px 8px;
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(5px * var(--ui-scale)) calc(8px * var(--ui-scale));
   font-weight: 700;
   background: transparent;
 }
 
 .checklist-title-input:focus {
-  outline: 1px solid var(--border);
+  outline: calc(1px * var(--ui-scale)) solid var(--border);
   background: #fff;
 }
 
@@ -230,9 +230,9 @@ header h4 {
 
 .item-input,
 .input {
-  border: 0px;
-  border-radius: 8px;
-  padding: 7px 8px;
+  border: 0;
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(7px * var(--ui-scale)) calc(8px * var(--ui-scale));
   background-color: transparent;
 }
 
@@ -248,8 +248,8 @@ header h4 {
 
 .btn {
   border: 0;
-  border-radius: 8px;
-  padding: 8px 10px;
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
   background: var(--surface-muted);
   cursor: pointer;
 }
@@ -265,3 +265,5 @@ header h4 {
   color: var(--danger);
 }
 </style>
+
+

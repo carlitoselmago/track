@@ -42,17 +42,17 @@ defineProps({
 <style scoped lang="less">
 .base-button {
   border: 0;
-  border-radius: 8px;
+  border-radius: calc(8px * var(--ui-scale));
   background: var(--primary);
   color: #fff;
   font-weight: 600;
-  padding: 10px 14px;
+  padding: calc(10px * var(--ui-scale)) calc(14px * var(--ui-scale));
   cursor: pointer;
   transition: transform 120ms ease;
 }
 
 .base-button:hover:not(:disabled) {
-  transform: translateY(-1px);
+  transform: translateY(calc(-1px * var(--ui-scale)));
 }
 
 .base-button:disabled {
@@ -73,3 +73,4 @@ defineProps({
   width: 100%;
 }
 </style>
+

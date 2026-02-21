@@ -601,7 +601,7 @@ async function commitTitleEdit() {
   background: transparent;
   padding: 0;
   margin: 0;
-  font-size: 20px;
+  font-size: calc(20px * var(--ui-scale));
   font-weight: 700;
   color: var(--text);
   text-align: left;
@@ -616,39 +616,39 @@ async function commitTitleEdit() {
 .title-input {
   width: 100%;
   min-width: 0;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 18px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
+  font-size: calc(18px * var(--ui-scale));
   font-weight: 700;
-  padding: 6px 8px;
+  padding: calc(6px * var(--ui-scale)) calc(8px * var(--ui-scale));
 }
 
 .title-input:focus {
-  outline: 2px solid color-mix(in srgb, var(--primary) 28%, white);
+  outline: calc(2px * var(--ui-scale)) solid color-mix(in srgb, var(--primary) 28%, white);
   border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
 }
 
 .cover-preview {
   display: grid;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .cover-preview img {
   width: 100%;
-  max-height: 220px;
+  max-height: calc(220px * var(--ui-scale));
   object-fit: contain;
-  border-radius: 10px;
-  border: 1px solid var(--border);
+  border-radius: calc(10px * var(--ui-scale));
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   background-color: #2d2d2d;
 }
 
 .cover-preview span {
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
 .meta-summary {
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   background: #fff;
   padding: var(--space-3);
@@ -658,27 +658,27 @@ async function commitTitleEdit() {
 
 .meta-group {
   display: grid;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .meta-group h4 {
   margin: 0;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .label-chip,
 .assignee-chip {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 4px 10px;
-  font-size: 12px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(999px * var(--ui-scale));
+  padding: calc(4px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
 }
 
 .assignee-chip {
@@ -687,32 +687,32 @@ async function commitTitleEdit() {
 }
 
 .add-actions {
-  border: 1px dashed var(--border);
+  border: calc(1px * var(--ui-scale)) dashed var(--border);
   border-radius: var(--radius);
   background: #fff;
   padding: var(--space-3);
   display: grid;
-  gap: 10px;
+  gap: calc(10px * var(--ui-scale));
 }
 
 .add-actions h4 {
   margin: 0;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .add-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .add-btn {
-  border: 1px solid var(--border);
-  border-radius: 999px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(999px * var(--ui-scale));
   background: #fff;
   color: var(--text);
-  padding: 7px 12px;
+  padding: calc(7px * var(--ui-scale)) calc(12px * var(--ui-scale));
   cursor: pointer;
 }
 
@@ -728,42 +728,42 @@ async function commitTitleEdit() {
 .mini-panel h4 {
   margin: 0;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .mini-form {
   display: grid;
   grid-template-columns: 1fr auto auto;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
   align-items: center;
 }
 
 .label-manage-list {
   display: grid;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .label-edit-row {
   display: grid;
   grid-template-columns: 1fr auto auto auto;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
   align-items: center;
 }
 
 .text-input {
   width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
   background: #fff;
-  padding: 8px 10px;
+  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
 }
 
 .mini-btn {
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
   background: #fff;
   color: var(--text);
-  padding: 8px 10px;
+  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
   cursor: pointer;
 }
 
@@ -786,22 +786,22 @@ async function commitTitleEdit() {
 }
 
 .button-chip.active {
-  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.85);
+  box-shadow: inset 0 0 0 calc(2px * var(--ui-scale)) rgba(255, 255, 255, 0.85);
   opacity: 1;
 }
 
 .color-picker {
   position: relative;
-  width: 36px;
-  height: 36px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  width: calc(36px * var(--ui-scale));
+  height: calc(36px * var(--ui-scale));
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
   overflow: hidden;
 }
 
 .color-picker.small {
-  width: 32px;
-  height: 32px;
+  width: calc(32px * var(--ui-scale));
+  height: calc(32px * var(--ui-scale));
 }
 
 .color-input {
@@ -823,6 +823,7 @@ async function commitTitleEdit() {
 .mini-hint {
   margin: 0;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
 }
 </style>
+

@@ -320,11 +320,11 @@ function formatDuration(totalSeconds) {
 .panel {
   display: grid;
   gap: var(--space-2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(12px * var(--ui-scale));
   padding: var(--space-3);
   background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(calc(4px * var(--ui-scale)));
 }
 
 header {
@@ -350,15 +350,15 @@ header h4 {
 .info {
   margin: 0;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
 }
 
 .chunks-toggle {
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(10px * var(--ui-scale));
   background: #fff;
   color: var(--text);
-  padding: 9px 12px;
+  padding: calc(9px * var(--ui-scale)) calc(12px * var(--ui-scale));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -372,7 +372,7 @@ header h4 {
 .toggle-meta {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: calc(6px * var(--ui-scale));
   color: var(--text-muted);
 }
 
@@ -385,8 +385,8 @@ header h4 {
 }
 
 .chunks-panel {
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(12px * var(--ui-scale));
   padding: var(--space-2);
   background: #fff;
 }
@@ -396,13 +396,13 @@ header h4 {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .chunk-row {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(10px * var(--ui-scale));
+  padding: calc(10px * var(--ui-scale));
   display: grid;
   grid-template-columns: 1fr auto;
   gap: var(--space-2);
@@ -412,24 +412,24 @@ header h4 {
 .chunk-main {
   min-width: 0;
   display: grid;
-  gap: 7px;
+  gap: calc(7px * var(--ui-scale));
 }
 
 .duration-wrap {
   display: inline-flex;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
   align-items: center;
 }
 
 .time-chip {
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   background: #f8fafc;
   color: var(--text);
-  border-radius: 999px;
-  padding: 4px 8px;
-  min-width: 54px;
-  height: 28px;
-  font-size: 12px;
+  border-radius: calc(999px * var(--ui-scale));
+  padding: calc(4px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  min-width: calc(54px * var(--ui-scale));
+  height: calc(28px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
   font-weight: 700;
   cursor: pointer;
   display: inline-flex;
@@ -455,21 +455,21 @@ header h4 {
 .duration-editor {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .time-chip.editable {
   cursor: text;
-  gap: 4px;
+  gap: calc(4px * var(--ui-scale));
   justify-content: center;
 }
 
 .time-chip.editable input {
-  width: 24px;
+  width: calc(24px * var(--ui-scale));
   border: 0;
   outline: none;
   background: transparent;
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
   font-weight: 700;
   color: var(--text);
   text-align: right;
@@ -488,8 +488,8 @@ header h4 {
 .meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  font-size: 12px;
+  gap: calc(8px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
@@ -508,7 +508,7 @@ header h4 {
   background: transparent;
   color: var(--text-muted);
   cursor: pointer;
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
 }
 
 .mini-link:hover {
@@ -531,7 +531,8 @@ header h4 {
 
 .muted {
   margin: 0;
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 </style>
+

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <header class="board-header" :style="{ borderColor: board?.color_hex || '#16A34A' }">
     <div class="left">
       <span class="dot" :style="{ background: board?.color_hex || '#16A34A' }" />
@@ -59,9 +59,9 @@ const resolvedBoardId = computed(() => props.boardId ?? props.board?.id ?? "");
     background-color: white;
   }
   h1{
-    font-size: 20px;
+    font-size: calc(20px * var(--ui-scale));
     display: inline;
-    margin-right: 10px;
+    margin-right: calc(10px * var(--ui-scale));
     color:white
   }
   p{
@@ -79,20 +79,20 @@ const resolvedBoardId = computed(() => props.boardId ?? props.board?.id ?? "");
 }
 
 .dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 999px;
+  width: calc(12px * var(--ui-scale));
+  height: calc(12px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
 }
 
 h1 {
   margin: 0;
-  font-size: 22px;
+  font-size: calc(22px * var(--ui-scale));
 }
 
 p {
-  margin: 4px 0 0;
+  margin: calc(4px * var(--ui-scale)) 0 0;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .nav-links {
@@ -101,10 +101,10 @@ p {
 }
 
 .link {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 6px 12px;
-  font-size: 13px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(999px * var(--ui-scale));
+  padding: calc(6px * var(--ui-scale)) calc(12px * var(--ui-scale));
+  font-size: calc(13px * var(--ui-scale));
   color: var(--text-muted);
 }
 
@@ -114,4 +114,5 @@ p {
   font-weight: 700;
 }
 </style>
+
 

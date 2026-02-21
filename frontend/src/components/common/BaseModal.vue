@@ -145,10 +145,10 @@ function onDrop(event) {
 }
 
 .modal {
-  width: min(760px, 100%);
-  max-height: calc(100vh - 200px);
+  width: min(calc(760px * var(--ui-scale)), 100%);
+  max-height: calc(100vh - calc(200px * var(--ui-scale)));
   overflow: auto;
-  border-radius: 14px;
+  border-radius: calc(14px * var(--ui-scale));
   background: #ebebeb;
   box-shadow: var(--shadow);
   position: relative;
@@ -157,12 +157,12 @@ function onDrop(event) {
 }
 
 .modal.modal-sm {
-  width: min(520px, 100%);
+  width: min(calc(520px * var(--ui-scale)), 100%);
 }
 
 .modal::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: calc(8px * var(--ui-scale));
+  height: calc(8px * var(--ui-scale));
 }
 
 .modal::-webkit-scrollbar-track {
@@ -171,8 +171,8 @@ function onDrop(event) {
 
 .modal::-webkit-scrollbar-thumb {
   background: rgba(15, 23, 42, 0.26);
-  border-radius: 999px;
-  border: 2px solid transparent;
+  border-radius: calc(999px * var(--ui-scale));
+  border: calc(2px * var(--ui-scale)) solid transparent;
   background-clip: padding-box;
 }
 
@@ -188,8 +188,8 @@ function onDrop(event) {
 }
 
 .modal.drop-active {
-  outline: 2px dashed color-mix(in srgb, var(--primary) 45%, #ffffff);
-  outline-offset: -10px;
+  outline: calc(2px * var(--ui-scale)) dashed color-mix(in srgb, var(--primary) 45%, #ffffff);
+  outline-offset: calc(-10px * var(--ui-scale));
 }
 
 .modal-header {
@@ -198,7 +198,7 @@ function onDrop(event) {
   justify-content: space-between;
   gap: var(--space-2);
   padding: var(--space-4);
-  border-bottom: 1px solid var(--border);
+  border-bottom: calc(1px * var(--ui-scale)) solid var(--border);
 }
 
 .modal-title {
@@ -217,15 +217,15 @@ function onDrop(event) {
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: calc(6px * var(--ui-scale));
   flex-shrink: 0;
 }
 
 .close {
-  border: 1px solid var(--border);
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  width: calc(30px * var(--ui-scale));
+  height: calc(30px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -236,8 +236,8 @@ function onDrop(event) {
 }
 
 .close svg {
-  width: 14px;
-  height: 14px;
+  width: calc(14px * var(--ui-scale));
+  height: calc(14px * var(--ui-scale));
   stroke: currentColor;
   stroke-width: 2.4;
   stroke-linecap: round;
@@ -256,23 +256,23 @@ function onDrop(event) {
   place-items: center;
   background: rgba(15, 23, 42, 0.36);
   color: #fff;
-  border-radius: 14px;
+  border-radius: calc(14px * var(--ui-scale));
   pointer-events: none;
 }
 
 .drop-overlay p {
   margin: 0;
-  padding: 10px 14px;
-  border-radius: 999px;
+  padding: calc(10px * var(--ui-scale)) calc(14px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
   background: rgba(15, 23, 42, 0.62);
   font-weight: 600;
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
-@media (max-width: 768px) {
+@media (max-width: 615px) {
   .overlay.mobile-fullscreen-overlay {
     padding: 0;
-    margin-top: 62px;
+    margin-top: calc(62px * var(--ui-scale));
   }
 
   .modal.mobile-fullscreen-modal {
@@ -284,3 +284,4 @@ function onDrop(event) {
   }
 }
 </style>
+

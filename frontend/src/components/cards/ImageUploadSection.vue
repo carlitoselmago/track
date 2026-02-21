@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section
     class="panel"
     :class="{ 'drag-active': isDragActive }"
@@ -103,7 +103,7 @@ function imageUrl(imageId) {
 .panel {
   display: grid;
   gap: var(--space-3);
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
   transition: border-color 120ms ease, background 120ms ease;
@@ -130,11 +130,11 @@ header h4 {
 }
 
 .add-image-btn {
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
   background: #fff;
   color: var(--text);
-  padding: 7px 12px;
+  padding: calc(7px * var(--ui-scale)) calc(12px * var(--ui-scale));
   cursor: pointer;
 }
 
@@ -145,19 +145,19 @@ header h4 {
 .drop-help {
   margin: 0;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(calc(120px * var(--ui-scale)), 1fr));
   gap: var(--space-2);
 }
 
 .item {
   margin: 0;
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(10px * var(--ui-scale));
   overflow: hidden;
 }
 
@@ -176,8 +176,8 @@ figcaption {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  gap: 4px;
-  padding: 6px;
+  gap: calc(4px * var(--ui-scale));
+  padding: calc(6px * var(--ui-scale));
   flex-wrap: wrap;
 }
 
@@ -186,7 +186,7 @@ figcaption {
   background: transparent;
   cursor: pointer;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: calc(11px * var(--ui-scale));
 }
 
 .danger {
@@ -195,17 +195,18 @@ figcaption {
 
 .empty {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .cover-tag {
   background: var(--primary);
   color: #fff;
-  border-radius: 999px;
-  padding: 2px 8px;
-  font-size: 10px;
+  border-radius: calc(999px * var(--ui-scale));
+  padding: calc(2px * var(--ui-scale)) calc(8px * var(--ui-scale));
+  font-size: calc(10px * var(--ui-scale));
   font-weight: 700;
   margin-right: auto;
 }
 </style>
+
 

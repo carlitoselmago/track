@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <form class="add-card" @submit.prevent="submit">
     <input v-model="title" class="input" placeholder="Add a card" />
     <button type="submit" class="btn" :disabled="!title.trim()">Add</button>
@@ -29,18 +29,19 @@ async function submit() {
 
 .input {
   flex: 1;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
 }
 
 .btn {
   border: 0;
-  border-radius: 8px;
-  padding: 8px 10px;
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(8px * var(--ui-scale)) calc(10px * var(--ui-scale));
   background: var(--surface-muted);
   cursor: pointer;
   border-color: black !important;
 }
 </style>
+
 

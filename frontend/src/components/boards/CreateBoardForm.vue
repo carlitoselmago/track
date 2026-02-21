@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <form class="panel" @submit.prevent="submit">
     <BaseInput v-model="name" label="Board name" placeholder="Sprint planning" />
     <BaseInput
@@ -58,7 +58,7 @@ async function submit() {
   display: grid;
   gap: var(--space-3);
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-4);
 }
@@ -72,20 +72,20 @@ async function submit() {
 
 .color {
   display: grid;
-  gap: 6px;
-  font-size: 12px;
+  gap: calc(6px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
 .color-picker {
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
   background: #fff;
-  min-width: 150px;
-  padding: 6px 10px;
+  min-width: calc(150px * var(--ui-scale));
+  padding: calc(6px * var(--ui-scale)) calc(10px * var(--ui-scale));
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
   position: relative;
   cursor: pointer;
 }
@@ -102,16 +102,17 @@ async function submit() {
 }
 
 .swatch {
-  width: 18px;
-  height: 18px;
-  border-radius: 999px;
-  border: 1px solid rgba(15, 23, 42, 0.2);
+  width: calc(18px * var(--ui-scale));
+  height: calc(18px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
+  border: calc(1px * var(--ui-scale)) solid rgba(15, 23, 42, 0.2);
   flex-shrink: 0;
 }
 
 .hex {
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
 }
 </style>
+
 

@@ -114,7 +114,7 @@ async function assignUserToBoard(userId) {
 .create-form {
   display: grid;
   gap: var(--space-2);
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   background: #fff;
   padding: var(--space-3);
@@ -124,22 +124,22 @@ async function assignUserToBoard(userId) {
 .checkbox-row {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: calc(8px * var(--ui-scale));
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .field {
   display: grid;
-  gap: 6px;
-  font-size: 12px;
+  gap: calc(6px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
 .multiselect,
 .select {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(8px * var(--ui-scale));
   background: #fff;
 }
 
@@ -149,8 +149,8 @@ async function assignUserToBoard(userId) {
 }
 
 .user-row {
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(10px * var(--ui-scale));
   background: #fff;
   padding: var(--space-3);
   display: grid;
@@ -160,22 +160,23 @@ async function assignUserToBoard(userId) {
 }
 
 .user-row p {
-  margin: 4px 0 0;
+  margin: calc(4px * var(--ui-scale)) 0 0;
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .assign-row {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .btn {
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 7px 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
+  padding: calc(7px * var(--ui-scale)) calc(10px * var(--ui-scale));
   background: var(--surface-muted);
   cursor: pointer;
 }
 </style>
+

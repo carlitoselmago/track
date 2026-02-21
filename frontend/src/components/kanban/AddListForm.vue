@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <form class="panel" @submit.prevent="submit">
     <BaseInput v-model="title" placeholder="Add another list" />
     <BaseButton type="submit" :disabled="!title.trim()">Add list</BaseButton>
@@ -25,14 +25,15 @@ async function submit() {
 
 <style scoped lang="less">
 .panel {
-  width: 300px;
-  min-width: 300px;
+  width: calc(300px * var(--ui-scale));
+  min-width: calc(300px * var(--ui-scale));
   background: var(--surface);
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
   display: grid;
   gap: var(--space-2);
 }
 </style>
+
 

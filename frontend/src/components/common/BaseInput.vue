@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <label class="field">
     <span v-if="label" class="label">{{ label }}</span>
     <input
@@ -52,24 +52,24 @@ defineEmits(["update:modelValue"]);
 <style scoped lang="less">
 .field {
   display: grid;
-  gap: 6px;
+  gap: calc(6px * var(--ui-scale));
 }
 
 .label {
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
 .control {
   width: 100%;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
   background: #fff;
-  padding: 10px 12px;
+  padding: calc(10px * var(--ui-scale)) calc(12px * var(--ui-scale));
 }
 
 .control:focus {
-  outline: 2px solid color-mix(in srgb, var(--primary) 35%, white);
+  outline: calc(2px * var(--ui-scale)) solid color-mix(in srgb, var(--primary) 35%, white);
   border-color: color-mix(in srgb, var(--primary) 65%, var(--border));
 }
 
@@ -77,4 +77,5 @@ defineEmits(["update:modelValue"]);
   resize: vertical;
 }
 </style>
+
 

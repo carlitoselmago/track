@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="column">
     <header class="header">
       <button
@@ -104,17 +104,17 @@ function onActionSelect(action) {
 
 <style scoped lang="less">
 .column {
-  width: 300px;
-  min-width: 300px;
+  width: calc(300px * var(--ui-scale));
+  min-width: calc(300px * var(--ui-scale));
   background: #ebebeb;
   
   border-radius: var(--radius);
   padding: var(--space-3);
   display: grid;
-  gap: var(--space-3);
+  gap: var(--space-2);
   align-content: start;
-  max-height: calc(100vh - 220px);
-  @media (max-width: 768px) {
+  max-height: calc(100vh - calc(220px * var(--ui-scale)));
+  @media (max-width: 615px) {
     max-height: 100%;
   }
 }
@@ -123,14 +123,14 @@ function onActionSelect(action) {
   display: flex;
   align-items: center;
   gap: var(--space-2);
-  margin: 0px;
+  margin: 0;
 }
 
 .list-drag-handle {
-  border: 1px solid var(--border);
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  width: calc(28px * var(--ui-scale));
+  height: calc(28px * var(--ui-scale));
+  border-radius: calc(8px * var(--ui-scale));
   background: #fff;
   color: var(--text-muted);
   display: inline-flex;
@@ -145,8 +145,8 @@ function onActionSelect(action) {
 }
 
 .list-drag-handle svg {
-  width: 14px;
-  height: 14px;
+  width: calc(14px * var(--ui-scale));
+  height: calc(14px * var(--ui-scale));
   fill: none;
   stroke: currentColor;
   stroke-width: 2.1;
@@ -155,9 +155,9 @@ function onActionSelect(action) {
 
 .title-input {
   flex: 1;
-  border: 0px;
-  border-radius: 8px;
-  padding: 0px 10px;
+  border: 0;
+  border-radius: calc(8px * var(--ui-scale));
+  padding: 0 calc(10px * var(--ui-scale));
   font-weight: 700;
   background: transparent;
   &:focus{
@@ -169,6 +169,8 @@ function onActionSelect(action) {
   display: grid;
   gap: var(--space-2);
   overflow: auto;
-  min-height: 20px;
+  min-height: 0;
 }
 </style>
+
+

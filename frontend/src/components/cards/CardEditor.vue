@@ -119,49 +119,50 @@ function onDescriptionChange() {
 
 .editor-head h4 {
   margin: 0;
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
   color: var(--text-muted);
   font-weight: 600;
 }
 
 .empty-button,
 .preview {
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(10px * var(--ui-scale));
   background: #fff;
   color: var(--text);
   text-align: left;
   width: 100%;
-  padding: 10px 12px;
+  padding: calc(10px * var(--ui-scale)) calc(12px * var(--ui-scale));
   cursor: text;
 }
 
 .empty-button {
   color: var(--text-muted);
   font-style: italic;
-  min-height: 44px;
+  min-height: calc(44px * var(--ui-scale));
 }
 
 .preview {
   white-space: pre-wrap;
   line-height: 1.45;
-  min-height: 44px;
+  min-height: calc(44px * var(--ui-scale));
 }
 
 .editor-input {
-  border: 1px solid var(--border);
-  border-radius: 10px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(10px * var(--ui-scale));
   background: #fff;
   color: var(--text);
   width: 100%;
-  min-height: 108px;
+  min-height: calc(108px * var(--ui-scale));
   resize: vertical;
-  padding: 10px 12px;
+  padding: calc(10px * var(--ui-scale)) calc(12px * var(--ui-scale));
   line-height: 1.45;
 }
 
 .editor-input:focus {
-  outline: 2px solid color-mix(in srgb, var(--primary) 26%, white);
+  outline: calc(2px * var(--ui-scale)) solid color-mix(in srgb, var(--primary) 26%, white);
   border-color: color-mix(in srgb, var(--primary) 50%, var(--border));
 }
 </style>
+

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <section class="login-page">
     <div class="panel">
       <h1>Track</h1>
@@ -58,21 +58,21 @@ async function submit() {
 }
 
 .panel {
-  width: min(430px, 100%);
+  width: min(calc(430px * var(--ui-scale)), 100%);
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(14px * var(--ui-scale));
   padding: var(--space-6);
   box-shadow: var(--shadow);
 }
 
 h1 {
   margin: 0;
-  font-size: 30px;
+  font-size: calc(30px * var(--ui-scale));
 }
 
 p {
-  margin: 6px 0 var(--space-4);
+  margin: calc(6px * var(--ui-scale)) 0 var(--space-4);
   color: var(--text-muted);
 }
 
@@ -81,4 +81,5 @@ p {
   gap: var(--space-3);
 }
 </style>
+
 

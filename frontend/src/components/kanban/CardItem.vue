@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <article class="card" @click="$emit('open', card.id)">
     <img
       v-if="coverImageId"
@@ -71,7 +71,7 @@ function imageUrl(imageId) {
   display: grid;
   gap: var(--space-2);
  
-  border-radius: 10px;
+  border-radius: calc(10px * var(--ui-scale));
   background: var(--surface);
   padding: var(--space-3);
   cursor: pointer;
@@ -83,34 +83,34 @@ function imageUrl(imageId) {
   margin-top: calc(-1 * var(--space-3));
   aspect-ratio: 16 / 9;
   object-fit: cover;
-  border-radius: 8px;
-  border: 1px solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   
-  border-end-end-radius: 0px;
-  border-bottom-left-radius: 0px;
+  border-end-end-radius: 0;
+  border-bottom-left-radius: 0;
 }
 
 h4 {
   margin: 0;
-  font-size: 14px;
+  font-size: calc(14px * var(--ui-scale));
 }
 
 .labels {
   display: flex;
-  gap: 5px;
+  gap: calc(5px * var(--ui-scale));
 }
 
 .label {
-  width: 20px;
-  height: 7px;
-  border-radius: 999px;
+  width: calc(20px * var(--ui-scale));
+  height: calc(7px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
 }
 
 .meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px;
-  font-size: 11px;
+  gap: calc(6px * var(--ui-scale));
+  font-size: calc(11px * var(--ui-scale));
   color: var(--text-muted);
 }
 
@@ -119,4 +119,6 @@ h4 {
   font-weight: 700;
 }
 </style>
+
+
 

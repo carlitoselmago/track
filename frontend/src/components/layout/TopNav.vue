@@ -154,14 +154,14 @@ function formatDate(iso) {
   position: sticky;
   top: 0;
   background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--border);
+  backdrop-filter: blur(calc(8px * var(--ui-scale)));
+  border-bottom: calc(1px * var(--ui-scale)) solid var(--border);
   z-index: 30;
   padding: 0 var(--space-4);
 }
 
 .row {
-  min-height: 62px;
+  min-height: calc(62px * var(--ui-scale));
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -180,15 +180,15 @@ function formatDate(iso) {
 
 .brand-logo {
   display: block;
-  height: 24px;
+  height: calc(24px * var(--ui-scale));
   width: auto;
 }
 
 .admin-link {
-  border: 1px solid var(--border);
-  border-radius: 999px;
-  padding: 5px 10px;
-  font-size: 12px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(999px * var(--ui-scale));
+  padding: calc(5px * var(--ui-scale)) calc(10px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
 }
 
 .right {
@@ -199,7 +199,7 @@ function formatDate(iso) {
 
 .user {
   color: var(--text-muted);
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .notification-wrap {
@@ -207,12 +207,12 @@ function formatDate(iso) {
 }
 
 .bell {
-  border: 1px solid var(--border);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
   background: #fff;
   color: #94a3b8;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+  width: calc(34px * var(--ui-scale));
+  height: calc(34px * var(--ui-scale));
+  border-radius: calc(10px * var(--ui-scale));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -220,8 +220,8 @@ function formatDate(iso) {
 }
 
 .bell svg {
-  width: 16px;
-  height: 16px;
+  width: calc(16px * var(--ui-scale));
+  height: calc(16px * var(--ui-scale));
   fill: none;
   stroke: currentColor;
   stroke-width: 2;
@@ -237,13 +237,13 @@ function formatDate(iso) {
 
 .notifications-panel {
   position: absolute;
-  top: calc(100% + 8px);
+  top: calc(100% + calc(8px * var(--ui-scale)));
   right: 0;
-  width: min(420px, 88vw);
-  border: 1px solid var(--border);
-  border-radius: 12px;
+  width: min(calc(420px * var(--ui-scale)), 88vw);
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(12px * var(--ui-scale));
   background: #fff;
-  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+  box-shadow: 0 calc(12px * var(--ui-scale)) calc(30px * var(--ui-scale)) rgba(15, 23, 42, 0.14);
   padding: var(--space-2);
   z-index: 40;
 }
@@ -252,49 +252,49 @@ function formatDate(iso) {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 6px;
+  padding: calc(6px * var(--ui-scale));
 }
 
 .notifications-panel ul {
   list-style: none;
   margin: 0;
   padding: 0;
-  max-height: 340px;
+  max-height: calc(340px * var(--ui-scale));
   overflow: auto;
   display: grid;
-  gap: 6px;
+  gap: calc(6px * var(--ui-scale));
 }
 
 .notifications-panel li {
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  padding: 8px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(10px * var(--ui-scale));
+  padding: calc(8px * var(--ui-scale));
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 8px;
+  gap: calc(8px * var(--ui-scale));
 }
 
 .item-main strong {
   display: block;
-  font-size: 13px;
+  font-size: calc(13px * var(--ui-scale));
 }
 
 .item-main p {
-  margin: 4px 0;
-  font-size: 12px;
+  margin: calc(4px * var(--ui-scale)) 0;
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
 .item-main small {
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: calc(11px * var(--ui-scale));
 }
 
 .mini-link {
   border: 0;
   background: transparent;
   color: var(--text-muted);
-  font-size: 12px;
+  font-size: calc(12px * var(--ui-scale));
   cursor: pointer;
 }
 
@@ -303,8 +303,8 @@ function formatDate(iso) {
 }
 
 .muted {
-  margin: 6px;
-  font-size: 12px;
+  margin: calc(6px * var(--ui-scale));
+  font-size: calc(12px * var(--ui-scale));
   color: var(--text-muted);
 }
 
@@ -316,7 +316,8 @@ function formatDate(iso) {
 .toggle-row {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  font-size: 13px;
+  gap: calc(8px * var(--ui-scale));
+  font-size: calc(13px * var(--ui-scale));
 }
 </style>
+

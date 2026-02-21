@@ -77,10 +77,10 @@ onBeforeUnmount(() => {
 }
 
 .trigger {
-  border: 1px solid var(--border);
-  width: 30px;
-  height: 30px;
-  border-radius: 999px;
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  width: calc(30px * var(--ui-scale));
+  height: calc(30px * var(--ui-scale));
+  border-radius: calc(999px * var(--ui-scale));
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -97,8 +97,8 @@ onBeforeUnmount(() => {
 }
 
 .default-icon {
-  width: 14px;
-  height: 14px;
+  width: calc(14px * var(--ui-scale));
+  height: calc(14px * var(--ui-scale));
   fill: none;
   stroke: currentColor;
   stroke-width: 2.1;
@@ -107,17 +107,17 @@ onBeforeUnmount(() => {
 
 .menu {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + calc(6px * var(--ui-scale)));
   right: 0;
-  min-width: 130px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
+  min-width: calc(130px * var(--ui-scale));
+  border: calc(1px * var(--ui-scale)) solid var(--border);
+  border-radius: calc(8px * var(--ui-scale));
   background: #fff;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 calc(10px * var(--ui-scale)) calc(20px * var(--ui-scale)) rgba(0, 0, 0, 0.1);
   z-index: 20;
-  padding: 6px;
+  padding: calc(6px * var(--ui-scale));
   display: grid;
-  gap: 4px;
+  gap: calc(4px * var(--ui-scale));
 }
 
 .menu-item {
@@ -125,8 +125,8 @@ onBeforeUnmount(() => {
   background: transparent;
   color: var(--text);
   text-align: left;
-  border-radius: 6px;
-  padding: 7px 8px;
+  border-radius: calc(6px * var(--ui-scale));
+  padding: calc(7px * var(--ui-scale)) calc(8px * var(--ui-scale));
   cursor: pointer;
 }
 
@@ -138,3 +138,4 @@ onBeforeUnmount(() => {
   color: var(--danger);
 }
 </style>
+
