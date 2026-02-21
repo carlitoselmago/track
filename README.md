@@ -56,7 +56,11 @@ Frontend dev server proxies `/api/*` to `http://127.0.0.1:8000`.
 
 ```bash
 sudo apt update
-sudo apt install -y python3 python3-venv python3-pip nginx nodejs npm
+sudo apt install -y python3 python3-venv python3-pip nginx curl
+
+# install Node.js 20 LTS (recommended for this frontend)
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
 ```
 
 ### 2) Prepare project
@@ -95,6 +99,8 @@ Recommended production values in `.env`:
 
 ```bash
 cd /opt/track/frontend
+node -v
+npm -v
 npm ci
 npm run build
 ```
@@ -186,3 +192,28 @@ sudo certbot --nginx -d your-domain.com
 - Email delivery failures are logged and do not break user-facing actions.
 - Uploaded files are stored locally under `backend/data/uploads/cards` by default.
 - SQLite is fine for first production release and small teams; for growth, move to PostgreSQL.
+
+
+### Common build error (Node version)
+
+If you see:
+
+```
+SyntaxError: The requested module 'node:fs/promises' does not provide an export named 'constants'
+```
+
+You are running an old Node.js version. Upgrade Node and reinstall deps:
+
+```bash
+cd /opt/track/frontend
+rm -rf node_modules package-lock.json
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+node -v
+npm install
+npm run build
+```
+
+Reference:
+- Vite 6 Node support: https://vite.dev/blog/announcing-vite6
+- Vite current getting started (Node requirement): https://vite.dev/guide/
