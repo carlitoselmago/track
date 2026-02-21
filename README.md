@@ -105,6 +105,33 @@ npm run build
 
 This creates static assets in `frontend/dist`.
 
+#### Frontend API URL (custom server path)
+
+If your API is served from a custom URL/path, set `VITE_API_BASE_URL` before building.
+This value is baked into the frontend build output.
+
+Option A: one-off build variable
+
+```bash
+cd /opt/track/frontend
+VITE_API_BASE_URL="https://your-domain.com/track/api/v1" npm run build
+```
+
+Option B: local production env file (not committed)
+
+Create `frontend/.env.production.local`:
+
+```env
+VITE_API_BASE_URL=https://your-domain.com/track/api/v1
+```
+
+Then build normally:
+
+```bash
+cd /opt/track/frontend
+npm run build
+```
+
 ### 5) Create systemd service for backend
 
 Create `/etc/systemd/system/track-backend.service`:
