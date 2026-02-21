@@ -155,9 +155,12 @@ function formatDate(iso) {
   top: 0;
   background: rgba(255, 255, 255, 0.94);
   backdrop-filter: blur(calc(8px * @ui-scale));
-  border-bottom: calc(1px * @ui-scale) solid @border;
+
   z-index: 30;
   padding: 0 @space-4;
+  @media (prefers-color-scheme: dark) {
+    background:@bg-dark;
+  }
 }
 
 .row {

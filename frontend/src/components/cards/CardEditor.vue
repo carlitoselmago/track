@@ -122,6 +122,9 @@ function onDescriptionChange() {
   font-size: calc(13px * @ui-scale);
   color: @text-muted;
   font-weight: 600;
+  @media (prefers-color-scheme: dark) {
+    color: @text-muted-dark;
+  }
 }
 
 .empty-button,
@@ -140,6 +143,10 @@ function onDescriptionChange() {
   color: @text-muted;
   font-style: italic;
   min-height: calc(44px * @ui-scale);
+  @media (prefers-color-scheme: dark) {
+    background-color: @surface-muted-dark;
+    border-color:@bg-dark;
+  }
 }
 
 .preview {

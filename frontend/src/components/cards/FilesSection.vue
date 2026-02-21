@@ -152,6 +152,9 @@ function fileUrl(fileId) {
   border-radius: @radius;
   padding: @space-3;
   transition: border-color 120ms ease, background 120ms ease;
+  @media (prefers-color-scheme: dark) {
+    border-color:@surface-muted-dark;
+  }
 }
 
 .panel.drag-active {

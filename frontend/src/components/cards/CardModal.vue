@@ -611,6 +611,9 @@ async function commitTitleEdit() {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: text;
+  @media (prefers-color-scheme: dark) {
+    color:@text-dark;
+  }
 }
 
 .title-input {
@@ -640,21 +643,31 @@ async function commitTitleEdit() {
   border-radius: calc(10px * @ui-scale);
   border: calc(1px * @ui-scale) solid @border;
   background-color: #2d2d2d;
+  @media (prefers-color-scheme: dark) {
+    border-color:@bg-dark;
+  }
 }
 
 .cover-preview span {
   font-size: calc(12px * @ui-scale);
   color: @text-muted;
+  @media (prefers-color-scheme: dark) {
+    color: @text-muted-dark;
+  }
 }
 
 .meta-summary {
   border: calc(1px * @ui-scale) solid @border;
   border-radius: @radius;
-  background: #fff;
+ 
   padding: @space-3;
  
   display: grid;
   gap: @space-3;
+  @media (prefers-color-scheme: dark) {
+    border-color:@surface-muted-dark;
+    
+  }
 }
 
 .meta-group {
@@ -694,6 +707,10 @@ async function commitTitleEdit() {
   padding: @space-3;
   display: grid;
   gap: calc(10px * @ui-scale);
+  @media (prefers-color-scheme: dark) {
+    background-color:@bg-dark;
+    border-color:@surface-muted-dark;
+  }
 }
 
 .add-actions h4 {

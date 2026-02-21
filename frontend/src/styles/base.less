@@ -12,7 +12,9 @@ body {
   min-height: 100vh;
   max-width: 100vw;
   font-size: calc(14px * @ui-scale);
-
+  @media (prefers-color-scheme: dark) {
+   color:@text-dark;
+  }
 
   a {
     color: inherit;
@@ -24,6 +26,9 @@ body {
   textarea,
   select {
     font: inherit;
+    @media (prefers-color-scheme: dark) {
+      color:@text-dark;
+     }
   }
 
   .container {
@@ -70,6 +75,11 @@ body {
 
 
 @media (prefers-color-scheme: dark) {
- 
+  html{
+  body{
+    .topnav{
+      background-color: @bg-dark;
+    }
   }
-
+  }
+}

@@ -117,6 +117,9 @@ function onActionSelect(action) {
   @media (max-width: 615px) {
     max-height: 100%;
   }
+  @media (prefers-color-scheme: dark) {
+    background:@surface-dark;
+  }
 }
 
 .header {
@@ -138,6 +141,11 @@ function onActionSelect(action) {
   justify-content: center;
   cursor: grab;
   flex-shrink: 0;
+  @media (prefers-color-scheme: dark) {
+    background-color: @bg-dark;
+    border-color:@surface-muted-dark;
+    color:@text-dark;
+  }
 }
 
 .list-drag-handle:active {

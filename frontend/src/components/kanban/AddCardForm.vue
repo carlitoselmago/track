@@ -32,6 +32,8 @@ async function submit() {
   border: calc(1px * @ui-scale) solid @border;
   border-radius: calc(8px * @ui-scale);
   padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
+  background-color: black;
+  border:none;
 }
 
 .btn {
@@ -41,6 +43,9 @@ async function submit() {
   background: @surface-muted;
   cursor: pointer;
   border-color: black !important;
+  @media (prefers-color-scheme: dark) {
+    background-color: @surface-dark;
+  }
 }
 </style>
 

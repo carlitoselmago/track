@@ -75,6 +75,9 @@ function imageUrl(imageId) {
   background: @surface;
   padding: @space-3;
   cursor: pointer;
+  @media (prefers-color-scheme: dark) {
+    background: @surface-muted-dark;
+  }
 }
 
 .cover-image {
@@ -88,6 +91,9 @@ function imageUrl(imageId) {
   
   border-end-end-radius: 0;
   border-bottom-left-radius: 0;
+  @media (prefers-color-scheme: dark) {
+    border-color:@bg-dark;
+  }
 }
 
 h4 {
@@ -112,6 +118,9 @@ h4 {
   gap: calc(6px * @ui-scale);
   font-size: calc(11px * @ui-scale);
   color: @text-muted;
+  @media (prefers-color-scheme: dark) {
+    color:@text-muted-dark;
+  }
 }
 
 .running {

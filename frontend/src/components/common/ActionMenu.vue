@@ -84,10 +84,13 @@ onBeforeUnmount(() => {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+  background: transparent;
   color: @text;
   cursor: pointer;
   transition: all 140ms ease;
+  @media (prefers-color-scheme: dark) {
+    border-color:@bg-dark;
+  }
 }
 
 .trigger:hover {
@@ -103,6 +106,10 @@ onBeforeUnmount(() => {
   stroke: currentColor;
   stroke-width: 2.1;
   stroke-linecap: round;
+  @media (prefers-color-scheme: dark) {
+       color:@text-dark;
+    }
+ 
 }
 
 .menu {

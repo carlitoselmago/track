@@ -159,6 +159,9 @@ function removeItem(itemId) {
   border: calc(1px * @ui-scale) solid @border;
   border-radius: @radius;
   padding: @space-3;
+  @media (prefers-color-scheme: dark) {
+    border-color: @surface-muted-dark;
+  }
 }
 
 header h4 {
@@ -198,6 +201,10 @@ header h4 {
   background: #f8fafc;
   border-radius: calc(10px * @ui-scale);
   padding: @space-2;
+  @media (prefers-color-scheme: dark) {
+    background-color: @surface-muted-dark;
+    color:@text-dark;
+  }
 }
 
 .checklist-head {

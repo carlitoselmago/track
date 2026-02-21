@@ -137,11 +137,12 @@ function onDrop(event) {
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
+  background: rgba(0, 0, 0, 0.25);
   display: grid;
   place-items: center;
   padding: @space-4;
-  z-index: 20;
+  z-index: 30;
+  backdrop-filter: blur(20px);
 }
 
 .modal {
@@ -154,6 +155,9 @@ function onDrop(event) {
   position: relative;
   scrollbar-width: thin;
   scrollbar-color: rgba(15, 23, 42, 0.28) transparent;
+  @media (prefers-color-scheme: dark) {
+    background-color: @bg-dark;
+  }
 }
 
 .modal.modal-sm {
@@ -199,6 +203,9 @@ function onDrop(event) {
   gap: @space-2;
   padding: @space-3 @space-4;
   border-bottom: calc(1px * @ui-scale) solid @border;
+  @media (prefers-color-scheme: dark) {
+    border-color:@surface-muted-dark;
+  }
 }
 
 .modal-title {

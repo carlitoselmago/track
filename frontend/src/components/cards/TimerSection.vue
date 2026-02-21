@@ -326,6 +326,10 @@ function formatDuration(totalSeconds) {
 
   background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(calc(4px * @ui-scale));
+  @media (prefers-color-scheme: dark) {
+    background-color: @surface-muted-dark;
+    border-color:@surface-muted-dark;
+  }
 }
 
 header {
@@ -367,10 +371,18 @@ header h4 {
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  @media (prefers-color-scheme: dark) {
+    background-color: @bg-dark;
+    color:@text-dark;
+    border-color:@surface-muted-dark;
+  }
 }
 
 .chunks-toggle:hover {
   background: @surface-muted;
+  @media (prefers-color-scheme: dark) {
+    background-color: @bg-dark;
+  }
 }
 
 .toggle-meta {
