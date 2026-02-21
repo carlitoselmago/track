@@ -209,6 +209,31 @@ function stopBackgroundDrag() {
   overflow-x: auto;
   align-items: start;
   cursor: grab;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(15, 23, 42, 0.2) transparent;
+}
+
+.lists-wrap::-webkit-scrollbar {
+  height: calc(10px * var(--ui-scale));
+}
+
+.lists-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.lists-wrap::-webkit-scrollbar-thumb {
+  background: rgba(15, 23, 42, 0.2);
+  border-radius: calc(999px * var(--ui-scale));
+}
+
+.lists-wrap::-webkit-scrollbar-thumb:hover {
+  background: rgba(15, 23, 42, 0.32);
+}
+
+.lists-wrap::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .lists-wrap.dragging {

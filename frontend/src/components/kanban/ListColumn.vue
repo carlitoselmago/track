@@ -113,7 +113,7 @@ function onActionSelect(action) {
   display: grid;
   gap: var(--space-2);
   align-content: start;
-  max-height: calc(100vh - calc(220px * var(--ui-scale)));
+  /*max-height: calc(100vh - calc(220px * var(--ui-scale)));*/
   @media (max-width: 615px) {
     max-height: 100%;
   }
