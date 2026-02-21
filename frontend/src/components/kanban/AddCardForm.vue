@@ -40,6 +40,7 @@ async function submit() {
   padding: 8px 10px;
   background: var(--surface-muted);
   cursor: pointer;
+  border-color: black !important;
 }
 </style>
 

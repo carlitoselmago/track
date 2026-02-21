@@ -1,5 +1,6 @@
 ﻿<template>
   <section class="container section">
+    <div class="content">
     <header class="header">
       <h1>Your Boards</h1>
     </header>
@@ -41,6 +42,7 @@
         </div>
       </form>
     </BaseModal>
+  </div>
   </section>
 </template>
 

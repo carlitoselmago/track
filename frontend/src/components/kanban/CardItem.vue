@@ -70,7 +70,7 @@ function imageUrl(imageId) {
 .card {
   display: grid;
   gap: var(--space-2);
-  border: 1px solid var(--border);
+ 
   border-radius: 10px;
   background: var(--surface);
   padding: var(--space-3);
@@ -78,11 +78,16 @@ function imageUrl(imageId) {
 }
 
 .cover-image {
-  width: 100%;
-  aspect-ratio: 16 / 7;
+  width: calc(100% + var(--space-3)*2);
+  margin-left: calc(-1 * var(--space-3));
+  margin-top: calc(-1 * var(--space-3));
+  aspect-ratio: 16 / 9;
   object-fit: cover;
   border-radius: 8px;
   border: 1px solid var(--border);
+  
+  border-end-end-radius: 0px;
+  border-bottom-left-radius: 0px;
 }
 
 h4 {

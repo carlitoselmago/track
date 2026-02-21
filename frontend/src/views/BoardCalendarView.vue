@@ -6,7 +6,7 @@
 
     <template v-else-if="boardStore.currentBoard">
       <BoardHeader :board="boardStore.currentBoard" :board-id="props.boardId" />
-
+      <div class="content">
       <div class="toolbar">
         <button type="button" class="month-btn" @click="shiftMonth(-1)">Prev</button>
         <input v-model="selectedMonth" type="month" class="month-input" />
@@ -60,6 +60,7 @@
           </article>
         </div>
       </div>
+    </div>
     </template>
   </section>
 </template>
@@ -235,6 +236,7 @@ onMounted(async () => {
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: var(--space-3);
+  margin-bottom: var(--space-3);
 }
 
 .month-btn {

@@ -85,8 +85,8 @@ function renameList(nextTitle) {
 .column {
   width: 300px;
   min-width: 300px;
-  background: #f8fafc;
-  border: 1px solid var(--border);
+  background: #ebebeb;
+  
   border-radius: var(--radius);
   padding: var(--space-3);
   display: grid;
@@ -99,15 +99,19 @@ function renameList(nextTitle) {
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  margin: 0px;
 }
 
 .title-input {
   flex: 1;
   border: 0px;
   border-radius: 8px;
-  padding: 8px 10px;
+  padding: 0px 10px;
   font-weight: 700;
   background: transparent;
+  &:focus{
+    outline: none;
+  }
 }
 
 .delete-list {

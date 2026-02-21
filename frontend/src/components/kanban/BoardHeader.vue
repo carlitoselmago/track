@@ -53,15 +53,21 @@ const resolvedBoardId = computed(() => props.boardId ?? props.board?.id ?? "");
   align-items: center;
   justify-content: space-between;
   background: rgba(0, 0, 0, 0.2);
-  padding: var(--space-1) var(--space-6);
+  padding: var(--space-3) var(--space-6);
+ 
   a{
     background-color: white;
   }
   h1{
-    font-size: 18px;
+    font-size: 20px;
+    display: inline;
+    margin-right: 10px;
   }
   p{
     margin: 0;
+    color:white;
+    display: inline;
+    opacity: 0.4;
   }
 }
 

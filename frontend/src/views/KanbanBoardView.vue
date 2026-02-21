@@ -7,7 +7,7 @@
     <template v-else-if="boardStore.currentBoard">
       <BoardHeader :board="boardStore.currentBoard" :board-id="props.boardId" />
 
-      <div class="lists-wrap">
+      <div class="lists-wrap content">
         <draggable
           v-model="boardStore.currentBoard.lists"
           item-key="id"
@@ -131,13 +131,13 @@ async function onCardDragEnd(payload) {
   gap: var(--space-3);
   overflow-x: auto;
   align-items: start;
-  padding: 0px var(--space-4);
-  padding-bottom: var(--space-2);
+
 }
 
 .lists {
   display: flex;
   gap: var(--space-3);
+  align-items: flex-start;
 }
 </style>
 

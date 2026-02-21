@@ -120,14 +120,16 @@ async function deleteCard() {
 .cover-preview {
   display: grid;
   gap: 8px;
+
 }
 
 .cover-preview img {
   width: 100%;
   max-height: 220px;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 10px;
   border: 1px solid var(--border);
+  background-color:rgb(219, 219, 219)
 }
 
 .cover-preview span {
