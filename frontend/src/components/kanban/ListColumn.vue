@@ -1,6 +1,17 @@
 ﻿<template>
   <section class="column">
     <header class="header">
+      <button
+        type="button"
+        class="list-drag-handle"
+        aria-label="Drag list"
+        title="Drag list"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 6h6M9 12h6M9 18h6" />
+        </svg>
+      </button>
+
       <input
         :value="list.title"
         class="title-input"
@@ -110,6 +121,33 @@ function onActionSelect(action) {
   align-items: center;
   gap: var(--space-2);
   margin: 0px;
+}
+
+.list-drag-handle {
+  border: 1px solid var(--border);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #fff;
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  flex-shrink: 0;
+}
+
+.list-drag-handle:active {
+  cursor: grabbing;
+}
+
+.list-drag-handle svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
 }
 
 .title-input {

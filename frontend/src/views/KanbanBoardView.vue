@@ -13,6 +13,7 @@
           item-key="id"
           class="lists"
           :animation="140"
+          handle=".list-drag-handle"
           @start="listDragSnapshot = boardStore.snapshotLists()"
           @end="onListDragEnd"
         >
@@ -140,4 +141,3 @@ async function onCardDragEnd(payload) {
   align-items: flex-start;
 }
 </style>
-
