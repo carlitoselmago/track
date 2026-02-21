@@ -99,8 +99,6 @@ Recommended production values in `.env`:
 
 ```bash
 cd /opt/track/frontend
-node -v
-npm -v
 npm ci
 npm run build
 ```
