@@ -1,7 +1,7 @@
 <template>
   <section class="login-page">
     <div class="panel">
-      <h1>Track</h1>
+      <img src="/logo.svg" alt="Track" class="brand-logo" />
       <p>Sign in to continue.</p>
       <form class="form" @submit.prevent="submit">
         <BaseInput v-model="email" label="Email" type="email" placeholder="you@company.com" />
@@ -55,6 +55,10 @@ async function submit() {
   display: grid;
   place-items: center;
   padding: @space-4;
+  .brand-logo{
+    margin-top: 6px;
+  }
+ 
 }
 
 .panel {

@@ -57,10 +57,13 @@ async function submit() {
 .panel {
   display: grid;
   gap: @space-3;
-  background: @surface;
+ 
   border: calc(1px * @ui-scale) solid @border;
   border-radius: @radius;
   padding: @space-4;
+  @media (prefers-color-scheme: dark) {
+    border-color:@surface-muted-dark;
+  }
 }
 
 .row {

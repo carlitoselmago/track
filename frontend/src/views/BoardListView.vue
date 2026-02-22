@@ -144,7 +144,7 @@ async function confirmDeleteBoard(board) {
   border: calc(1px * @ui-scale) solid @border;
   border-radius: calc(999px * @ui-scale);
   padding: calc(7px * @ui-scale) calc(12px * @ui-scale);
-  background: #fff;
+ 
   font-size: calc(13px * @ui-scale);
 }
 

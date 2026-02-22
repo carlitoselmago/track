@@ -44,7 +44,7 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, onBeforeUnmount, ref, watch } from "vue";
 
 const props = defineProps({
   modelValue: {
@@ -78,16 +78,60 @@ const emit = defineEmits(["update:modelValue", "file-drop"]);
 const dragDepth = ref(0);
 const isDragActive = ref(false);
 const sizeClass = computed(() => (props.size === "sm" ? "modal-sm" : ""));
+const hasBodyScrollLock = ref(false);
 
 watch(
   () => props.modelValue,
   (isOpen) => {
+    if (isOpen) {
+      acquireBodyScrollLock();
+    } else {
+      releaseBodyScrollLock();
+    }
     if (!isOpen) {
       dragDepth.value = 0;
       isDragActive.value = false;
     }
   },
+  { immediate: true },
 );
+
+onBeforeUnmount(() => {
+  releaseBodyScrollLock();
+});
+
+function acquireBodyScrollLock() {
+  if (hasBodyScrollLock.value || typeof document === "undefined") {
+    return;
+  }
+  const body = document.body;
+  const currentLocks = Number(body.dataset.trackModalLocks || "0");
+  if (currentLocks === 0) {
+    body.dataset.trackModalPrevOverflow = body.style.overflow || "";
+    body.style.overflow = "hidden";
+  }
+  body.dataset.trackModalLocks = String(currentLocks + 1);
+  hasBodyScrollLock.value = true;
+}
+
+function releaseBodyScrollLock() {
+  if (!hasBodyScrollLock.value || typeof document === "undefined") {
+    return;
+  }
+  const body = document.body;
+  const currentLocks = Number(body.dataset.trackModalLocks || "0");
+  const nextLocks = Math.max(0, currentLocks - 1);
+
+  if (nextLocks === 0) {
+    body.style.overflow = body.dataset.trackModalPrevOverflow || "";
+    delete body.dataset.trackModalPrevOverflow;
+    delete body.dataset.trackModalLocks;
+  } else {
+    body.dataset.trackModalLocks = String(nextLocks);
+  }
+
+  hasBodyScrollLock.value = false;
+}
 
 function hasFiles(event) {
   return Array.from(event.dataTransfer?.types || []).includes("Files");
@@ -263,4 +307,3 @@ function onDrop(event) {
   }
 }
 </style>
-

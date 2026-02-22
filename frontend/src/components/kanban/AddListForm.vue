@@ -27,8 +27,8 @@ async function submit() {
 .panel {
   width: calc(300px * @ui-scale);
   min-width: calc(300px * @ui-scale);
-  background: @surface;
-  border: calc(1px * @ui-scale) solid @border;
+ 
+ 
   border-radius: @radius;
   padding: @space-3;
   display: grid;

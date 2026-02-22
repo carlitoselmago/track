@@ -58,6 +58,9 @@ body {
     position: relative;
     display: flex;
     flex-direction: column;
+    @media (prefers-color-scheme: dark) {
+      background-color: @surface-muted-dark;
+    }
   }
 
   .content {
@@ -92,6 +95,10 @@ body {
     &.preview{
       background: transparent;
       border:none;
+    }
+    @media (prefers-color-scheme: dark) {
+      background-color: @surface-muted-dark;
+      border:none
     }
   }
 
@@ -209,14 +216,58 @@ body {
       border:none;
     }
    }
+   .panel{
+    background: @surface;
+    border: calc(1px * @ui-scale) solid @border;
+    @media (prefers-color-scheme: dark) {
+      background: @bg-dark;
+      border-color: @bg-dark;
+    }
+   }
+   .input{
+    @media (prefers-color-scheme: dark) {
+      background: @surface-muted-dark;
+    }
+   }
+   .base-button.subtle,.bell,.action-btn {
+    background: @surface-muted;
+    color: @text;
+    border: calc(1px * @ui-scale) solid @border;
+    @media (prefers-color-scheme: dark) {
+      background: @surface-muted-dark;
+      color:@text-dark;
+      border-color:transparent;
+    }
+  }
+  .error-banner{
+    .container{
+      flex-direction: row;
+      padding: 0px  calc(6px * @ui-scale) 0 @space-4;;
+    }
+  }
+  .board-card {
+    background: @surface;
+    border: calc(1px * @ui-scale) solid @border;
+    @media (prefers-color-scheme: dark) {
+      background: @surface-dark;
+      color:@surface-muted-dark;
+      border-color:@bg-dark;
+    }
+  }
 }
 
 
 @media (prefers-color-scheme: dark) {
   html{
   body{
+    background:@bg-dark;
     .topnav{
       background-color: @bg-dark;
+    }
+    .login-page input.control.ui-control{
+      @media (prefers-color-scheme: dark) {
+        background-color: @text-dark;
+      }
     }
   }
   }

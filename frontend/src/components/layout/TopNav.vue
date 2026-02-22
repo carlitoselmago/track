@@ -210,8 +210,8 @@ function formatDate(iso) {
 }
 
 .bell {
-  border: calc(1px * @ui-scale) solid @border;
-  background: #fff;
+
+
   color: #94a3b8;
   width: calc(34px * @ui-scale);
   height: calc(34px * @ui-scale);

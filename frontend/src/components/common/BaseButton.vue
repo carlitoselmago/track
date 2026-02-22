@@ -64,10 +64,7 @@ defineProps({
   background: @danger;
 }
 
-.base-button.subtle {
-  background: @surface-muted;
-  color: @text;
-}
+
 
 .base-button.block {
   width: 100%;

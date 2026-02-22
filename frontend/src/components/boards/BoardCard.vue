@@ -6,8 +6,8 @@
       <p v-if="board.description">{{ board.description }}</p>
     </div>
     <div class="actions">
-      <button type="button" class="action-btn" @click.stop="$emit('edit', board)">Edit</button>
-      <button type="button" class="action-btn danger" @click.stop="$emit('delete', board)">Delete</button>
+      <button type="button" class="action-btn btn" @click.stop="$emit('edit', board)">Edit</button>
+      <button type="button" class="action-btn btn danger" @click.stop="$emit('delete', board)">Delete</button>
     </div>
   </article>
 </template>
@@ -28,14 +28,16 @@ defineEmits(["open", "edit", "delete"]);
   display: flex;
   gap: @space-3;
   align-items: center;
-  background: @surface;
-  border: calc(1px * @ui-scale) solid @border;
+ 
   border-radius: @radius;
   padding: @space-4;
   transition: transform 140ms ease;
   cursor: pointer;
   h3{
     margin: 0px;
+    @media (prefers-color-scheme: dark) {
+      color:@text-dark;
+    }
   }
 }
 
@@ -75,8 +77,8 @@ p {
 }
 
 .action-btn {
-  border: calc(1px * @ui-scale) solid @border;
-  background: #fff;
+
+ 
   border-radius: calc(8px * @ui-scale);
   padding: calc(4px * @ui-scale) calc(8px * @ui-scale);
   font-size: calc(12px * @ui-scale);
