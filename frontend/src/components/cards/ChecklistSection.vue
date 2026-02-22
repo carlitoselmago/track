@@ -26,7 +26,7 @@
           :value="checklist.title"
           @change="renameChecklist(checklist.id, checklist.title, $event.target.value)"
         />
-        <button type="button" class="link danger" @click="removeChecklist(checklist.id)">
+        <button type="button" class="link " @click="removeChecklist(checklist.id)">
           Delete
         </button>
       </div>
@@ -46,7 +46,11 @@
           :value="item.content"
           @change="renameItem(item.id, $event.target.value)"
         />
-        <button type="button" class="link danger" @click="removeItem(item.id)">x</button>
+        <button type="button" class="link" @click="removeItem(item.id)">
+          <svg class="closebtn" width="12px" height="12px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.29289 5.29289C5.68342 4.90237 6.31658 4.90237 6.70711 5.29289L12 10.5858L17.2929 5.29289C17.6834 4.90237 18.3166 4.90237 18.7071 5.29289C19.0976 5.68342 19.0976 6.31658 18.7071 6.70711L13.4142 12L18.7071 17.2929C19.0976 17.6834 19.0976 18.3166 18.7071 18.7071C18.3166 19.0976 17.6834 19.0976 17.2929 18.7071L12 13.4142L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L10.5858 12L5.29289 6.70711C4.90237 6.31658 4.90237 5.68342 5.29289 5.29289Z" fill="#1b1b1b"/>
+</svg>
+</button>
       </div>
 
       <div class="add-row small">
@@ -258,14 +262,14 @@ header h4 {
   border: 0;
   border-radius: calc(8px * @ui-scale);
   padding: calc(8px * @ui-scale) calc(10px * @ui-scale);
-  background: @surface-muted;
+
   cursor: pointer;
 }
 
 .link {
   border: 0;
   background: transparent;
-  color: @text-muted;
+ 
   cursor: pointer;
 }
 

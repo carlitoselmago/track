@@ -185,7 +185,7 @@ figcaption {
   border: 0;
   background: transparent;
   cursor: pointer;
-  color: @text-muted;
+ 
   font-size: calc(11px * @ui-scale);
 }
 

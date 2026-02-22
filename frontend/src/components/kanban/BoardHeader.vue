@@ -105,7 +105,7 @@ p {
   border-radius: calc(999px * @ui-scale);
   padding: calc(6px * @ui-scale) calc(12px * @ui-scale);
   font-size: calc(13px * @ui-scale);
-  color: @text-muted;
+  
 }
 
 .link.active {

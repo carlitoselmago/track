@@ -1,3 +1,4 @@
+*.sh
 backend/data/uploads
 backend/data/track.db
 backend/config/system.yaml

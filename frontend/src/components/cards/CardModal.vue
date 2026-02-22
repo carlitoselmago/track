@@ -684,9 +684,7 @@ async function commitTitleEdit() {
   line-height: 1.1;
 }
 
-.assignee-chip {
-  background: #fff;
-}
+
 
 .add-actions {
   border: calc(1px * @ui-scale) dashed @border;

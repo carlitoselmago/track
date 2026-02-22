@@ -201,14 +201,14 @@ function onDrop(event) {
 }
 
 .close {
-  border: calc(1px * @ui-scale) solid @border;
+  
   width: calc(30px * @ui-scale);
   height: calc(30px * @ui-scale);
   border-radius: calc(999px * @ui-scale);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #fff;
+ 
   cursor: pointer;
   color: @text-muted;
   transition: all 140ms ease;

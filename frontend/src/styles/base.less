@@ -30,6 +30,13 @@ body {
       color:@text-dark;
      }
   }
+  .btn,button{
+    background: @surface-muted;
+    @media (prefers-color-scheme: dark) {
+      background: @bg-dark;
+      color:@text-dark;
+    }
+  }
   h4{
     font-size: 16px;
   }
@@ -158,8 +165,50 @@ body {
     *:last-child {
       margin-bottom: 0;
     }
-    
+    @media (prefers-color-scheme: dark) {
+      color:@text-dark;
+      background-color:@bg-dark;
+      border-color:@surface-muted-dark;
+    }
   }
+  .editor-shell{
+    @media (prefers-color-scheme: dark) {
+     background-color:@bg-dark;
+     border-color:@surface-muted-dark;
+    }
+  }
+  .toolbar{
+    background: @surface-muted;
+    @media (prefers-color-scheme: dark) {
+      background-color:@surface-muted-dark;
+      border-color:@surface-muted-dark;
+     }
+  }
+  .assignee-chip {
+    background: #fff;
+    @media (prefers-color-scheme: dark) {
+      background-color:@surface-dark;
+     }
+  }
+  .closebtn path{
+    @media (prefers-color-scheme: dark) {
+      fill:@text-second;
+    }
+  }
+  .link,.info,.ui-section-title{
+    color: @text-muted;
+    @media (prefers-color-scheme: dark) {
+      color:@text-second;
+    }
+  }
+   .close{
+    background: #fff;
+    border: calc(1px * @ui-scale) solid @border;
+    @media (prefers-color-scheme: dark) {
+      background: transparent;
+      border:none;
+    }
+   }
 }
 
 

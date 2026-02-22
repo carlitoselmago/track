@@ -357,7 +357,7 @@ header h4 {
 
 .info {
   margin: 0;
-  color: @text-muted;
+ 
   font-size: calc(12px * @ui-scale);
 }
 

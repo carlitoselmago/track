@@ -458,7 +458,7 @@ function sanitizeHref(value) {
   flex-wrap: wrap;
   border-bottom: calc(1px * @ui-scale) solid @border;
   padding: calc(8px * @ui-scale);
-  background: @surface-muted;
+  
 }
 
 .toolbar-spacer {
