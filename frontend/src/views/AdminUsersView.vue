@@ -114,9 +114,9 @@ async function assignUserToBoard(userId) {
 .create-form {
   display: grid;
   gap: @space-2;
-  border: calc(1px * @ui-scale) solid @border;
+
   border-radius: @radius;
-  background: #fff;
+
   padding: @space-3;
   margin-bottom: @space-3;
 }
@@ -140,7 +140,7 @@ async function assignUserToBoard(userId) {
   border: calc(1px * @ui-scale) solid @border;
   border-radius: calc(8px * @ui-scale);
   padding: calc(8px * @ui-scale);
-  background: #fff;
+  
 }
 
 .list {
@@ -149,9 +149,9 @@ async function assignUserToBoard(userId) {
 }
 
 .user-row {
-  border: calc(1px * @ui-scale) solid @border;
+
   border-radius: calc(10px * @ui-scale);
-  background: #fff;
+  
   padding: @space-3;
   display: grid;
   grid-template-columns: 1fr auto;
