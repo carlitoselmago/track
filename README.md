@@ -1,5 +1,5 @@
 # Track
-A Trello-like kanban app with FastAPI backend and Vue frontend.
+An open source self-hosted Trello-like kanban app with FastAPI backend and Vue frontend.
 
 ## Preview
 
