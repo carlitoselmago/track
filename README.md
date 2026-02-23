@@ -1,6 +1,10 @@
 # Track
 A Trello-like kanban app with FastAPI backend and Vue frontend.
 
+## Preview
+
+![Track kanban board preview](docs/images/kanban-preview.jpg)
+
 ## Configuration
 Track is configured primarily through `backend/.env`.
 
