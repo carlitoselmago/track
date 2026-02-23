@@ -10,6 +10,7 @@ import { useBoardStore } from "./boardStore";
 import { useUiStore } from "./uiStore";
 
 const extractPayload = (payload) => payload?.data || payload;
+const clone = (value) => JSON.parse(JSON.stringify(value));
 
 const normalizeCardDetail = (card) => ({
   id: card.id,
@@ -181,6 +182,70 @@ export const useCardStore = defineStore("card", () => {
       checklist.items = (checklist.items || []).filter((item) => item.id !== itemId);
     }
     syncCardSummaryToBoard();
+  }
+
+  async function reorderChecklists(snapshot = null) {
+    if (!activeCard.value?.checklists?.length) {
+      return;
+    }
+
+    const uiStore = useUiStore();
+    const previous = Array.isArray(snapshot)
+      ? clone(snapshot)
+      : clone(activeCard.value.checklists);
+
+    activeCard.value.checklists.forEach((checklist, index) => {
+      checklist.position = index;
+    });
+
+    try {
+      await Promise.all(
+        activeCard.value.checklists.map((checklist) =>
+          checklistService.updateChecklist(checklist.id, { position: checklist.position }),
+        ),
+      );
+      syncCardSummaryToBoard();
+    } catch (error) {
+      activeCard.value.checklists = previous;
+      syncCardSummaryToBoard();
+      const normalized = normalizeApiError(error);
+      uiStore.setError(normalized.message);
+      throw normalized;
+    }
+  }
+
+  async function reorderChecklistItems(checklistId, snapshot = null) {
+    const checklist = activeCard.value?.checklists?.find((row) => row.id === checklistId);
+    if (!checklist) {
+      return;
+    }
+
+    checklist.items = checklist.items || [];
+    if (!checklist.items.length) {
+      return;
+    }
+
+    const uiStore = useUiStore();
+    const previous = Array.isArray(snapshot) ? clone(snapshot) : clone(checklist.items);
+
+    checklist.items.forEach((item, index) => {
+      item.position = index;
+    });
+
+    try {
+      await Promise.all(
+        checklist.items.map((item) =>
+          checklistService.updateChecklistItem(item.id, { position: item.position }),
+        ),
+      );
+      syncCardSummaryToBoard();
+    } catch (error) {
+      checklist.items = previous;
+      syncCardSummaryToBoard();
+      const normalized = normalizeApiError(error);
+      uiStore.setError(normalized.message);
+      throw normalized;
+    }
   }
 
   async function toggleLabel(label) {
@@ -363,6 +428,8 @@ export const useCardStore = defineStore("card", () => {
     addChecklistItem,
     updateChecklistItem,
     deleteChecklistItem,
+    reorderChecklists,
+    reorderChecklistItems,
     toggleLabel,
     createBoardLabel,
     updateBoardLabel,

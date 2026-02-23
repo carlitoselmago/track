@@ -183,7 +183,7 @@ function onDrop(event) {
   inset: 0;
   background: rgba(0, 0, 0, 0.25);
   display: block;
-  padding: @space-4;
+
   z-index: 30;
   backdrop-filter: blur(20px);
   overflow-y: auto;

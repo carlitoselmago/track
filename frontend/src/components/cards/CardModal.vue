@@ -93,6 +93,8 @@
           @add-item="({ checklistId, content }) => cardStore.addChecklistItem(checklistId, content)"
           @update-item="({ itemId, patch }) => cardStore.updateChecklistItem(itemId, patch)"
           @delete-item="cardStore.deleteChecklistItem"
+          @reorder-checklists="(snapshot) => cardStore.reorderChecklists(snapshot)"
+          @reorder-items="({ checklistId, snapshot }) => cardStore.reorderChecklistItems(checklistId, snapshot)"
         />
 
         <FilesSection
@@ -252,7 +254,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
 import BaseModal from "@/components/common/BaseModal.vue";
 import ActionMenu from "@/components/common/ActionMenu.vue";
 import LoadingSpinner from "@/components/common/LoadingSpinner.vue";
@@ -362,6 +364,14 @@ watch(
   { deep: true },
 );
 
+onMounted(() => {
+  window.addEventListener("paste", onWindowPaste);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("paste", onWindowPaste);
+});
+
 function resetAddDrafts() {
   newLabelName.value = "";
   newLabelColor.value = "#16A34A";
@@ -401,7 +411,6 @@ async function onMainModalFilesDrop(files) {
   if (!cardStore.activeCard?.id) {
     return;
   }
-  addPanel.value = "files";
   await onUploadFiles(files);
 }
 
@@ -423,6 +432,38 @@ async function onAddFilesInput(event) {
   }
   await onUploadFiles(files);
   event.target.value = "";
+}
+
+async function onWindowPaste(event) {
+  if (!cardStore.isModalOpen || !cardStore.activeCard?.id) {
+    return;
+  }
+
+  const clipboardItems = Array.from(event.clipboardData?.items || []);
+  if (!clipboardItems.length) {
+    return;
+  }
+
+  const imageFiles = clipboardItems
+    .filter((item) => item.kind === "file" && String(item.type || "").startsWith("image/"))
+    .map((item, index) => {
+      const file = item.getAsFile?.();
+      if (!file) {
+        return null;
+      }
+      const extension = (file.type || "image/png").split("/")[1] || "png";
+      return new File([file], file.name || `clipboard-image-${Date.now()}-${index}.${extension}`, {
+        type: file.type || "image/png",
+      });
+    })
+    .filter(Boolean);
+
+  if (!imageFiles.length) {
+    return;
+  }
+
+  event.preventDefault();
+  await onUploadFiles(imageFiles);
 }
 
 async function createAndAssignLabel() {

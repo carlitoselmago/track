@@ -1,5 +1,16 @@
 <template>
   <article class="board-card" @click="$emit('open', board.id)">
+    <button
+      type="button"
+      class="board-drag-handle"
+      aria-label="Drag board"
+      title="Drag board"
+      @click.stop
+    >
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M9 6h6M9 12h6M9 18h6" />
+      </svg>
+    </button>
     <span class="swatch" :style="{ background: board.color_hex || '#16A34A' }" />
     <div class="content">
       <h3>{{ board.name }}</h3>
@@ -27,7 +38,7 @@ defineEmits(["open", "edit", "delete"]);
 .board-card {
   display: flex;
   gap: @space-3;
-  align-items: center;
+  align-items: flex-start;
  
   border-radius: @radius;
   padding: @space-4;
@@ -43,6 +54,35 @@ defineEmits(["open", "edit", "delete"]);
 
 .board-card:hover {
   transform: translateY(calc(-2px * @ui-scale));
+}
+
+.board-drag-handle {
+  width: calc(28px * @ui-scale);
+  height: calc(28px * @ui-scale);
+  min-width: calc(28px * @ui-scale);
+  border: calc(1px * @ui-scale) solid @border;
+  border-radius: calc(8px * @ui-scale);
+  background: transparent;
+  color: @text-muted;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.board-drag-handle:active {
+  cursor: grabbing;
+}
+
+.board-drag-handle svg {
+  width: calc(14px * @ui-scale);
+  height: calc(14px * @ui-scale);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.1;
+  stroke-linecap: round;
 }
 
 .swatch {
@@ -74,6 +114,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: calc(6px * @ui-scale);
+  margin-left: auto;
 }
 
 .action-btn {
