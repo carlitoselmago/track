@@ -29,6 +29,9 @@
       group="cards"
       class="cards"
       :data-list-id="list.id"
+      :delay="180"
+      :delay-on-touch-only="true"
+      :touch-start-threshold="4"
       @start="$emit('card-drag-start')"
       @end="onCardDragEnd"
     >
@@ -183,6 +186,5 @@ function onActionSelect(action) {
   min-height: 0;
 }
 </style>
-
 
 
