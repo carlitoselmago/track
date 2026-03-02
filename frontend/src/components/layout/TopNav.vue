@@ -15,6 +15,17 @@
       </div>
 
       <div class="right">
+        <button
+          v-if="timerStore.hasActiveTimer"
+          type="button"
+          class="timer-indicator"
+          title="Open active tracked card"
+          :disabled="isNavigatingToActiveCard"
+          @click="goToActiveTrackedCard"
+        >
+          <span class="dot" aria-hidden="true" />
+          <span>Tracking</span>
+        </button>
         <div class="notification-wrap">
           <button
             type="button"
@@ -85,16 +96,20 @@ import BaseInput from "@/components/common/BaseInput.vue";
 import BaseModal from "@/components/common/BaseModal.vue";
 import { useAuthStore } from "@/stores/authStore";
 import { useNotificationStore } from "@/stores/notificationStore";
+import { useTimerStore } from "@/stores/timerStore";
 import { userService } from "@/services/userService";
+import { cardService } from "@/services/cardService";
 
 const router = useRouter();
 const authStore = useAuthStore();
 const notificationStore = useNotificationStore();
+const timerStore = useTimerStore();
 
 const isNotificationsOpen = ref(false);
 const isSettingsOpen = ref(false);
 const emailNotificationsEnabled = ref(true);
 const newPassword = ref("");
+const isNavigatingToActiveCard = ref(false);
 
 onMounted(async () => {
   if (authStore.isAuthenticated) {
@@ -107,6 +122,33 @@ onMounted(async () => {
 async function onLogout() {
   await authStore.logout();
   router.push({ name: "login" });
+}
+
+async function goToActiveTrackedCard() {
+  const activeCardId = Number(timerStore.activeCardId || 0);
+  if (!activeCardId || isNavigatingToActiveCard.value) {
+    return;
+  }
+
+  isNavigatingToActiveCard.value = true;
+  try {
+    let boardId = Number(timerStore.activeSession?.board_id || 0);
+    if (!boardId) {
+      const payload = await cardService.getCard(activeCardId);
+      const card = payload?.data || payload;
+      boardId = Number(card?.board_id || 0);
+    }
+    if (!boardId) {
+      return;
+    }
+    await router.push({
+      name: "board",
+      params: { boardId },
+      query: { card: String(activeCardId) },
+    });
+  } finally {
+    isNavigatingToActiveCard.value = false;
+  }
 }
 
 async function toggleNotifications() {
@@ -198,6 +240,33 @@ function formatDate(iso) {
   display: flex;
   align-items: center;
   gap: @space-2;
+}
+
+.timer-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: calc(6px * @ui-scale);
+  border: calc(1px * @ui-scale) solid color-mix(in srgb, @primary 45%, @border);
+  border-radius: calc(999px * @ui-scale);
+  padding: calc(5px * @ui-scale) calc(10px * @ui-scale);
+  background: #ecfdf3;
+  color: #065f46;
+  font-size: calc(12px * @ui-scale);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.timer-indicator:disabled {
+  opacity: 0.75;
+  cursor: default;
+}
+
+.timer-indicator .dot {
+  width: calc(8px * @ui-scale);
+  height: calc(8px * @ui-scale);
+  border-radius: 50%;
+  background: #16a34a;
+  box-shadow: 0 0 0 calc(4px * @ui-scale) rgba(22, 163, 74, 0.15);
 }
 
 .user {
@@ -323,5 +392,3 @@ function formatDate(iso) {
   font-size: calc(13px * @ui-scale);
 }
 </style>
-
-

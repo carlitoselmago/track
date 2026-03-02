@@ -102,7 +102,7 @@ class CardUpdateRequest(BaseModel):
 
 class MoveCardRequest(BaseModel):
     list_id: int
-    position: float = 0
+    position: Optional[float] = None
 
 
 class ReorderCardsRequest(BaseModel):

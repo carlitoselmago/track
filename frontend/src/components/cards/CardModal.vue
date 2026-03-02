@@ -43,7 +43,9 @@
     <template v-else-if="cardStore.activeCard">
       <div class="sections">
         <section v-if="coverImageId" class="cover-preview">
-          <img :src="coverImageUrl" alt="" />
+          <button type="button" class="cover-preview-btn" @click="openImageViewer(coverImageId)">
+            <img :src="coverImageUrl" alt="" />
+          </button>
           <span>Cover image</span>
         </section>
 
@@ -104,6 +106,7 @@
           @set-cover="cardStore.setCover"
           @delete-file="cardStore.deleteFile"
           @upload-files="onUploadFiles"
+          @preview-image="openImageViewer"
         />
 
         <section class="add-actions">
@@ -247,6 +250,82 @@
     </template>
   </BaseModal>
 
+  <BaseModal
+    v-model="isMoveOpen"
+    title="Move card"
+    size="sm"
+  >
+    <section class="mini-panel">
+      <h4 class="ui-section-title">Choose board and column</h4>
+      <p v-if="moveLoadError" class="move-error">{{ moveLoadError }}</p>
+      <div class="mini-form single-col">
+        <select
+          v-model="selectedMoveBoardId"
+          class="text-input ui-control"
+          :disabled="isMoveLoading"
+          @change="onMoveBoardChange"
+        >
+          <option value="">Select board...</option>
+          <option v-for="board in moveBoards" :key="board.id" :value="String(board.id)">
+            {{ board.name }}
+          </option>
+        </select>
+        <select
+          v-model="selectedMoveListId"
+          class="text-input ui-control"
+          :disabled="isMoveLoading || !selectedMoveBoardId || !moveLists.length"
+        >
+          <option value="">Select column...</option>
+          <option v-for="list in moveLists" :key="list.id" :value="String(list.id)">
+            {{ list.title }}
+          </option>
+        </select>
+      </div>
+      <div class="edit-actions">
+        <BaseButton variant="subtle" @click="isMoveOpen = false">Cancel</BaseButton>
+        <BaseButton :disabled="!selectedMoveListId || isMoveSubmitting" @click="submitMoveCard">
+          Move card
+        </BaseButton>
+      </div>
+    </section>
+  </BaseModal>
+
+  <teleport to="body">
+    <div v-if="isImageViewerOpen" class="viewer-overlay" @click.self="closeImageViewer">
+      <button type="button" class="viewer-close" aria-label="Close image preview" @click="closeImageViewer">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+      <button
+        type="button"
+        class="viewer-arrow left"
+        aria-label="Previous image"
+        :disabled="!canNavigateImages"
+        @click.stop="showPreviousImage"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+      </button>
+      <figure v-if="viewerImage" class="viewer-stage" @click.stop>
+        <img :src="viewerImage.url" :alt="viewerImage.name || 'Image preview'" />
+        <figcaption v-if="viewerImage.name">{{ viewerImage.name }}</figcaption>
+      </figure>
+      <button
+        type="button"
+        class="viewer-arrow right"
+        aria-label="Next image"
+        :disabled="!canNavigateImages"
+        @click.stop="showNextImage"
+      >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M9 6l6 6-6 6" />
+        </svg>
+      </button>
+    </div>
+  </teleport>
+
   <ConfirmDeleteDialog
     v-model="confirmOpen"
     @confirm="deleteCard"
@@ -266,12 +345,16 @@ import ConfirmDeleteDialog from "./ConfirmDeleteDialog.vue";
 import { useCardStore } from "@/stores/cardStore";
 import { useBoardStore } from "@/stores/boardStore";
 import { imageService } from "@/services/imageService";
+import { boardService } from "@/services/boardService";
 
 const cardStore = useCardStore();
 const boardStore = useBoardStore();
 
 const confirmOpen = ref(false);
-const cardActions = [{ label: "Delete", value: "delete", variant: "danger" }];
+const cardActions = [
+  { label: "Move", value: "move" },
+  { label: "Delete", value: "delete", variant: "danger" },
+];
 const isTitleEditing = ref(false);
 const isTitleSaving = ref(false);
 const draftTitle = ref("");
@@ -284,11 +367,40 @@ const labelEdits = ref({});
 const selectedAssigneeId = ref("");
 const newChecklistTitle = ref("");
 const addFileInputRef = ref(null);
+const isMoveOpen = ref(false);
+const moveBoards = ref([]);
+const moveLists = ref([]);
+const selectedMoveBoardId = ref("");
+const selectedMoveListId = ref("");
+const isMoveLoading = ref(false);
+const isMoveSubmitting = ref(false);
+const moveLoadError = ref("");
+const viewerImageId = ref(null);
 
 const coverImageId = computed(() => cardStore.activeCard?.cover_image_id ?? null);
 const coverImageUrl = computed(() =>
   coverImageId.value ? imageService.getImageContentUrl(coverImageId.value) : "",
 );
+const imageFiles = computed(() =>
+  (cardStore.activeCard?.images || [])
+    .filter((file) => String(file?.mime_type || "").startsWith("image/"))
+    .map((file) => ({
+      id: file.id,
+      name: file.original_filename || "",
+      url: imageService.getImageContentUrl(file.id),
+    })),
+);
+const viewerImageIndex = computed(() =>
+  imageFiles.value.findIndex((file) => file.id === viewerImageId.value),
+);
+const viewerImage = computed(() => {
+  if (viewerImageIndex.value < 0) {
+    return null;
+  }
+  return imageFiles.value[viewerImageIndex.value] || null;
+});
+const isImageViewerOpen = computed(() => viewerImage.value != null);
+const canNavigateImages = computed(() => imageFiles.value.length > 1);
 
 const hasLabels = computed(() => (cardStore.activeCard?.labels || []).length > 0);
 const hasAssignees = computed(() => (cardStore.activeCard?.assignees || []).length > 0);
@@ -351,6 +463,8 @@ watch(
     isTitleEditing.value = false;
     resetAddDrafts();
     addPanel.value = null;
+    resetMoveDrafts();
+    closeImageViewer();
   },
 );
 
@@ -366,10 +480,12 @@ watch(
 
 onMounted(() => {
   window.addEventListener("paste", onWindowPaste);
+  window.addEventListener("keydown", onWindowKeydown);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("paste", onWindowPaste);
+  window.removeEventListener("keydown", onWindowKeydown);
 });
 
 function resetAddDrafts() {
@@ -378,6 +494,17 @@ function resetAddDrafts() {
   labelEdits.value = {};
   selectedAssigneeId.value = "";
   newChecklistTitle.value = "";
+}
+
+function resetMoveDrafts() {
+  isMoveOpen.value = false;
+  moveBoards.value = [];
+  moveLists.value = [];
+  selectedMoveBoardId.value = "";
+  selectedMoveListId.value = "";
+  isMoveLoading.value = false;
+  isMoveSubmitting.value = false;
+  moveLoadError.value = "";
 }
 
 async function saveCard(payload) {
@@ -391,6 +518,10 @@ async function deleteCard() {
 }
 
 function onActionSelect(action) {
+  if (action === "move") {
+    openMoveDialog();
+    return;
+  }
   if (action === "delete") {
     confirmOpen.value = true;
   }
@@ -464,6 +595,141 @@ async function onWindowPaste(event) {
 
   event.preventDefault();
   await onUploadFiles(imageFiles);
+}
+
+function onWindowKeydown(event) {
+  if (!isImageViewerOpen.value) {
+    return;
+  }
+  if (event.key === "Escape") {
+    closeImageViewer();
+    return;
+  }
+  if (event.key === "ArrowLeft") {
+    event.preventDefault();
+    showPreviousImage();
+    return;
+  }
+  if (event.key === "ArrowRight") {
+    event.preventDefault();
+    showNextImage();
+  }
+}
+
+function openImageViewer(imageId) {
+  if (!imageId || !imageFiles.value.some((file) => file.id === imageId)) {
+    return;
+  }
+  viewerImageId.value = imageId;
+}
+
+function closeImageViewer() {
+  viewerImageId.value = null;
+}
+
+function showPreviousImage() {
+  if (!canNavigateImages.value || viewerImageIndex.value < 0) {
+    return;
+  }
+  const nextIndex = (viewerImageIndex.value - 1 + imageFiles.value.length) % imageFiles.value.length;
+  viewerImageId.value = imageFiles.value[nextIndex].id;
+}
+
+function showNextImage() {
+  if (!canNavigateImages.value || viewerImageIndex.value < 0) {
+    return;
+  }
+  const nextIndex = (viewerImageIndex.value + 1) % imageFiles.value.length;
+  viewerImageId.value = imageFiles.value[nextIndex].id;
+}
+
+async function openMoveDialog() {
+  if (!cardStore.activeCard?.id) {
+    return;
+  }
+  isMoveOpen.value = true;
+  await loadMoveBoardsAndLists();
+}
+
+async function loadMoveBoardsAndLists() {
+  isMoveLoading.value = true;
+  moveLoadError.value = "";
+  try {
+    const boardsPayload = await boardService.getBoards();
+    const rows = Array.isArray(boardsPayload)
+      ? boardsPayload
+      : boardsPayload?.items || [];
+    moveBoards.value = rows.map((board) => ({
+      id: Number(board.id),
+      name: board.name || "Untitled board",
+    }));
+
+    const defaultBoardId = Number(cardStore.activeCard?.board_id || moveBoards.value[0]?.id || 0);
+    selectedMoveBoardId.value = defaultBoardId ? String(defaultBoardId) : "";
+    if (defaultBoardId) {
+      await loadListsForMoveBoard(defaultBoardId);
+    }
+  } catch (error) {
+    moveLoadError.value = error?.message || "Could not load boards";
+    moveBoards.value = [];
+    moveLists.value = [];
+  } finally {
+    isMoveLoading.value = false;
+  }
+}
+
+async function onMoveBoardChange() {
+  selectedMoveListId.value = "";
+  if (!selectedMoveBoardId.value) {
+    moveLists.value = [];
+    return;
+  }
+  await loadListsForMoveBoard(Number(selectedMoveBoardId.value));
+}
+
+async function loadListsForMoveBoard(boardId) {
+  isMoveLoading.value = true;
+  moveLoadError.value = "";
+  try {
+    let lists = [];
+    if (boardStore.currentBoard?.id === boardId) {
+      lists = boardStore.currentBoard?.lists || [];
+    } else {
+      const boardPayload = await boardService.getBoard(boardId);
+      lists = boardPayload?.lists || boardPayload?.data?.lists || [];
+    }
+
+    moveLists.value = [...lists]
+      .map((list) => ({
+        id: Number(list.id),
+        title: list.title || "Untitled column",
+        position: Number(list.position ?? 0),
+      }))
+      .sort((a, b) => a.position - b.position);
+
+    if (moveLists.value.length) {
+      selectedMoveListId.value = String(moveLists.value[0].id);
+    }
+  } catch (error) {
+    moveLoadError.value = error?.message || "Could not load columns";
+    moveLists.value = [];
+  } finally {
+    isMoveLoading.value = false;
+  }
+}
+
+async function submitMoveCard() {
+  const listId = Number(selectedMoveListId.value || 0);
+  if (!listId || isMoveSubmitting.value) {
+    return;
+  }
+  isMoveSubmitting.value = true;
+  try {
+    await cardStore.moveCardToList(listId);
+    isMoveOpen.value = false;
+  } finally {
+    isMoveSubmitting.value = false;
+  }
 }
 
 async function createAndAssignLabel() {
@@ -675,6 +941,14 @@ async function commitTitleEdit() {
   gap: calc(8px * @ui-scale);
 }
 
+.cover-preview-btn {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  cursor: zoom-in;
+}
+
 .cover-preview img {
   width: 100%;
   max-height: calc(220px * @ui-scale);
@@ -762,6 +1036,10 @@ async function commitTitleEdit() {
   align-items: center;
 }
 
+.mini-form.single-col {
+  grid-template-columns: 1fr;
+}
+
 .label-manage-list {
   display: grid;
   gap: calc(8px * @ui-scale);
@@ -831,5 +1109,98 @@ async function commitTitleEdit() {
   margin: 0;
   color: @text-muted;
   font-size: calc(12px * @ui-scale);
+}
+
+.move-error {
+  margin: 0;
+  color: @danger;
+  font-size: calc(12px * @ui-scale);
+}
+
+.viewer-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: rgba(4, 7, 12, 0.92);
+  display: grid;
+  place-items: center;
+  padding: @space-4;
+}
+
+.viewer-stage {
+  margin: 0;
+  display: grid;
+  gap: @space-2;
+  justify-items: center;
+  max-width: min(95vw, calc(1400px * @ui-scale));
+  max-height: calc(100vh - calc(72px * @ui-scale));
+}
+
+.viewer-stage img {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: calc(100vh - calc(130px * @ui-scale));
+  object-fit: contain;
+  border-radius: calc(10px * @ui-scale);
+  box-shadow: 0 calc(20px * @ui-scale) calc(60px * @ui-scale) rgba(0, 0, 0, 0.35);
+}
+
+.viewer-stage figcaption {
+  color: rgba(255, 255, 255, 0.84);
+  font-size: calc(12px * @ui-scale);
+  padding: 0;
+  justify-content: center;
+}
+
+.viewer-close,
+.viewer-arrow {
+  position: absolute;
+  border-radius: calc(999px * @ui-scale);
+  border: calc(1px * @ui-scale) solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.viewer-close {
+  top: calc(14px * @ui-scale);
+  right: calc(14px * @ui-scale);
+  width: calc(38px * @ui-scale);
+  height: calc(38px * @ui-scale);
+}
+
+.viewer-arrow {
+  top: 50%;
+  transform: translateY(-50%);
+  width: calc(42px * @ui-scale);
+  height: calc(42px * @ui-scale);
+}
+
+.viewer-arrow.left {
+  left: calc(16px * @ui-scale);
+}
+
+.viewer-arrow.right {
+  right: calc(16px * @ui-scale);
+}
+
+.viewer-close svg,
+.viewer-arrow svg {
+  width: calc(16px * @ui-scale);
+  height: calc(16px * @ui-scale);
+  stroke: currentColor;
+  stroke-width: 2.4;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.viewer-arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
 }
 </style>

@@ -4,7 +4,7 @@
       v-if="modelValue"
       class="overlay"
       :class="{ 'mobile-fullscreen-overlay': mobileFullscreen }"
-      @click.self="$emit('update:modelValue', false)"
+      @pointerdown.self="$emit('update:modelValue', false)"
     >
       <section
         class="modal"

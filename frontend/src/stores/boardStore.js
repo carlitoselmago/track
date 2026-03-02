@@ -48,11 +48,17 @@ function normalizeList(list) {
 
 function normalizeBoard(board) {
   const lists = (board.lists || []).map(normalizeList).sort(sortByPosition);
+  const fallbackTotalTracked = lists.reduce(
+    (sum, list) =>
+      sum + (list.cards || []).reduce((listSum, card) => listSum + Number(card.total_tracked_seconds || 0), 0),
+    0,
+  );
   return {
     id: board.id,
     name: board.name || "Untitled board",
     description: board.description || "",
     color_hex: board.color_hex || DEFAULT_BOARD_COLOR,
+    total_tracked_seconds: board.total_tracked_seconds ?? fallbackTotalTracked,
     labels: board.labels || [],
     members: board.members || [],
     lists,
@@ -112,6 +118,7 @@ export const useBoardStore = defineStore("board", () => {
       name: board.name,
       color_hex: board.color_hex || DEFAULT_BOARD_COLOR,
       description: board.description || "",
+      total_tracked_seconds: board.total_tracked_seconds ?? 0,
     };
 
     if (existingIndex < 0) {
@@ -139,6 +146,7 @@ export const useBoardStore = defineStore("board", () => {
           name: board.name || "Untitled board",
           color_hex: board.color_hex || DEFAULT_BOARD_COLOR,
           description: board.description || "",
+          total_tracked_seconds: board.total_tracked_seconds ?? 0,
         }),
       );
       return boards.value;

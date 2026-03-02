@@ -376,6 +376,40 @@ export const useCardStore = defineStore("card", () => {
     syncCardSummaryToBoard();
   }
 
+  async function moveCardToList(listId) {
+    if (!activeCard.value?.id || !listId) {
+      return null;
+    }
+
+    const uiStore = useUiStore();
+    const boardStore = useBoardStore();
+    uiStore.clearError();
+    try {
+      const payload = await cardService.moveCard(activeCard.value.id, {
+        list_id: listId,
+      });
+      const movedCard = normalizeCardDetail(extractPayload(payload));
+      const movedToAnotherBoard = movedCard.board_id !== activeCard.value.board_id;
+      activeCard.value = movedCard;
+
+      if (movedToAnotherBoard) {
+        boardStore.removeCard(movedCard.id);
+        closeModal();
+      } else {
+        if (boardStore.currentBoard?.id === movedCard.board_id) {
+          await boardStore.loadBoard(movedCard.board_id);
+        }
+        syncCardSummaryToBoard();
+      }
+
+      return movedCard;
+    } catch (error) {
+      const normalized = normalizeApiError(error);
+      uiStore.setError(normalized.message);
+      throw normalized;
+    }
+  }
+
   async function fetchTimeSummary(cardId = activeCard.value?.id) {
     if (!cardId) {
       return null;
@@ -440,6 +474,7 @@ export const useCardStore = defineStore("card", () => {
     deleteFile,
     deleteImage,
     setCover,
+    moveCardToList,
     fetchTimeSummary,
     assignUser,
     unassignUser,

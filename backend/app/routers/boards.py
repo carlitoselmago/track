@@ -1,12 +1,13 @@
 from datetime import datetime
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import func
 from sqlmodel import Session, and_, select
 
 from app.core.config import settings
 from app.db.session import get_session
 from app.deps import ensure_board_access, get_current_user, require_system_admin
-from app.models import Board, BoardMembership, User
+from app.models import Board, BoardMembership, Card, User
 from app.schemas import (
     BoardCreateRequest,
     BoardMemberCreateRequest,
@@ -64,12 +65,23 @@ def list_boards(
             .order_by(Board.id),
         ).all()
 
+    board_ids = [board.id for board in boards if board.id is not None]
+    totals_by_board: dict[int, int] = {}
+    if board_ids:
+        rows = session.exec(
+            select(Card.board_id, func.coalesce(func.sum(Card.total_tracked_seconds), 0))
+            .where(and_(Card.board_id.in_(board_ids), Card.deleted_at.is_(None)))
+            .group_by(Card.board_id),
+        ).all()
+        totals_by_board = {int(board_id): int(total or 0) for board_id, total in rows}
+
     return [
         {
             "id": board.id,
             "name": board.name,
             "description": board.description,
             "color_hex": board.color_hex,
+            "total_tracked_seconds": totals_by_board.get(board.id, 0),
         }
         for board in boards
     ]

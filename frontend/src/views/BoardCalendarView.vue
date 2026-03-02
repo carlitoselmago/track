@@ -198,6 +198,11 @@ function formatDuration(seconds) {
   const total = Math.max(0, Math.floor(seconds || 0));
   const hours = Math.floor(total / 3600);
   const minutes = Math.floor((total % 3600) / 60);
+
+  if (hours === 0 && minutes === 0) {
+    return "";
+  }
+
   return `${hours}h ${minutes}m`;
 }
 
@@ -394,6 +399,21 @@ onMounted(async () => {
     max-height: none;
   }
 }
+
+@media (prefers-color-scheme: dark) {
+  .toolbar,.sidebar,.calendar,.weekday,.day-cell,.day-cell.muted{
+      background: @surface-dark;
+      color:@text-dark;
+      border-color:@bg-dark;
+      input,button{
+        background-color: @surface-muted-dark;
+        border-color:@bg-dark;
+      }
+    }
+    .weekday{
+      background-color: @surface-muted-dark;
+    }
+  }
 </style>
 
 

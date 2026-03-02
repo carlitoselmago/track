@@ -1,5 +1,5 @@
 <template>
-  <section class="panel">
+  <section class="panel" :class="{ running: isCurrentCardRunning }">
     <header>
       <h4>Timer</h4>
       <span class="time">{{ formatDuration(displaySeconds) }}</span>
@@ -332,6 +332,11 @@ function formatDuration(totalSeconds) {
   }
 }
 
+.panel.running {
+  border-color: color-mix(in srgb, @primary 45%, @border);
+  background: color-mix(in srgb, #ecfdf3 86%, #ffffff);
+}
+
 header {
   display: flex;
   justify-content: space-between;
@@ -551,5 +556,4 @@ header h4 {
   color: @text-muted;
 }
 </style>
-
 

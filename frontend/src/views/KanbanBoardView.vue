@@ -48,6 +48,7 @@
 <script setup>
 import { onBeforeUnmount, onMounted, ref, watch } from "vue";
 import draggable from "vuedraggable";
+import { useRoute, useRouter } from "vue-router";
 import BoardHeader from "@/components/kanban/BoardHeader.vue";
 import ListColumn from "@/components/kanban/ListColumn.vue";
 import AddListForm from "@/components/kanban/AddListForm.vue";
@@ -64,6 +65,8 @@ const props = defineProps({
   },
 });
 
+const route = useRoute();
+const router = useRouter();
 const boardStore = useBoardStore();
 const cardStore = useCardStore();
 const timerStore = useTimerStore();
@@ -77,6 +80,12 @@ const dragStartScrollLeft = ref(0);
 
 const loadBoard = async () => {
   await boardStore.loadBoard(props.boardId);
+  const routeCardId = getRouteCardId();
+  if (routeCardId) {
+    await openCardFromRoute(routeCardId);
+  } else if (cardStore.isModalOpen) {
+    cardStore.closeModal();
+  }
 };
 
 onMounted(() => {
@@ -93,6 +102,29 @@ watch(
   () => loadBoard(),
 );
 
+watch(
+  () => route.query.card,
+  async () => {
+    const routeCardId = getRouteCardId();
+    if (!routeCardId) {
+      if (cardStore.isModalOpen) {
+        cardStore.closeModal();
+      }
+      return;
+    }
+    await openCardFromRoute(routeCardId);
+  },
+);
+
+watch(
+  () => cardStore.isModalOpen,
+  async (isOpen) => {
+    if (!isOpen && getRouteCardId()) {
+      await syncCardQuery(null);
+    }
+  },
+);
+
 async function onCreateList(title) {
   await boardStore.createList(title);
 }
@@ -103,6 +135,52 @@ async function onAddCard({ listId, title }) {
 
 async function openCard(cardId) {
   await cardStore.openModal(cardId);
+  await syncCardQuery(cardId);
+}
+
+async function openCardFromRoute(cardId) {
+  if (!isCardInCurrentBoard(cardId)) {
+    await syncCardQuery(null);
+    return;
+  }
+  if (cardStore.isModalOpen && cardStore.activeCard?.id === cardId) {
+    return;
+  }
+  await cardStore.openModal(cardId);
+}
+
+function isCardInCurrentBoard(cardId) {
+  return (boardStore.currentBoard?.lists || []).some((list) =>
+    (list.cards || []).some((card) => Number(card.id) === Number(cardId)),
+  );
+}
+
+function getRouteCardId() {
+  const raw = Array.isArray(route.query.card) ? route.query.card[0] : route.query.card;
+  const value = Number(raw);
+  if (!Number.isFinite(value) || value <= 0) {
+    return null;
+  }
+  return value;
+}
+
+async function syncCardQuery(cardId) {
+  const currentCardId = getRouteCardId();
+  const nextCardId = cardId ? Number(cardId) : null;
+  if (currentCardId === nextCardId) {
+    return;
+  }
+  const nextQuery = { ...route.query };
+  if (!nextCardId) {
+    delete nextQuery.card;
+  } else {
+    nextQuery.card = String(nextCardId);
+  }
+  await router.replace({
+    name: "board",
+    params: { boardId: props.boardId },
+    query: nextQuery,
+  });
 }
 
 async function onRenameList({ listId, title }) {

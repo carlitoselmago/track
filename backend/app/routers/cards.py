@@ -6,7 +6,7 @@ from sqlmodel import Session, and_, select
 
 from app.db.session import get_session
 from app.deps import ensure_board_access, get_current_user
-from app.models import BoardList, BoardMembership, Card, CardAssignee, CardImage, User
+from app.models import BoardList, BoardMembership, Card, CardAssignee, CardImage, CardLabel, User
 from app.schemas import (
     CardAssigneeAssignRequest,
     CardCreateRequest,
@@ -315,15 +315,31 @@ def move_card(
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Card not found")
     ensure_board_access(board_id=card.board_id, user=current_user, session=session)
 
+    source_board_id = card.board_id
     source_list = session.get(BoardList, card.list_id)
     board_list = session.get(BoardList, payload.list_id)
     if not board_list or board_list.deleted_at is not None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="List not found")
-    if board_list.board_id != card.board_id:
-        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Invalid target list")
+    if board_list.board_id != source_board_id:
+        ensure_board_access(board_id=board_list.board_id, user=current_user, session=session)
+        labels = session.exec(
+            select(CardLabel).where(CardLabel.card_id == card.id),
+        ).all()
+        for card_label in labels:
+            session.delete(card_label)
+        card.board_id = board_list.board_id
+
+    position = payload.position
+    if position is None:
+        max_pos = session.exec(
+            select(Card.position)
+            .where(and_(Card.list_id == payload.list_id, Card.deleted_at.is_(None)))
+            .order_by(Card.position.desc()),
+        ).first()
+        position = float(max_pos + 1) if max_pos is not None else 0.0
 
     card.list_id = payload.list_id
-    card.position = payload.position
+    card.position = position
     card.updated_at = datetime.utcnow()
     session.add(card)
     session.commit()

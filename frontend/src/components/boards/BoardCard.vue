@@ -15,6 +15,9 @@
     <div class="content">
       <h3>{{ board.name }}</h3>
       <p v-if="board.description">{{ board.description }}</p>
+      <p class="time-row">
+        {{ formatDuration(board.total_tracked_seconds || 0) }} tracked
+      </p>
     </div>
     <div class="actions">
       <button type="button" class="action-btn btn" @click.stop="$emit('edit', board)">Edit</button>
@@ -32,6 +35,14 @@ defineProps({
 });
 
 defineEmits(["open", "edit", "delete"]);
+
+function formatDuration(totalSeconds) {
+  const value = Math.max(0, Math.floor(Number(totalSeconds || 0)));
+  const hours = Math.floor(value / 3600);
+  const minutes = Math.floor((value % 3600) / 60);
+  const seconds = value % 60;
+  return [hours, minutes, seconds].map((part) => String(part).padStart(2, "0")).join(":");
+}
 </script>
 
 <style scoped lang="less">
@@ -108,6 +119,15 @@ p {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.time-row {
+  margin-top: calc(8px * @ui-scale);
+  font-size: calc(12px * @ui-scale);
+  color: @text-muted;
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
 }
 
 .actions {
