@@ -50,9 +50,16 @@
         >
           <img :src="fileUrl(file.id)" :alt="file.original_filename || ''" />
         </button>
-        <div v-else class="file-tile">
+        <a
+          v-else
+          class="file-tile"
+          :href="fileUrl(file.id)"
+          target="_blank"
+          rel="noopener"
+          :aria-label="`Open ${file.original_filename || file.id}`"
+        >
           <span>{{ extension(file.original_filename) }}</span>
-        </div>
+        </a>
         <figcaption>
           <span v-if="card.cover_image_id === file.id" class="cover-tag">Cover</span>
           <button
@@ -255,6 +262,12 @@ img {
   color: @text-muted;
   font-weight: 700;
   letter-spacing: 0.04em;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.file-tile:hover {
+  background: @surface-muted;
 }
 
 figcaption {

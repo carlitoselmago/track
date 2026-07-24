@@ -15,6 +15,15 @@ from app.serializers import card_image_payload
 
 router = APIRouter(tags=["images"])
 
+INLINE_VIEWABLE_PREFIXES = ("image/", "video/", "audio/", "text/")
+INLINE_VIEWABLE_TYPES = {"application/pdf"}
+
+
+def _content_disposition_type(mime_type: str) -> str:
+    if mime_type in INLINE_VIEWABLE_TYPES or mime_type.startswith(INLINE_VIEWABLE_PREFIXES):
+        return "inline"
+    return "attachment"
+
 
 def _ensure_card(card_id: int, user: User, session: Session) -> Card:
     card = session.get(Card, card_id)
@@ -105,7 +114,12 @@ def get_image_content(
     file_path = Path(image.storage_path)
     if not file_path.exists():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Image file is missing")
-    return FileResponse(path=file_path, media_type=image.mime_type, filename=image.original_filename)
+    return FileResponse(
+        path=file_path,
+        media_type=image.mime_type,
+        filename=image.original_filename,
+        content_disposition_type=_content_disposition_type(image.mime_type),
+    )
 
 
 @router.delete("/images/{image_id}")
