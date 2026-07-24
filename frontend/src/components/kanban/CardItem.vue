@@ -7,6 +7,7 @@
       alt=""
     />
     <h4>{{ card.title }}</h4>
+    <span v-if="totalHours" class="hours">{{ totalHours }}h</span>
     <div v-if="card.labels?.length" class="labels">
       <span
         v-for="label in card.labels"
@@ -61,6 +62,14 @@ const checklistStats = computed(() => {
 const checklistTotal = computed(() => checklistStats.value.total);
 const checklistDone = computed(() => checklistStats.value.done);
 
+const totalHours = computed(() => {
+  const seconds = Number(props.card.total_tracked_seconds || 0);
+  if (seconds <= 0) {
+    return null;
+  }
+  return Math.round((seconds / 3600) * 10) / 10;
+});
+
 function imageUrl(imageId) {
   return imageService.getImageContentUrl(imageId);
 }
@@ -100,6 +109,14 @@ function imageUrl(imageId) {
 h4 {
   margin: 0;
   font-size: calc(14px * @ui-scale);
+}
+
+.hours {
+  font-size: calc(11px * @ui-scale);
+  color: @text-muted;
+  @media (prefers-color-scheme: dark) {
+    color: @text-muted-dark;
+  }
 }
 
 .labels {
