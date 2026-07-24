@@ -112,7 +112,8 @@ h4 {
 }
 
 .hours {
-  font-size: calc(11px * @ui-scale);
+  font-size: calc(13px * @ui-scale);
+      margin-top: -4px;
   color: @text-muted;
   @media (prefers-color-scheme: dark) {
     color: @text-muted-dark;
