@@ -87,11 +87,23 @@ function scheduleRealtimeRefresh() {
   }, REALTIME_REFRESH_DEBOUNCE_MS);
 }
 
+const TIMER_EVENT_TYPES = new Set(["timer_started", "timer_stopped", "timer_updated"]);
+
+function handleRealtimeEvent(event) {
+  scheduleRealtimeRefresh();
+  // The topbar timer widget and per-card "running" badge reflect this
+  // browser's own active timer session; when it changes from another tab
+  // or device signed in as the same user, re-sync it here.
+  if (TIMER_EVENT_TYPES.has(event?.type) && event?.user_id === authStore.user?.id) {
+    timerStore.bootstrapActiveTimer().catch(() => {});
+  }
+}
+
 function connectRealtime() {
   disconnectRealtime();
   realtimeSocket = connectBoardSocket(props.boardId, {
     getToken: () => authStore.accessToken,
-    onEvent: scheduleRealtimeRefresh,
+    onEvent: handleRealtimeEvent,
   });
 }
 

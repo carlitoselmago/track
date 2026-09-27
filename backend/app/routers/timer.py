@@ -122,7 +122,13 @@ def start_timer(
     session.add(row)
     session.commit()
     session.refresh(row)
-    hub.publish(card.board_id, "timer_started", client_id=x_client_id, card_id=card_id)
+    hub.publish(
+        card.board_id,
+        "timer_started",
+        client_id=x_client_id,
+        card_id=card_id,
+        user_id=current_user.id,
+    )
     return {
         "session": _session_payload(row),
         "summary": {"total_seconds": card.total_tracked_seconds},
@@ -160,7 +166,13 @@ def stop_timer(
     session.commit()
     session.refresh(active)
     session.refresh(card)
-    hub.publish(card.board_id, "timer_stopped", client_id=x_client_id, card_id=card_id)
+    hub.publish(
+        card.board_id,
+        "timer_stopped",
+        client_id=x_client_id,
+        card_id=card_id,
+        user_id=current_user.id,
+    )
     return {
         "session": _session_payload(active),
         "summary": {"total_seconds": card.total_tracked_seconds},
@@ -256,7 +268,7 @@ def update_time_session(
     session.commit()
     session.refresh(row)
     session.refresh(card)
-    hub.publish(card.board_id, "timer_updated", client_id=x_client_id, card_id=card.id)
+    hub.publish(card.board_id, "timer_updated", client_id=x_client_id, card_id=card.id, user_id=current_user.id)
     return {
         "session": _session_payload(row),
         "summary": {"total_seconds": card.total_tracked_seconds},
@@ -295,7 +307,7 @@ def delete_time_session(
     session.add(card)
     session.commit()
     session.refresh(card)
-    hub.publish(card.board_id, "timer_updated", client_id=x_client_id, card_id=card.id)
+    hub.publish(card.board_id, "timer_updated", client_id=x_client_id, card_id=card.id, user_id=current_user.id)
     return {
         "deleted": True,
         "card_id": card_id,
