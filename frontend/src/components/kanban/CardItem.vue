@@ -41,22 +41,33 @@ const props = defineProps({
 
 defineEmits(["open"]);
 
-const imageCount = computed(() => props.card.images?.length || 0);
+// Board loads only send lazy summary counts (checklist_total/done, image_count);
+// the full checklists/images arrays only show up once a card has been opened
+// in this session (see boardStore.normalizeCard), so prefer those when present.
+const imageCount = computed(
+  () => props.card.images?.length || props.card.image_count || 0,
+);
 const coverImageId = computed(() => props.card.cover_image_id ?? null);
 
 const checklistStats = computed(() => {
   const allChecklists = props.card.checklists || [];
-  let total = 0;
-  let done = 0;
-  allChecklists.forEach((checklist) => {
-    (checklist.items || []).forEach((item) => {
-      total += 1;
-      if (item.is_done) {
-        done += 1;
-      }
+  if (allChecklists.length) {
+    let total = 0;
+    let done = 0;
+    allChecklists.forEach((checklist) => {
+      (checklist.items || []).forEach((item) => {
+        total += 1;
+        if (item.is_done) {
+          done += 1;
+        }
+      });
     });
-  });
-  return { total, done };
+    return { total, done };
+  }
+  return {
+    total: props.card.checklist_total || 0,
+    done: props.card.checklist_done || 0,
+  };
 });
 
 const checklistTotal = computed(() => checklistStats.value.total);

@@ -24,8 +24,15 @@ function normalizeCard(card, listId) {
     description: card.description || "",
     position: card.position ?? 0,
     labels: card.labels || [],
+    // Board/list loads only carry lazy summary counts (checklist_total/done,
+    // image_count); full checklists/images arrays are fetched on demand when
+    // a card is opened (see cardStore.openModal) and merged back in via
+    // patchCard, at which point these arrays are populated for real.
     checklists: card.checklists || [],
+    checklist_total: card.checklist_total,
+    checklist_done: card.checklist_done,
     images: card.images || [],
+    image_count: card.image_count,
     cover_image_id: card.cover_image_id ?? null,
     total_tracked_seconds: card.total_tracked_seconds ?? 0,
     assignees: card.assignees || [],
