@@ -1,4 +1,5 @@
 from datetime import datetime
+import asyncio
 import logging
 
 from fastapi import FastAPI
@@ -17,8 +18,10 @@ from app.routers.images import router as images_router
 from app.routers.labels import router as labels_router
 from app.routers.lists import router as lists_router
 from app.routers.notifications import router as notifications_router
+from app.routers.realtime import router as realtime_router
 from app.routers.timer import router as timer_router
 from app.routers.users import router as users_router
+from app.services.realtime import hub
 
 logging.basicConfig(
     level=logging.INFO,
@@ -88,9 +91,10 @@ app.add_middleware(
 
 
 @app.on_event("startup")
-def on_startup() -> None:
+async def on_startup() -> None:
     init_db()
     bootstrap_admin_user()
+    hub.bind_loop(asyncio.get_running_loop())
 
 
 @app.get("/")
@@ -108,3 +112,4 @@ app.include_router(labels_router, prefix=settings.api_prefix)
 app.include_router(images_router, prefix=settings.api_prefix)
 app.include_router(timer_router, prefix=settings.api_prefix)
 app.include_router(notifications_router, prefix=settings.api_prefix)
+app.include_router(realtime_router, prefix=settings.api_prefix)

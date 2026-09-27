@@ -1,4 +1,5 @@
 import axios from "axios";
+import { clientId } from "./clientId";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || "/api";
 
@@ -60,6 +61,7 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  config.headers["X-Client-Id"] = clientId;
   return config;
 });
 

@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlmodel import Session, and_, select
 
 from app.db.session import get_session
@@ -8,6 +8,7 @@ from app.deps import ensure_board_access, get_current_user
 from app.models import BoardList, Card, User
 from app.schemas import ListCreateRequest, ListUpdateRequest, ReorderListsRequest
 from app.serializers import list_payload
+from app.services.realtime import hub
 
 
 router = APIRouter(tags=["lists"])
@@ -19,6 +20,7 @@ def create_list(
     payload: ListCreateRequest,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     ensure_board_access(board_id=board_id, user=current_user, session=session)
     max_pos = session.exec(
@@ -32,6 +34,7 @@ def create_list(
     session.add(board_list)
     session.commit()
     session.refresh(board_list)
+    hub.publish(board_id, "list_created", client_id=x_client_id, list_id=board_list.id)
     return list_payload(session, board_list)
 
 
@@ -41,6 +44,7 @@ def update_list(
     payload: ListUpdateRequest,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     board_list = session.get(BoardList, list_id)
     if not board_list or board_list.deleted_at is not None:
@@ -54,6 +58,7 @@ def update_list(
     session.add(board_list)
     session.commit()
     session.refresh(board_list)
+    hub.publish(board_list.board_id, "list_updated", client_id=x_client_id, list_id=board_list.id)
     return list_payload(session, board_list)
 
 
@@ -62,6 +67,7 @@ def delete_list(
     list_id: int,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     board_list = session.get(BoardList, list_id)
     if not board_list or board_list.deleted_at is not None:
@@ -82,6 +88,7 @@ def delete_list(
         session.add(card)
 
     session.commit()
+    hub.publish(board_list.board_id, "list_deleted", client_id=x_client_id, list_id=list_id)
     return {"success": True}
 
 
@@ -91,6 +98,7 @@ def reorder_lists(
     payload: ReorderListsRequest,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     ensure_board_access(board_id=board_id, user=current_user, session=session)
     for item in payload.lists:
@@ -101,4 +109,5 @@ def reorder_lists(
         board_list.updated_at = datetime.utcnow()
         session.add(board_list)
     session.commit()
+    hub.publish(board_id, "lists_reordered", client_id=x_client_id)
     return {"success": True}

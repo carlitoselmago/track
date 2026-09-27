@@ -1,7 +1,7 @@
 from datetime import datetime
 from pathlib import Path
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlmodel import Session, and_, select
 
 from app.db.session import get_session
@@ -16,6 +16,7 @@ from app.schemas import (
 )
 from app.serializers import card_payload, user_public
 from app.services.notifications import create_notification
+from app.services.realtime import hub
 
 
 router = APIRouter(tags=["cards"])
@@ -90,6 +91,7 @@ def create_card(
     payload: CardCreateRequest,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     board_list = session.get(BoardList, list_id)
     if not board_list or board_list.deleted_at is not None:
@@ -114,6 +116,7 @@ def create_card(
     session.add(card)
     session.commit()
     session.refresh(card)
+    hub.publish(card.board_id, "card_created", client_id=x_client_id, card_id=card.id, list_id=list_id)
     return card_payload(session, card)
 
 
@@ -237,6 +240,7 @@ def update_card(
     payload: CardUpdateRequest,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     card = session.get(Card, card_id)
     if not card or card.deleted_at is not None:
@@ -272,6 +276,7 @@ def update_card(
                 to_list=target_list,
                 actor_user=current_user,
             )
+    hub.publish(card.board_id, "card_updated", client_id=x_client_id, card_id=card.id)
     return card_payload(session, card)
 
 
@@ -280,6 +285,7 @@ def delete_card(
     card_id: int,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     card = session.get(Card, card_id)
     if not card or card.deleted_at is not None:
@@ -300,6 +306,7 @@ def delete_card(
         session.add(image)
 
     session.commit()
+    hub.publish(card.board_id, "card_deleted", client_id=x_client_id, card_id=card.id)
     return {"success": True}
 
 
@@ -309,6 +316,7 @@ def move_card(
     payload: MoveCardRequest,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     card = session.get(Card, card_id)
     if not card or card.deleted_at is not None:
@@ -352,6 +360,9 @@ def move_card(
             to_list=board_list,
             actor_user=current_user,
         )
+    hub.publish(source_board_id, "card_moved", client_id=x_client_id, card_id=card.id)
+    if card.board_id != source_board_id:
+        hub.publish(card.board_id, "card_moved", client_id=x_client_id, card_id=card.id)
     return card_payload(session, card)
 
 
@@ -361,6 +372,7 @@ def reorder_cards(
     payload: ReorderCardsRequest,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     board_list = session.get(BoardList, list_id)
     if not board_list or board_list.deleted_at is not None:
@@ -374,4 +386,5 @@ def reorder_cards(
         card.updated_at = datetime.utcnow()
         session.add(card)
     session.commit()
+    hub.publish(board_list.board_id, "cards_reordered", client_id=x_client_id, list_id=list_id)
     return {"success": True}

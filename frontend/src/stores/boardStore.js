@@ -212,9 +212,11 @@ export const useBoardStore = defineStore("board", () => {
     }
   }
 
-  async function loadBoard(boardId) {
+  async function loadBoard(boardId, { silent = false } = {}) {
     const uiStore = useUiStore();
-    isLoading.value = true;
+    if (!silent) {
+      isLoading.value = true;
+    }
     uiStore.clearError();
 
     try {
@@ -246,7 +248,9 @@ export const useBoardStore = defineStore("board", () => {
       uiStore.setError(normalized.message);
       throw normalized;
     } finally {
-      isLoading.value = false;
+      if (!silent) {
+        isLoading.value = false;
+      }
     }
   }
 

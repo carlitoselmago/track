@@ -57,6 +57,8 @@ import CardModal from "@/components/cards/CardModal.vue";
 import { useBoardStore } from "@/stores/boardStore";
 import { useCardStore } from "@/stores/cardStore";
 import { useTimerStore } from "@/stores/timerStore";
+import { useAuthStore } from "@/stores/authStore";
+import { connectBoardSocket } from "@/services/realtimeService";
 
 const props = defineProps({
   boardId: {
@@ -70,6 +72,37 @@ const router = useRouter();
 const boardStore = useBoardStore();
 const cardStore = useCardStore();
 const timerStore = useTimerStore();
+const authStore = useAuthStore();
+
+const REALTIME_REFRESH_DEBOUNCE_MS = 250;
+let realtimeSocket = null;
+let realtimeRefreshTimer = null;
+
+function scheduleRealtimeRefresh() {
+  if (realtimeRefreshTimer) {
+    window.clearTimeout(realtimeRefreshTimer);
+  }
+  realtimeRefreshTimer = window.setTimeout(() => {
+    boardStore.loadBoard(props.boardId, { silent: true });
+  }, REALTIME_REFRESH_DEBOUNCE_MS);
+}
+
+function connectRealtime() {
+  disconnectRealtime();
+  realtimeSocket = connectBoardSocket(props.boardId, {
+    getToken: () => authStore.accessToken,
+    onEvent: scheduleRealtimeRefresh,
+  });
+}
+
+function disconnectRealtime() {
+  realtimeSocket?.close();
+  realtimeSocket = null;
+  if (realtimeRefreshTimer) {
+    window.clearTimeout(realtimeRefreshTimer);
+    realtimeRefreshTimer = null;
+  }
+}
 
 const listDragSnapshot = ref(null);
 const cardDragSnapshot = ref(null);
@@ -90,16 +123,21 @@ const loadBoard = async () => {
 
 onMounted(() => {
   loadBoard();
+  connectRealtime();
   window.addEventListener("mouseup", stopBackgroundDrag);
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("mouseup", stopBackgroundDrag);
+  disconnectRealtime();
 });
 
 watch(
   () => props.boardId,
-  () => loadBoard(),
+  () => {
+    loadBoard();
+    connectRealtime();
+  },
 );
 
 watch(

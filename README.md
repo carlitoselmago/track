@@ -209,6 +209,18 @@ server {
     root /opt/track/frontend/dist;
     index index.html;
 
+    location /api/ws/ {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 1d;
+    }
+
     location /api/ {
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host $host;
@@ -223,12 +235,27 @@ server {
 }
 ```
 
+The `/api/ws/` block enables live board updates (WebSocket) over the same origin; without it, nginx will not upgrade the connection and the frontend falls back to reconnect attempts only. It must be listed before the plain `/api/` block so nginx matches it first.
+
 If you serve the frontend under a subpath like `/track/`, use this pattern instead:
 
 ```nginx
 server {
     listen 80;
     server_name your-domain.com;
+
+    # Backend WebSocket (live board updates) — must precede /api/ below
+    location /api/ws/ {
+        proxy_pass http://127.0.0.1:8000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_read_timeout 1d;
+    }
 
     # Backend API
     location /api/ {

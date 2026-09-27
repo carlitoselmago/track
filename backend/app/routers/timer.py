@@ -1,13 +1,14 @@
 from datetime import datetime, timedelta
 import re
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, Header, HTTPException, status
 from sqlmodel import Session, and_, select
 
 from app.db.session import get_session
 from app.deps import ensure_board_access, get_current_user
 from app.models import Card, TimeSession, User
 from app.schemas import TimeSessionUpdateRequest
+from app.services.realtime import hub
 
 
 router = APIRouter(tags=["time-tracking"])
@@ -94,6 +95,7 @@ def start_timer(
     card_id: int,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     card = session.get(Card, card_id)
     if not card or card.deleted_at is not None:
@@ -120,6 +122,7 @@ def start_timer(
     session.add(row)
     session.commit()
     session.refresh(row)
+    hub.publish(card.board_id, "timer_started", client_id=x_client_id, card_id=card_id)
     return {
         "session": _session_payload(row),
         "summary": {"total_seconds": card.total_tracked_seconds},
@@ -131,6 +134,7 @@ def stop_timer(
     card_id: int,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     card = session.get(Card, card_id)
     if not card or card.deleted_at is not None:
@@ -156,6 +160,7 @@ def stop_timer(
     session.commit()
     session.refresh(active)
     session.refresh(card)
+    hub.publish(card.board_id, "timer_stopped", client_id=x_client_id, card_id=card_id)
     return {
         "session": _session_payload(active),
         "summary": {"total_seconds": card.total_tracked_seconds},
@@ -219,6 +224,7 @@ def update_time_session(
     payload: TimeSessionUpdateRequest,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     row = session.get(TimeSession, session_id)
     if not row:
@@ -250,6 +256,7 @@ def update_time_session(
     session.commit()
     session.refresh(row)
     session.refresh(card)
+    hub.publish(card.board_id, "timer_updated", client_id=x_client_id, card_id=card.id)
     return {
         "session": _session_payload(row),
         "summary": {"total_seconds": card.total_tracked_seconds},
@@ -261,6 +268,7 @@ def delete_time_session(
     session_id: int,
     current_user: User = Depends(get_current_user),
     session: Session = Depends(get_session),
+    x_client_id: str | None = Header(None, alias="X-Client-Id"),
 ):
     row = session.get(TimeSession, session_id)
     if not row:
@@ -287,6 +295,7 @@ def delete_time_session(
     session.add(card)
     session.commit()
     session.refresh(card)
+    hub.publish(card.board_id, "timer_updated", client_id=x_client_id, card_id=card.id)
     return {
         "deleted": True,
         "card_id": card_id,
